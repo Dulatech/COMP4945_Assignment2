@@ -15,7 +15,7 @@ namespace COMP4945_Assignment2
     {
 
         private Random rnd = new Random();
-        private string dir = "";
+        private string dir = "Up";
         private int dir2 = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         private List<Bullet> bullets;
 
@@ -80,7 +80,15 @@ namespace COMP4945_Assignment2
             }
             else if (e.KeyCode.ToString() == "Space")
             {
-                Bullet b = new Bullet(dir2, ProtoTank.Location, 0);
+                Bullet b = null;
+                if (dir.Equals("Up") || dir.Equals("Down"))
+                {
+                    b = new Bullet(dir2, new Point(ProtoTank.Location.X + 20, ProtoTank.Location.Y), 0);
+                }
+                if (dir.Equals("Left") || dir.Equals("Right"))
+                {
+                    b = new Bullet(dir2, new Point(ProtoTank.Location.X, ProtoTank.Location.Y+20), 0);
+                }
                 bullets.Add(b);
                 this.Controls.Add(b.image);
 
