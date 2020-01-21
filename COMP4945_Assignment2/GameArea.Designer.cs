@@ -38,7 +38,9 @@
         private void InitializeComponent()
         {
             this.ProtoTank = new System.Windows.Forms.PictureBox();
+            this.Target = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ProtoTank)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Target)).BeginInit();
             this.SuspendLayout();
             // 
             // ProtoTank
@@ -55,17 +57,33 @@
             this.ProtoTank.TabIndex = 0;
             this.ProtoTank.TabStop = false;
             // 
+            // pictureBox1
+            // 
+            this.Target.BackColor = System.Drawing.Color.Transparent;
+            this.Target.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Target.ErrorImage = null;
+            this.Target.Image = global::COMP4945_Assignment2.Properties.Resources.Tank_Up;
+            this.Target.InitialImage = null;
+            this.Target.Location = new System.Drawing.Point(81, 99);
+            this.Target.Name = "pictureBox1";
+            this.Target.Size = new System.Drawing.Size(50, 50);
+            this.Target.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Target.TabIndex = 1;
+            this.Target.TabStop = false;
+            // 
             // GameArea
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(500, 500);
+            this.Controls.Add(this.Target);
             this.Controls.Add(this.ProtoTank);
             this.Name = "GameArea";
             this.Text = "GameArea";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
             ((System.ComponentModel.ISupportInitialize)(this.ProtoTank)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Target)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -73,5 +91,6 @@
         #endregion
 
         private PictureBox ProtoTank;
+        private PictureBox Target;
     }
 }

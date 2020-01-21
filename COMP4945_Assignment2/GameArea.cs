@@ -27,6 +27,7 @@ namespace COMP4945_Assignment2
             gameTime.Interval = 1;
             gameTime.Tick += new EventHandler(OnGameTimeTick);
             bullets = new List<Bullet>();
+            Target.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
         }
 
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
@@ -103,61 +104,31 @@ namespace COMP4945_Assignment2
             for (int i = bullets.Count-1; i > -1; i--)
             {
                 Bullet b = bullets[i];
+                b.Move();
                 PictureBox p = b.image;
                 if (p.Location.X < 0 || p.Location.Y < 0 || p.Location.X > this.ClientRectangle.Width || p.Location.Y > this.ClientRectangle.Height)
                 {
-                    this.Controls.Remove(p);
-                    bullets.RemoveAt(i);
-                    p.Dispose();
+                    RemoveBullet(b);
+                } else
+                {
+                    if (p.Bounds.IntersectsWith(Target.Bounds))
+                    {
+                        TargetDestroyed();
+                        RemoveBullet(b);
+                    }
                 }
-                b.Move();
-                //if (dir.Equals("Up"))
-                //{
-                //    if (p.Top > 0)
-                //    {
-                //        p.Location = new Point(p.Location.X, p.Location.Y - b.Speed);
-                //    } else
-                //    {
-                //        this.Controls.Remove(p);
-                //        p.Dispose();
-                //    }
-                //}
-                //if (dir.Equals("Down"))
-                //{
-                //    if (p.Top + p.Height < this.ClientRectangle.Height)
-                //    {
-                //        p.Location = new Point(p.Location.X, p.Location.Y + b.Speed);
-                //    } else
-                //    {
-                //        this.Controls.Remove(p);
-                //        p.Dispose();
-                //    }
-                //}
-                //if (dir.Equals("Left"))
-                //{
-                //    if (p.Left > 0)
-                //    {
-                //        p.Location = new Point(p.Location.X - b.Speed, p.Location.Y);
-                //    } else
-                //    {
-                //        this.Controls.Remove(p);
-                //        p.Dispose();
-                //    }
-                //}
-                //if (dir.Equals("Right"))
-                //{
-                //    if (p.Left + p.Width < this.ClientRectangle.Width)
-                //    {
-                //        p.Location = new Point(p.Location.X + b.Speed, p.Location.Y);
-                //    } else
-                //    {
-                //        this.Controls.Remove(p);
-                //        p.Dispose();
-                //    }
-                //}
             }
-            //controller.CollisionGameArea(ball);
-            //controller.PaddleCollision(player, player2, ball);
+        }
+        void RemoveBullet(Bullet b)
+        {
+            this.Controls.Remove(b.image);
+            bullets.Remove(b);
+            b.image.Dispose();
+        }
+
+        void TargetDestroyed()
+        {
+            Target.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
         }
     }
 }
