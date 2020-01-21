@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace COMP4945_Assignment2
 {
-    class Tank
+    class Player
     {
-        private int X_Coor { get; set; }
-        private int Y_Coor { get; set; }
-
-
-
 
     }
 }
