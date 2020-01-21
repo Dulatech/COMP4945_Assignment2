@@ -15,6 +15,7 @@ namespace COMP4945_Assignment2
     {
 
         private Random rnd = new Random();
+        private string dir = "";
         private List<Bullet> bullets;
 
         public GameArea()
@@ -36,6 +37,7 @@ namespace COMP4945_Assignment2
             {
                 if (ProtoTank.Left > 0)
                 {
+                    dir = "Left";
                     ProtoTank.Location = new Point(ProtoTank.Location.X - offset, ProtoTank.Location.Y);
 
                     ProtoTank.Image = Properties.Resources.Tank_Left;
@@ -46,6 +48,7 @@ namespace COMP4945_Assignment2
             {
                 if (ProtoTank.Top > 0)
                 {
+                    dir = "Up";
                     ProtoTank.Image = Properties.Resources.Tank_Up;
                     ProtoTank.Location = new Point(ProtoTank.Location.X, ProtoTank.Location.Y - offset);
                 }
@@ -55,6 +58,7 @@ namespace COMP4945_Assignment2
             {
                 if (ProtoTank.Top + ProtoTank.Height < this.ClientRectangle.Height)
                 {
+                    dir = "Down";
                     ProtoTank.Image = Properties.Resources.Tank_Down;
                     ProtoTank.Location = new Point(ProtoTank.Location.X, ProtoTank.Location.Y + offset);
                 }
@@ -64,6 +68,7 @@ namespace COMP4945_Assignment2
 
                 if (ProtoTank.Left + ProtoTank.Width < this.ClientRectangle.Width)
                 {
+                    dir = "Right";
                     ProtoTank.Image = Properties.Resources.Tank_Right;
                     ProtoTank.Location = new Point(ProtoTank.Location.X + offset, ProtoTank.Location.Y);
                 }
@@ -71,17 +76,7 @@ namespace COMP4945_Assignment2
             else if (e.KeyCode.ToString() == "Space")
             {
 
-                //Color randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
                 
-                //this.BackColor = randomColor;
-
-                //var picture = new PictureBox
-                //{
-                //    Name = "pictureBox",
-                //    Size = new Size(5, 5),
-                //    Location = new Point(ProtoTank.Location.X+22, ProtoTank.Location.Y),
-                //    BackColor = Color.FromArgb(255, 50, 50)
-                //};
                 Bullet b = new Bullet(1, 2, ProtoTank.Location, 0);
                 bullets.Add(b);
                 this.Controls.Add(b.image);
@@ -94,7 +89,50 @@ namespace COMP4945_Assignment2
         {
             foreach (Bullet b in bullets) {
                 PictureBox p = b.image;
-                p.Location = new Point(p.Location.X + b.Speed, p.Location.Y);
+                if (dir.Equals("Up"))
+                {
+                    if (p.Top > 0)
+                    {
+                        p.Location = new Point(p.Location.X, p.Location.Y - b.Speed);
+                    } else
+                    {
+                        this.Controls.Remove(p);
+                        p.Dispose();
+                    }
+                }
+                if (dir.Equals("Down"))
+                {
+                    if (p.Top + p.Height < this.ClientRectangle.Height)
+                    {
+                        p.Location = new Point(p.Location.X, p.Location.Y + b.Speed);
+                    } else
+                    {
+                        this.Controls.Remove(p);
+                        p.Dispose();
+                    }
+                }
+                if (dir.Equals("Left"))
+                {
+                    if (p.Left > 0)
+                    {
+                        p.Location = new Point(p.Location.X - b.Speed, p.Location.Y);
+                    } else
+                    {
+                        this.Controls.Remove(p);
+                        p.Dispose();
+                    }
+                }
+                if (dir.Equals("Right"))
+                {
+                    if (p.Left + p.Width < this.ClientRectangle.Width)
+                    {
+                        p.Location = new Point(p.Location.X + b.Speed, p.Location.Y);
+                    } else
+                    {
+                        this.Controls.Remove(p);
+                        p.Dispose();
+                    }
+                }
             }
             //controller.CollisionGameArea(ball);
             //controller.PaddleCollision(player, player2, ball);
