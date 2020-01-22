@@ -48,22 +48,22 @@
             this.Target.ErrorImage = null;
             this.Target.Image = global::COMP4945_Assignment2.Properties.Resources.Tank_Up;
             this.Target.InitialImage = null;
-            this.Target.Location = new System.Drawing.Point(216, 236);
-            this.Target.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Target.Location = new System.Drawing.Point(81, 99);
             this.Target.Name = "Target";
-            this.Target.Size = new System.Drawing.Size(133, 119);
+            this.Target.Size = new System.Drawing.Size(50, 50);
             this.Target.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Target.TabIndex = 1;
             this.Target.TabStop = false;
             // 
             // GameArea
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1333, 1192);
+            this.BackgroundImage = global::COMP4945_Assignment2.Properties.Resources._10_tiled_1;
+            this.ClientSize = new System.Drawing.Size(500, 500);
             this.Controls.Add(this.Target);
-            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.DoubleBuffered = true;
             this.Name = "GameArea";
             this.Text = "GameArea";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
