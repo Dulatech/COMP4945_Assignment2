@@ -39,6 +39,7 @@ namespace COMP4945_Assignment2
             f = new Tank(new Point(100, 100), 1);
             this.Controls.Add(f.tank);
             tanks.Add(f);
+            f.tank.Image = Properties.Resources.s_up;
             //targets
             //f = new Tank(new Point(100, 250), 0); 
             //f2 = new Tank(new Point(110, 50), 0);
@@ -81,23 +82,27 @@ namespace COMP4945_Assignment2
             {
                 dir1 = 3;
                 f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
+                f.tank.Image = Properties.Resources.s_right;
 
             }
             else if (e.KeyCode.ToString() == "Up")
             {
                 dir1 = 0;
                 f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
+                f.tank.Image = Properties.Resources.s_up;
 
             }
             else if (e.KeyCode.ToString() == "Down")
             {
                 dir1 = 2;
                 f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
+                f.tank.Image = Properties.Resources.s_down;
             }
             else if (e.KeyCode.ToString() == "Right")
             {
                 dir1 = 1;
                 f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
+                f.tank.Image = Properties.Resources.s_left;
             }
             if (e.KeyCode.ToString() == "A" )
             {
