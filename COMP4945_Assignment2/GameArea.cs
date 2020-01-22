@@ -193,7 +193,7 @@ namespace COMP4945_Assignment2
 
         void TargetDestroyed(PictureBox pb)
         {
-            pb.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
+            pb.Location = new Point(rnd.Next(20, this.ClientRectangle.Width-20), rnd.Next(20, this.ClientRectangle.Height-20));
         }
     }
 }
