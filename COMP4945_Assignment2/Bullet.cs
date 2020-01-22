@@ -12,7 +12,7 @@ namespace COMP4945_Assignment2
         {
             image = new PictureBox();
             image.Size = direction % 2 == 0 ? new Size(10, 18) : new Size(18, 10);
-            image.BackColor = Color.Orange;
+            image.BackColor = Color.Red;
             image.Location = location;
             Direction = direction;
         }

@@ -18,6 +18,8 @@ namespace COMP4945_Assignment2
         private string dir = "Up";
         private int dir2 = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         private List<Bullet> bullets;
+        private List<Tank> tanks;
+        Tank t;
 
         public GameArea()
         {
@@ -27,7 +29,10 @@ namespace COMP4945_Assignment2
             gameTime.Interval = 1;
             gameTime.Tick += new EventHandler(OnGameTimeTick);
             bullets = new List<Bullet>();
+            tanks = new List<Tank>();
             Target.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
+            t = new Tank(new Point(250, 250), 0);
+            this.Controls.Add(t.tank);
         }
 
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
@@ -37,58 +42,38 @@ namespace COMP4945_Assignment2
             int offset = 10;
             if (e.KeyCode.ToString() == "A" || e.KeyCode.ToString() == "Left")
             {
-                if (ProtoTank.Left > 0)
-                {
-                    dir = "Left";
-                    dir2 = 3;
-                    ProtoTank.Location = new Point(ProtoTank.Location.X - offset, ProtoTank.Location.Y);
-
-                    ProtoTank.Image = Properties.Resources.Tank_Left;
-                }
+                dir2 = 3;
+                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
 
             }
             else if (e.KeyCode.ToString() == "W" || e.KeyCode.ToString() == "Up")
             {
-                if (ProtoTank.Top > 0)
-                {
-                    dir = "Up";
-                    dir2 = 0;
-                    ProtoTank.Image = Properties.Resources.Tank_Up;
-                    ProtoTank.Location = new Point(ProtoTank.Location.X, ProtoTank.Location.Y - offset);
-                }
+                dir2 = 0;
+                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
 
             }
             else if (e.KeyCode.ToString() == "S" || e.KeyCode.ToString() == "Down")
             {
-                if (ProtoTank.Top + ProtoTank.Height < this.ClientRectangle.Height)
-                {
-                    dir = "Down";
-                    dir2 = 2;
-                    ProtoTank.Image = Properties.Resources.Tank_Down;
-                    ProtoTank.Location = new Point(ProtoTank.Location.X, ProtoTank.Location.Y + offset);
-                }
+                dir2 = 2;
+                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
             }
             else if (e.KeyCode.ToString() == "D" || e.KeyCode.ToString() == "Right")
             {
-
-                if (ProtoTank.Left + ProtoTank.Width < this.ClientRectangle.Width)
-                {
-                    dir = "Right";
-                    dir2 = 1;
-                    ProtoTank.Image = Properties.Resources.Tank_Right;
-                    ProtoTank.Location = new Point(ProtoTank.Location.X + offset, ProtoTank.Location.Y);
-                }
+                dir2 = 1;
+                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
             }
+           
             else if (e.KeyCode.ToString() == "Space")
+           
             {
                 Bullet b = null;
-                if (dir.Equals("Up") || dir.Equals("Down"))
+                if (dir2 == 0 || dir2 == 2)
                 {
-                    b = new Bullet(dir2, new Point(ProtoTank.Location.X + 20, ProtoTank.Location.Y), 0);
+                    b = new Bullet(dir2, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
                 }
-                if (dir.Equals("Left") || dir.Equals("Right"))
+                if (dir2 == 1 || dir2 == 3)
                 {
-                    b = new Bullet(dir2, new Point(ProtoTank.Location.X, ProtoTank.Location.Y+20), 0);
+                    b = new Bullet(dir2, new Point(t.tank.Location.X, t.tank.Location.Y+20), 0);
                 }
                 bullets.Add(b);
                 this.Controls.Add(b.image);
