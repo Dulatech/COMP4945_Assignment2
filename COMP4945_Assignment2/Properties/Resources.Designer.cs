@@ -163,6 +163,16 @@ namespace COMP4945_Assignment2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Tank_Side {
+            get {
+                object obj = ResourceManager.GetObject("Tank_Side", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Tank_Up {
             get {
                 object obj = ResourceManager.GetObject("Tank_Up", resourceCulture);
