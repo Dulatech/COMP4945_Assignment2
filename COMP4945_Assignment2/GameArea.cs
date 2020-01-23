@@ -17,7 +17,10 @@ namespace COMP4945_Assignment2
         private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         private List<Bullet> bullets;
         private List<Tank> tanks;
+        private List<Plane> planes;
+        private List<Bomb> bombs;
         Tank t;
+        Plane p;
 
         public GameArea()
         {
@@ -28,8 +31,12 @@ namespace COMP4945_Assignment2
             gameTime.Tick += new EventHandler(OnGameTimeTick);
             bullets = new List<Bullet>();
             tanks = new List<Tank>();
+            planes = new List<Plane>();
+            bombs = new List<Bomb>();
             Target.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
             t = new Tank(new Point(250, 250), 0);
+            p = new Plane(new Point(150, 150), 0);
+            this.Controls.Add(p.plane);
             this.Controls.Add(t.tank);
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
