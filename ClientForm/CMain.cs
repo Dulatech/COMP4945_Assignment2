@@ -9,6 +9,7 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows.Forms;
+using COMP4945_Assignment2;
 
 namespace ClientForm
 {
@@ -208,172 +209,172 @@ namespace ClientForm
 
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			this.HostLabel = new System.Windows.Forms.Label();
-			this.HostText = new System.Windows.Forms.TextBox();
-			this.PortLabel = new System.Windows.Forms.Label();
-			this.PortText = new System.Windows.Forms.TextBox();
-			this.ConnectButton = new System.Windows.Forms.Button();
-			this.UsernameText = new System.Windows.Forms.TextBox();
-			this.UsernameLabel = new System.Windows.Forms.Label();
-			this.SendMessageButton = new System.Windows.Forms.Button();
-			this.MessageBox = new System.Windows.Forms.TextBox();
-			this.SendMessageText = new System.Windows.Forms.TextBox();
-			this.DisconnectButton = new System.Windows.Forms.Button();
-			this.PlayGameButton = new System.Windows.Forms.Button();
-			this.ChatTimer = new System.Windows.Forms.Timer(this.components);
-			this.SuspendLayout();
-			// 
-			// HostLabel
-			// 
-			this.HostLabel.AutoSize = true;
-			this.HostLabel.Location = new System.Drawing.Point(461, 188);
-			this.HostLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.HostLabel.Name = "HostLabel";
-			this.HostLabel.Size = new System.Drawing.Size(93, 17);
-			this.HostLabel.TabIndex = 0;
-			this.HostLabel.Text = "Host Address";
-			// 
-			// HostText
-			// 
-			this.HostText.Location = new System.Drawing.Point(563, 185);
-			this.HostText.Margin = new System.Windows.Forms.Padding(4);
-			this.HostText.Name = "HostText";
-			this.HostText.Size = new System.Drawing.Size(132, 22);
-			this.HostText.TabIndex = 1;
-			// 
-			// PortLabel
-			// 
-			this.PortLabel.AutoSize = true;
-			this.PortLabel.Location = new System.Drawing.Point(520, 219);
-			this.PortLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.PortLabel.Name = "PortLabel";
-			this.PortLabel.Size = new System.Drawing.Size(34, 17);
-			this.PortLabel.TabIndex = 2;
-			this.PortLabel.Text = "Port";
-			// 
-			// PortText
-			// 
-			this.PortText.Location = new System.Drawing.Point(563, 215);
-			this.PortText.Margin = new System.Windows.Forms.Padding(4);
-			this.PortText.Name = "PortText";
-			this.PortText.Size = new System.Drawing.Size(132, 22);
-			this.PortText.TabIndex = 3;
-			// 
-			// ConnectButton
-			// 
-			this.ConnectButton.Location = new System.Drawing.Point(501, 278);
-			this.ConnectButton.Margin = new System.Windows.Forms.Padding(4);
-			this.ConnectButton.Name = "ConnectButton";
-			this.ConnectButton.Size = new System.Drawing.Size(93, 28);
-			this.ConnectButton.TabIndex = 5;
-			this.ConnectButton.Text = "Connect";
-			this.ConnectButton.UseVisualStyleBackColor = true;
-			this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
-			// 
-			// UsernameText
-			// 
-			this.UsernameText.Location = new System.Drawing.Point(563, 247);
-			this.UsernameText.Margin = new System.Windows.Forms.Padding(4);
-			this.UsernameText.Name = "UsernameText";
-			this.UsernameText.Size = new System.Drawing.Size(132, 22);
-			this.UsernameText.TabIndex = 4;
-			// 
-			// UsernameLabel
-			// 
-			this.UsernameLabel.AutoSize = true;
-			this.UsernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.UsernameLabel.Location = new System.Drawing.Point(471, 251);
-			this.UsernameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.UsernameLabel.Name = "UsernameLabel";
-			this.UsernameLabel.Size = new System.Drawing.Size(81, 17);
-			this.UsernameLabel.TabIndex = 6;
-			this.UsernameLabel.Text = "Username";
-			// 
-			// SendMessageButton
-			// 
-			this.SendMessageButton.Enabled = false;
-			this.SendMessageButton.Location = new System.Drawing.Point(16, 278);
-			this.SendMessageButton.Margin = new System.Windows.Forms.Padding(4);
-			this.SendMessageButton.Name = "SendMessageButton";
-			this.SendMessageButton.Size = new System.Drawing.Size(100, 28);
-			this.SendMessageButton.TabIndex = 7;
-			this.SendMessageButton.Text = "Send";
-			this.SendMessageButton.UseVisualStyleBackColor = true;
-			this.SendMessageButton.Click += new System.EventHandler(this.SendMessageButton_Click);
-			// 
-			// MessageBox
-			// 
-			this.MessageBox.Location = new System.Drawing.Point(16, 15);
-			this.MessageBox.Margin = new System.Windows.Forms.Padding(4);
-			this.MessageBox.Multiline = true;
-			this.MessageBox.Name = "MessageBox";
-			this.MessageBox.ReadOnly = true;
-			this.MessageBox.Size = new System.Drawing.Size(369, 256);
-			this.MessageBox.TabIndex = 9;
-			// 
-			// SendMessageText
-			// 
-			this.SendMessageText.Enabled = false;
-			this.SendMessageText.Location = new System.Drawing.Point(123, 281);
-			this.SendMessageText.Margin = new System.Windows.Forms.Padding(4);
-			this.SendMessageText.Name = "SendMessageText";
-			this.SendMessageText.Size = new System.Drawing.Size(261, 22);
-			this.SendMessageText.TabIndex = 9;
-			// 
-			// DisconnectButton
-			// 
-			this.DisconnectButton.Enabled = false;
-			this.DisconnectButton.Location = new System.Drawing.Point(603, 278);
-			this.DisconnectButton.Margin = new System.Windows.Forms.Padding(4);
-			this.DisconnectButton.Name = "DisconnectButton";
-			this.DisconnectButton.Size = new System.Drawing.Size(93, 28);
-			this.DisconnectButton.TabIndex = 8;
-			this.DisconnectButton.Text = "Disconnect";
-			this.DisconnectButton.UseVisualStyleBackColor = true;
-			this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
-			// 
-			// PlayGameButton
-			// 
-			this.PlayGameButton.Enabled = false;
-			this.PlayGameButton.Location = new System.Drawing.Point(393, 278);
-			this.PlayGameButton.Margin = new System.Windows.Forms.Padding(4);
-			this.PlayGameButton.Name = "PlayGameButton";
-			this.PlayGameButton.Size = new System.Drawing.Size(100, 28);
-			this.PlayGameButton.TabIndex = 6;
-			this.PlayGameButton.Text = "Play As Host";
-			this.PlayGameButton.UseVisualStyleBackColor = true;
-			this.PlayGameButton.Click += new System.EventHandler(this.PlayGameButton_Click);
-			// 
-			// ChatTimer
-			// 
-			this.ChatTimer.Enabled = true;
-			this.ChatTimer.Tick += new System.EventHandler(this.ChatTimer_Tick);
-			// 
-			// CMain
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(712, 322);
-			this.Controls.Add(this.PlayGameButton);
-			this.Controls.Add(this.DisconnectButton);
-			this.Controls.Add(this.SendMessageText);
-			this.Controls.Add(this.MessageBox);
-			this.Controls.Add(this.SendMessageButton);
-			this.Controls.Add(this.UsernameLabel);
-			this.Controls.Add(this.UsernameText);
-			this.Controls.Add(this.ConnectButton);
-			this.Controls.Add(this.PortText);
-			this.Controls.Add(this.PortLabel);
-			this.Controls.Add(this.HostText);
-			this.Controls.Add(this.HostLabel);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Margin = new System.Windows.Forms.Padding(4);
-			this.Name = "CMain";
-			this.Text = "GP Chat Lobby Client";
-			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.components = new System.ComponentModel.Container();
+            this.HostLabel = new System.Windows.Forms.Label();
+            this.HostText = new System.Windows.Forms.TextBox();
+            this.PortLabel = new System.Windows.Forms.Label();
+            this.PortText = new System.Windows.Forms.TextBox();
+            this.ConnectButton = new System.Windows.Forms.Button();
+            this.UsernameText = new System.Windows.Forms.TextBox();
+            this.UsernameLabel = new System.Windows.Forms.Label();
+            this.SendMessageButton = new System.Windows.Forms.Button();
+            this.MessageBox = new System.Windows.Forms.TextBox();
+            this.SendMessageText = new System.Windows.Forms.TextBox();
+            this.DisconnectButton = new System.Windows.Forms.Button();
+            this.PlayGameButton = new System.Windows.Forms.Button();
+            this.ChatTimer = new System.Windows.Forms.Timer(this.components);
+            this.SuspendLayout();
+            // 
+            // HostLabel
+            // 
+            this.HostLabel.AutoSize = true;
+            this.HostLabel.Location = new System.Drawing.Point(461, 188);
+            this.HostLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.HostLabel.Name = "HostLabel";
+            this.HostLabel.Size = new System.Drawing.Size(93, 17);
+            this.HostLabel.TabIndex = 0;
+            this.HostLabel.Text = "Host Address";
+            // 
+            // HostText
+            // 
+            this.HostText.Location = new System.Drawing.Point(563, 185);
+            this.HostText.Margin = new System.Windows.Forms.Padding(4);
+            this.HostText.Name = "HostText";
+            this.HostText.Size = new System.Drawing.Size(132, 22);
+            this.HostText.TabIndex = 1;
+            // 
+            // PortLabel
+            // 
+            this.PortLabel.AutoSize = true;
+            this.PortLabel.Location = new System.Drawing.Point(520, 219);
+            this.PortLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.PortLabel.Name = "PortLabel";
+            this.PortLabel.Size = new System.Drawing.Size(34, 17);
+            this.PortLabel.TabIndex = 2;
+            this.PortLabel.Text = "Port";
+            // 
+            // PortText
+            // 
+            this.PortText.Location = new System.Drawing.Point(563, 215);
+            this.PortText.Margin = new System.Windows.Forms.Padding(4);
+            this.PortText.Name = "PortText";
+            this.PortText.Size = new System.Drawing.Size(132, 22);
+            this.PortText.TabIndex = 3;
+            // 
+            // ConnectButton
+            // 
+            this.ConnectButton.Location = new System.Drawing.Point(501, 278);
+            this.ConnectButton.Margin = new System.Windows.Forms.Padding(4);
+            this.ConnectButton.Name = "ConnectButton";
+            this.ConnectButton.Size = new System.Drawing.Size(93, 28);
+            this.ConnectButton.TabIndex = 5;
+            this.ConnectButton.Text = "Connect";
+            this.ConnectButton.UseVisualStyleBackColor = true;
+            this.ConnectButton.Click += new System.EventHandler(this.ConnectButton_Click);
+            // 
+            // UsernameText
+            // 
+            this.UsernameText.Location = new System.Drawing.Point(563, 247);
+            this.UsernameText.Margin = new System.Windows.Forms.Padding(4);
+            this.UsernameText.Name = "UsernameText";
+            this.UsernameText.Size = new System.Drawing.Size(132, 22);
+            this.UsernameText.TabIndex = 4;
+            // 
+            // UsernameLabel
+            // 
+            this.UsernameLabel.AutoSize = true;
+            this.UsernameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.UsernameLabel.Location = new System.Drawing.Point(471, 251);
+            this.UsernameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Size = new System.Drawing.Size(81, 17);
+            this.UsernameLabel.TabIndex = 6;
+            this.UsernameLabel.Text = "Username";
+            // 
+            // SendMessageButton
+            // 
+            this.SendMessageButton.Enabled = false;
+            this.SendMessageButton.Location = new System.Drawing.Point(16, 278);
+            this.SendMessageButton.Margin = new System.Windows.Forms.Padding(4);
+            this.SendMessageButton.Name = "SendMessageButton";
+            this.SendMessageButton.Size = new System.Drawing.Size(100, 28);
+            this.SendMessageButton.TabIndex = 7;
+            this.SendMessageButton.Text = "Send";
+            this.SendMessageButton.UseVisualStyleBackColor = true;
+            this.SendMessageButton.Click += new System.EventHandler(this.SendMessageButton_Click);
+            // 
+            // MessageBox
+            // 
+            this.MessageBox.Location = new System.Drawing.Point(16, 15);
+            this.MessageBox.Margin = new System.Windows.Forms.Padding(4);
+            this.MessageBox.Multiline = true;
+            this.MessageBox.Name = "MessageBox";
+            this.MessageBox.ReadOnly = true;
+            this.MessageBox.Size = new System.Drawing.Size(437, 256);
+            this.MessageBox.TabIndex = 9;
+            // 
+            // SendMessageText
+            // 
+            this.SendMessageText.Enabled = false;
+            this.SendMessageText.Location = new System.Drawing.Point(123, 281);
+            this.SendMessageText.Margin = new System.Windows.Forms.Padding(4);
+            this.SendMessageText.Name = "SendMessageText";
+            this.SendMessageText.Size = new System.Drawing.Size(261, 22);
+            this.SendMessageText.TabIndex = 9;
+            // 
+            // DisconnectButton
+            // 
+            this.DisconnectButton.Enabled = false;
+            this.DisconnectButton.Location = new System.Drawing.Point(603, 278);
+            this.DisconnectButton.Margin = new System.Windows.Forms.Padding(4);
+            this.DisconnectButton.Name = "DisconnectButton";
+            this.DisconnectButton.Size = new System.Drawing.Size(93, 28);
+            this.DisconnectButton.TabIndex = 8;
+            this.DisconnectButton.Text = "Disconnect";
+            this.DisconnectButton.UseVisualStyleBackColor = true;
+            this.DisconnectButton.Click += new System.EventHandler(this.DisconnectButton_Click);
+            // 
+            // PlayGameButton
+            // 
+            this.PlayGameButton.Enabled = false;
+            this.PlayGameButton.Location = new System.Drawing.Point(393, 278);
+            this.PlayGameButton.Margin = new System.Windows.Forms.Padding(4);
+            this.PlayGameButton.Name = "PlayGameButton";
+            this.PlayGameButton.Size = new System.Drawing.Size(100, 28);
+            this.PlayGameButton.TabIndex = 6;
+            this.PlayGameButton.Text = "Play As Host";
+            this.PlayGameButton.UseVisualStyleBackColor = true;
+            this.PlayGameButton.Click += new System.EventHandler(this.PlayGameButton_Click);
+            // 
+            // ChatTimer
+            // 
+            this.ChatTimer.Enabled = true;
+            this.ChatTimer.Tick += new System.EventHandler(this.ChatTimer_Tick);
+            // 
+            // CMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(712, 322);
+            this.Controls.Add(this.PlayGameButton);
+            this.Controls.Add(this.DisconnectButton);
+            this.Controls.Add(this.SendMessageText);
+            this.Controls.Add(this.MessageBox);
+            this.Controls.Add(this.SendMessageButton);
+            this.Controls.Add(this.UsernameLabel);
+            this.Controls.Add(this.UsernameText);
+            this.Controls.Add(this.ConnectButton);
+            this.Controls.Add(this.PortText);
+            this.Controls.Add(this.PortLabel);
+            this.Controls.Add(this.HostText);
+            this.Controls.Add(this.HostLabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Name = "CMain";
+            this.Text = "GP Chat Lobby Client";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Main_KeyDown);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
@@ -403,7 +404,8 @@ namespace ClientForm
 
 		private void StartNewGame(bool host = false)
 		{
-			//this.gameThread = new Thread(() => {
+			//this.gameThread = new Thread(() =>
+			//{
 			//	using (Game1 game1 = new Game1(this.client, this.username))
 			//	{
 			//		this.isGameRunning = true;
@@ -412,6 +414,17 @@ namespace ClientForm
 			//});
 			//this.gameThread.Start();
 			//this.gameThread.Join();
+
+			this.gameThread = new Thread(() =>
+			{
+				using (GameArea game1 = new GameArea())
+				{
+					this.isGameRunning = true;
+					Application.Run(game1);
+				}
+			});
+			this.gameThread.Start();
+			this.gameThread.Join();
 		}
 
 		private void WriteMessage(string message)
