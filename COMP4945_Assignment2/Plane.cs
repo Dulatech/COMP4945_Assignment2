@@ -21,7 +21,7 @@ namespace COMP4945_Assignment2
             plane = new PictureBox();
             plane.Size = new Size(50, 50);
             plane.BackColor = Color.Transparent;
-            plane.Image = Properties.Resources.Plane_Up;
+            plane.Image = Properties.Resources.Tank_Up;
             plane.Location = location;
             plane.SizeMode = PictureBoxSizeMode.Zoom;
             Direction = 0;
@@ -35,7 +35,7 @@ namespace COMP4945_Assignment2
                     if (plane.Top > 0)
                     {
 
-                        plane.Image = Properties.Resources.Plane_Up;
+                        plane.Image = Properties.Resources.Tank_Up;
                         plane.Location = new Point(plane.Location.X, plane.Location.Y - Speed);
                     }
                     break;
@@ -44,7 +44,7 @@ namespace COMP4945_Assignment2
                     {
                         
 
-                        plane.Image = Properties.Resources.Plane_Right;
+                        plane.Image = Properties.Resources.Tank_Right;
                         plane.Location = new Point(plane.Location.X + Speed, plane.Location.Y);
                     }
                     break;
@@ -52,7 +52,7 @@ namespace COMP4945_Assignment2
                     if (plane.Top + plane.Height < clientH)
                     {
 
-                        plane.Image = Properties.Resources.Plane_Down;
+                        plane.Image = Properties.Resources.Tank_Down;
                         plane.Location = new Point(plane.Location.X, plane.Location.Y + Speed);
                     }
                     break;
@@ -63,7 +63,7 @@ namespace COMP4945_Assignment2
 
                         plane.Location = new Point(plane.Location.X - Speed, plane.Location.Y);
 
-                        plane.Image = Properties.Resources.Plane_Left;
+                        plane.Image = Properties.Resources.Tank_Left;
                     }
 
                     break;

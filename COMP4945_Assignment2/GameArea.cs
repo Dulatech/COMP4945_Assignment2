@@ -21,6 +21,7 @@ namespace COMP4945_Assignment2
         private List<Bomb> bombs;
         Tank t;
         Plane p;
+        Tank target;
 
         public GameArea()
         {
@@ -33,11 +34,13 @@ namespace COMP4945_Assignment2
             tanks = new List<Tank>();
             planes = new List<Plane>();
             bombs = new List<Bomb>();
-            Target.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
+            target = new Tank(new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height)),1);
             t = new Tank(new Point(250, 250), 0);
             p = new Plane(new Point(150, 150), 0);
             this.Controls.Add(p.plane);
             this.Controls.Add(t.tank);
+            this.Controls.Add(target.tank);
+            tanks.Add(target);
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
@@ -83,7 +86,7 @@ namespace COMP4945_Assignment2
             t.tank.Location = new Point(t.X_Coor, t.Y_Coor);
             if (bullets.Count == 0)
                 return;
-            for (int i = bullets.Count-1; i > -1; i--)
+            for (int i = bullets.Count - 1; i > -1; i--)
             {
                 Bullet b = bullets[i];
                 b.Move();
@@ -91,12 +94,17 @@ namespace COMP4945_Assignment2
                 if (p.Location.X < 0 || p.Location.Y < 0 || p.Location.X > this.ClientRectangle.Width || p.Location.Y > this.ClientRectangle.Height)
                 {
                     RemoveBullet(b);
-                } else
+                }
+                else
                 {
-                    if (p.Bounds.IntersectsWith(Target.Bounds))
-                    {
-                        TargetDestroyed();
-                        RemoveBullet(b);
+                    foreach (Tank ta in tanks)
+                    { // loops through targets
+                        if (p.Bounds.IntersectsWith(ta.tank.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                        {
+                            PictureBox targ = ta.tank; // assigns as hit tank
+                            TargetDestroyed(targ);
+                            RemoveBullet(b);
+                        }
                     }
                 }
             }
@@ -108,9 +116,9 @@ namespace COMP4945_Assignment2
             b.image.Dispose();
         }
 
-        void TargetDestroyed()
+        void TargetDestroyed(PictureBox pb)
         {
-            Target.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
+            pb.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
         }
     }
 }
