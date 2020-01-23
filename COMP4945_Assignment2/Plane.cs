@@ -11,18 +11,18 @@ namespace COMP4945_Assignment2
     class Plane
     {
         public PictureBox plane;
-        public int Speed = 10;
-        private int X_Coor { get; set; }
-        private int Y_Coor { get; set; }
+        public int Speed = 15;
+        public int X_Coor { get; set; }
+        public int Y_Coor { get; set; }
         public int Direction { set; get; }
         public int Player { set; get; }
 
         public Plane(Point location, int player)
         {
             plane = new PictureBox();
-            plane.Size = new Size(50, 50);
+            plane.Size = new Size(80, 80);
             plane.BackColor = Color.Transparent;
-            plane.Image = Properties.Resources.s_up;
+            plane.Image = Properties.Resources.s_left;
             plane.Location = location;
             X_Coor = location.X;
             Y_Coor = location.Y;
@@ -68,16 +68,16 @@ namespace COMP4945_Assignment2
             switch (direction)
             {
                 case 0:
-                    plane.Image = Properties.Resources.s_down;
+                    //plane.Image = Properties.Resources.s_up;
                     break;
                 case 1:
-                    plane.Image = Properties.Resources.s_left;
+                    plane.Image = Properties.Resources.s_right;
                     break;
                 case 2:
-                    plane.Image = Properties.Resources.s_up;
+                    //plane.Image = Properties.Resources.s_down;
                     break;
                 case 3:
-                    plane.Image = Properties.Resources.s_right;
+                    plane.Image = Properties.Resources.s_left;
                     break;
                 default: // shouldn't reach
                     break;

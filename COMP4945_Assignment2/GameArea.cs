@@ -34,13 +34,14 @@ namespace COMP4945_Assignment2
             tanks = new List<Tank>();
             planes = new List<Plane>();
             bombs = new List<Bomb>();
-            target = new Tank(new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height)),1);
+            //target = new Tank(new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height)),1);
             t = new Tank(new Point(250, 250), 0);
-            p = new Plane(new Point(150, 150), 0);
+            p = new Plane(new Point(150, 150), 1);
             this.Controls.Add(p.plane);
             this.Controls.Add(t.tank);
-            this.Controls.Add(target.tank);
-            tanks.Add(target);
+            //this.Controls.Add(target.tank);
+            tanks.Add(t);
+            planes.Add(p);
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
@@ -48,34 +49,52 @@ namespace COMP4945_Assignment2
             switch (e.KeyCode)
             {
                 case Keys.A:
+                    p.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
+                    break;
                 case Keys.Left:
                     dir = 3;
                     t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
                     break;
                 case Keys.W:
+                    p.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
+                    break;
                 case Keys.Up:
                     dir = 0;
                     t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
                     break;
                 case Keys.S:
+                    p.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
+                    break;
                 case Keys.Down:
                     dir = 2;
                     t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
                     break;
                 case Keys.D:
+                    p.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
+                    break;
                 case Keys.Right:
                     dir = 1;
                     t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
                     break;
                 case Keys.Space:
+                    Bomb b2 = null;
+                    if (dir == 0 || dir == 2)
+                        b2 = new Bomb(dir, new Point(p.plane.Location.X + 20, p.plane.Location.Y), 1);
+                    else
+                        b2 = new Bomb(dir, new Point(p.plane.Location.X+20, p.plane.Location.Y), 1);
+                    bombs.Add(b2);
+                    this.Controls.Add(b2.image);
+                    break;
+                case Keys.ShiftKey:
                     Bullet b = null;
                     if (dir == 0 || dir == 2)
                         b = new Bullet(dir, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
                     else
-                        b = new Bullet(dir, new Point(t.tank.Location.X+20, t.tank.Location.Y), 0);
+                        b = new Bullet(dir, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
                     bullets.Add(b);
                     this.Controls.Add(b.image);
                     break;
+
                 default:
                     break;
             }
@@ -83,27 +102,56 @@ namespace COMP4945_Assignment2
 
         void OnGameTimeTick(object sender, EventArgs e)
         {
+            p.plane.Location = new Point(p.X_Coor, p.Y_Coor);
             t.tank.Location = new Point(t.X_Coor, t.Y_Coor);
-            if (bullets.Count == 0)
-                return;
-            for (int i = bullets.Count - 1; i > -1; i--)
+            if (bullets.Count != 0)
             {
-                Bullet b = bullets[i];
-                b.Move();
-                PictureBox p = b.image;
-                if (p.Location.X < 0 || p.Location.Y < 0 || p.Location.X > this.ClientRectangle.Width || p.Location.Y > this.ClientRectangle.Height)
+                for (int i = bullets.Count - 1; i > -1; i--)
                 {
-                    RemoveBullet(b);
+                    Bullet b = bullets[i];
+                    b.Move();
+                    PictureBox p = b.image;
+                    if (p.Location.X < 0 || p.Location.Y < 0 || p.Location.X > this.ClientRectangle.Width || p.Location.Y > this.ClientRectangle.Height)
+                    {
+                        RemoveBullet(b);
+                    }
+                    else
+                    {
+                        foreach (Plane ta in planes)
+                        { // loops through targets
+                            if (p.Bounds.IntersectsWith(ta.plane.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                            {
+                                Plane targ = ta; // assigns as hit tank
+                                PlaneDestroyed(targ);
+                                RemoveBullet(b);
+                            }
+                        }
+                    }
                 }
-                else
+            }
+
+
+            if (bombs.Count != 0)
+            {
+                for (int i = bombs.Count - 1; i > -1; i--)
                 {
-                    foreach (Tank ta in tanks)
-                    { // loops through targets
-                        if (p.Bounds.IntersectsWith(ta.tank.Bounds) && b.Player != ta.Player) // checks if target is in bounds
-                        {
-                            PictureBox targ = ta.tank; // assigns as hit tank
-                            TargetDestroyed(targ);
-                            RemoveBullet(b);
+                    Bomb b = bombs[i];
+                    b.Move();
+                    PictureBox p = b.image;
+                    if (p.Location.X < 0 || p.Location.Y < 0 || p.Location.X > this.ClientRectangle.Width || p.Location.Y > this.ClientRectangle.Height)
+                    {
+                        RemoveBomb(b);
+                    }
+                    else
+                    {
+                        foreach (Tank ta in tanks)
+                        { // loops through targets
+                            if (p.Bounds.IntersectsWith(ta.tank.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                            {
+                                Tank targ = ta; // assigns as hit tank
+                                TankDestroyed(targ);
+                                RemoveBomb(b);
+                            }
                         }
                     }
                 }
@@ -116,9 +164,23 @@ namespace COMP4945_Assignment2
             b.image.Dispose();
         }
 
-        void TargetDestroyed(PictureBox pb)
+        void RemoveBomb(Bomb b)
         {
-            pb.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
+            this.Controls.Remove(b.image);
+            bombs.Remove(b);
+            b.image.Dispose();
+        }
+
+        void TankDestroyed(Tank pb)
+        {
+            pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width);
+            pb.Y_Coor = rnd.Next(0, this.ClientRectangle.Height);
+        }
+
+        void PlaneDestroyed(Plane pb)
+        {
+            pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width);
+            pb.Y_Coor = rnd.Next(0, this.ClientRectangle.Height);
         }
     }
 }

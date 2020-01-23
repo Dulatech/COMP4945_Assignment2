@@ -6,7 +6,7 @@ namespace COMP4945_Assignment2
     class Bullet
     {
         public PictureBox image;
-        public int Speed = 4;
+        public int Speed = 6;
         public int Direction { set; get; }
         public int Player { set; get; }
         public Bullet(int direction, Point location, int player)
