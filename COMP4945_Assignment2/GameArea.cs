@@ -39,7 +39,7 @@ namespace COMP4945_Assignment2
             f = new Tank(new Point(100, 100), 1);
             this.Controls.Add(f.tank);
             tanks.Add(f);
-            f.tank.Image = Properties.Resources.s_up;
+            //f.tank.Image = Properties.Resources.s_up;
 
         }
 
@@ -51,22 +51,22 @@ namespace COMP4945_Assignment2
                 case Keys.Up:
                     dir1 = 0;
                     f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
-                    f.tank.Image = Properties.Resources.s_up;
+                    //f.tank.Image = Properties.Resources.s_up;
                     break;
                 case Keys.Down:
                     dir1 = 2;
                     f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
-                    f.tank.Image = Properties.Resources.s_down;
+                    //f.tank.Image = Properties.Resources.s_down;
                     break;
                 case Keys.Left:
                     dir1 = 3;
                     f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
-                    f.tank.Image = Properties.Resources.s_right;
+                    //f.tank.Image = Properties.Resources.s_right;
                     break;
                 case Keys.Right:
                     dir1 = 1;
                     f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
-                    f.tank.Image = Properties.Resources.s_left;
+                    //f.tank.Image = Properties.Resources.s_left;
                     break;
                 case Keys.W:
                     dir2 = 0;
@@ -152,6 +152,11 @@ namespace COMP4945_Assignment2
         void TargetDestroyed(PictureBox pb)
         {
             pb.Location = new Point(rnd.Next(20, this.ClientRectangle.Width-20), rnd.Next(20, this.ClientRectangle.Height-20));
+        }
+
+        private void GameArea_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
