@@ -12,13 +12,14 @@ namespace COMP4945_Assignment2
         {
             image = new PictureBox();
             image.Size = direction % 2 == 0 ? new Size(10, 18) : new Size(18, 10);
-            image.BackColor = Color.Red;
             image.Location = location;
+            image.Image = Properties.Resources.Bomb;
             Direction = direction;
         }
         public void Move()
         {
-            switch(Direction)
+            image.Location = new Point(image.Location.X, image.Location.Y + Speed);
+/*            switch (Direction)
             {
                 case 0: // UP
                     image.Location = new Point(image.Location.X, image.Location.Y - Speed);
@@ -32,7 +33,7 @@ namespace COMP4945_Assignment2
                 case 3: // LEFT
                     image.Location = new Point(image.Location.X - Speed, image.Location.Y);
                     break;
-            }
+            }*/
         }
     }
 }

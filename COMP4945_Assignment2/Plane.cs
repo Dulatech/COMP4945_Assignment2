@@ -21,8 +21,10 @@ namespace COMP4945_Assignment2
             plane = new PictureBox();
             plane.Size = new Size(50, 50);
             plane.BackColor = Color.Transparent;
-            plane.Image = Properties.Resources.Plane_Up;
+            plane.Image = Properties.Resources.Spaceship_Down;
             plane.Location = location;
+            X_Coor = location.X;
+            Y_Coor = location.Y;
             plane.SizeMode = PictureBoxSizeMode.Zoom;
             Direction = 0;
         }
