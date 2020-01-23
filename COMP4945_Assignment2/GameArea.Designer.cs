@@ -50,6 +50,7 @@
             this.Name = "GameArea";
             this.Text = "GameArea";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.ResumeLayout(false);
 
         }
