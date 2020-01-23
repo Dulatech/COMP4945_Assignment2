@@ -8,6 +8,7 @@ namespace COMP4945_Assignment2
         public PictureBox image;
         public int Speed = 4;
         public int Direction { set; get; }
+        public int Player { set; get; }
         public Bomb(int direction, Point location, int player)
         {
             image = new PictureBox();
@@ -15,25 +16,28 @@ namespace COMP4945_Assignment2
             image.Location = location;
             image.Image = Properties.Resources.Bomb;
             Direction = direction;
+            Player = player;
         }
         public void Move()
         {
-            image.Location = new Point(image.Location.X, image.Location.Y + Speed);
-/*            switch (Direction)
+            switch (Direction)
             {
                 case 0: // UP
                     image.Location = new Point(image.Location.X, image.Location.Y - Speed);
                     break;
                 case 1: // RIGHT
-                    image.Location = new Point(image.Location.X + Speed, image.Location.Y);
+                    image.Location = new Point(image.Location.X, image.Location.Y - Speed);
+                    //image.Location = new Point(image.Location.X + Speed, image.Location.Y);
                     break;
                 case 2: // DOWN
-                    image.Location = new Point(image.Location.X, image.Location.Y + Speed);
+                    //image.Location = new Point(image.Location.X, image.Location.Y + Speed);
+                    image.Location = new Point(image.Location.X, image.Location.Y - Speed);
                     break;
                 case 3: // LEFT
-                    image.Location = new Point(image.Location.X - Speed, image.Location.Y);
+                    image.Location = new Point(image.Location.X, image.Location.Y - Speed);
+                    //image.Location = new Point(image.Location.X - Speed, image.Location.Y);
                     break;
-            }*/
+            }
         }
     }
 }
