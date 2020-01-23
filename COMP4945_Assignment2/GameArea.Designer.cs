@@ -45,7 +45,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::COMP4945_Assignment2.Properties.Resources._10_tiled_1;
-            this.ClientSize = new System.Drawing.Size(1333, 880);
+            this.ClientSize = new System.Drawing.Size(2000, 880);
             this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "GameArea";
