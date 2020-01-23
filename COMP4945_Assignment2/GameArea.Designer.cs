@@ -48,9 +48,10 @@
             this.ClientSize = new System.Drawing.Size(807, 703);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "GameArea";
-            this.Text = "GameArea";
+            this.Name = "COMP4945 Assignment2";
+            this.Text = "Tanks vs Plane";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
             this.ResumeLayout(false);
 
