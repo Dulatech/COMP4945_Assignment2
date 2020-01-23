@@ -15,6 +15,7 @@ namespace COMP4945_Assignment2
         public int X_Coor { get; set; }
         public int Y_Coor { get; set; }
         public int Direction { set; get; }
+        public int Player { set; get; }
 
         public Tank(Point location, int player)
         {
@@ -27,6 +28,7 @@ namespace COMP4945_Assignment2
             Y_Coor = location.Y;
             tank.SizeMode = PictureBoxSizeMode.Zoom;
             Direction = 0;
+            Player = player;
         }
 
         public void move(int clientH, int clientW, int direction)

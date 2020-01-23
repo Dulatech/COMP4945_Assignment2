@@ -8,6 +8,7 @@ namespace COMP4945_Assignment2
         public PictureBox image;
         public int Speed = 4;
         public int Direction { set; get; }
+        public int Player { set; get; }
         public Bullet(int direction, Point location, int player)
         {
             image = new PictureBox();
@@ -15,6 +16,7 @@ namespace COMP4945_Assignment2
             image.BackColor = Color.Red;
             image.Location = location;
             Direction = direction;
+            Player = player;
         }
         public void Move()
         {
