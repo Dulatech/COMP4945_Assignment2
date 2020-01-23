@@ -15,6 +15,7 @@ namespace COMP4945_Assignment2
         private int X_Coor { get; set; }
         private int Y_Coor { get; set; }
         public int Direction { set; get; }
+        public int Player { set; get; }
 
         public Plane(Point location, int player)
         {
@@ -23,49 +24,62 @@ namespace COMP4945_Assignment2
             plane.BackColor = Color.Transparent;
             plane.Image = Properties.Resources.s_up;
             plane.Location = location;
+            X_Coor = location.X;
+            Y_Coor = location.Y;
             plane.SizeMode = PictureBoxSizeMode.Zoom;
             Direction = 0;
+            Player = player;
         }
 
         public void move(int clientH, int clientW, int direction)
         {
+            if (direction != Direction)
+                SetImage(direction);
+
+            Direction = direction;
+
             switch (direction)
             {
                 case 0: // UP
-                    if (plane.Top > 0)
-                    {
-
-                        plane.Image = Properties.Resources.s_up;
-                        plane.Location = new Point(plane.Location.X, plane.Location.Y - Speed);
-                    }
+                    Y_Coor -= Speed;
                     break;
                 case 1: // RIGHT
-                    if (plane.Left + plane.Width < clientW)
-                    {
-                        
-
-                        plane.Image = Properties.Resources.s_right;
-                        plane.Location = new Point(plane.Location.X + Speed, plane.Location.Y);
-                    }
+                    X_Coor += Speed;
                     break;
                 case 2: // DOWN
-                    if (plane.Top + plane.Height < clientH)
-                    {
-
-                        plane.Image = Properties.Resources.s_down;
-                        plane.Location = new Point(plane.Location.X, plane.Location.Y + Speed);
-                    }
+                    Y_Coor += Speed;
                     break;
                 case 3: // LEFT
-                    if (plane.Left > 0)
-                    {
+                    X_Coor -= Speed;
+                    break;
+            }
+            if (X_Coor < 0)
+                X_Coor = 0;
+            if (Y_Coor < 0)
+                Y_Coor = 0;
+            if (X_Coor + plane.Width > clientW)
+                X_Coor = clientW - plane.Width;
+            if (Y_Coor + plane.Height > clientH)
+                Y_Coor = clientH - plane.Height;
+        }
 
-
-                        plane.Location = new Point(plane.Location.X - Speed, plane.Location.Y);
-
-                        plane.Image = Properties.Resources.s_left;
-                    }
-
+        private void SetImage(int direction)
+        {
+            switch (direction)
+            {
+                case 0:
+                    plane.Image = Properties.Resources.s_down;
+                    break;
+                case 1:
+                    plane.Image = Properties.Resources.s_left;
+                    break;
+                case 2:
+                    plane.Image = Properties.Resources.s_up;
+                    break;
+                case 3:
+                    plane.Image = Properties.Resources.s_right;
+                    break;
+                default: // shouldn't reach
                     break;
             }
         }
