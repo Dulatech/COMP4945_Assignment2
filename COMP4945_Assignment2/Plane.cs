@@ -59,8 +59,11 @@ namespace COMP4945_Assignment2
                 Y_Coor = 0;
             if (X_Coor + plane.Width > clientW)
                 X_Coor = clientW - plane.Width;
-            if (Y_Coor + plane.Height > clientH)
-                Y_Coor = clientH - plane.Height;
+            if (Y_Coor + plane.Height > (clientH * 0.6))
+            {
+                Y_Coor = (int)(clientH * 0.4) - plane.Height;
+            }
+                
         }
 
         private void SetImage(int direction)

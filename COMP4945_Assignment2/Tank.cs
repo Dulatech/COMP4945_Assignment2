@@ -63,8 +63,10 @@ namespace COMP4945_Assignment2
                 Y_Coor = 0;
             if (X_Coor + tank.Width > clientW)
                 X_Coor = clientW - tank.Width;
-            if (Y_Coor + tank.Height > clientH)
-                Y_Coor = clientH - tank.Height;
+            if (Y_Coor + tank.Height > (clientH * 0.4))
+            {
+                Y_Coor =  (int)(clientH * 0.4) - tank.Height;
+            }
 
         }
         private void SetImage(int direction)
