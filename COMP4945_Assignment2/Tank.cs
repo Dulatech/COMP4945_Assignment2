@@ -12,8 +12,8 @@ namespace COMP4945_Assignment2
     {
         public PictureBox tank;
         public int Speed = 10;
-        private int X_Coor { get; set; }
-        private int Y_Coor { get; set; }
+        public int X_Coor { get; set; }
+        public int Y_Coor { get; set; }
         public int Direction { set; get; }
 
         public Tank(Point location, int player)
@@ -23,53 +23,68 @@ namespace COMP4945_Assignment2
             tank.BackColor = Color.Transparent;
             tank.Image = Properties.Resources.Tank_Up;
             tank.Location = location;
+            X_Coor = location.X;
+            Y_Coor = location.Y;
             tank.SizeMode = PictureBoxSizeMode.Zoom;
             Direction = 0;
         }
 
         public void move(int clientH, int clientW, int direction)
         {
+            if (direction != Direction)
+                SetImage(direction);
+
+            Direction = direction;
+
             switch (direction)
             {
                 case 0: // UP
-                    if (tank.Top > 0)
-                    {
-
-                        tank.Image = Properties.Resources.Tank_Up;
-                        tank.Location = new Point(tank.Location.X, tank.Location.Y - Speed);
-                    }
+                        //tank.Location = new Point(tank.Location.X, tank.Location.Y - Speed);
+                        Y_Coor -= Speed;
                     break;
                 case 1: // RIGHT
-                    if (tank.Left + tank.Width < clientW)
-                    {
-                        
-
-                        tank.Image = Properties.Resources.Tank_Right;
-                        tank.Location = new Point(tank.Location.X + Speed, tank.Location.Y);
-                    }
+                        //tank.Location = new Point(tank.Location.X + Speed, tank.Location.Y);
+                        X_Coor += Speed;
                     break;
                 case 2: // DOWN
-                    if (tank.Top + tank.Height < clientH)
-                    {
-
-                        tank.Image = Properties.Resources.Tank_Down;
-                        tank.Location = new Point(tank.Location.X, tank.Location.Y + Speed);
-                    }
+                        //tank.Location = new Point(tank.Location.X, tank.Location.Y + Speed);
+                        Y_Coor += Speed;
                     break;
                 case 3: // LEFT
-                    if (tank.Left > 0)
-                    {
+                        //tank.Location = new Point(tank.Location.X - Speed, tank.Location.Y);
+                        X_Coor -= Speed;
+                    break;
+            }
+            if (X_Coor < 0)
+                X_Coor = 0;
+            if (Y_Coor < 0)
+                Y_Coor = 0;
+            if (X_Coor + tank.Width > clientW)
+                X_Coor = clientW - tank.Width;
+            if (Y_Coor + tank.Height > clientH)
+                Y_Coor = clientH - tank.Height;
 
-
-                        tank.Location = new Point(tank.Location.X - Speed, tank.Location.Y);
-
-                        tank.Image = Properties.Resources.Tank_Left;
-                    }
-
+        }
+        private void SetImage(int direction)
+        {
+            switch (direction)
+            {
+                case 0:
+                    tank.Image = Properties.Resources.Tank_Up;
+                    break;
+                case 1:
+                    tank.Image = Properties.Resources.Tank_Right;
+                    break;
+                case 2:
+                    tank.Image = Properties.Resources.Tank_Down;
+                    break;
+                case 3:
+                    tank.Image = Properties.Resources.Tank_Left;
+                    break;
+                default: // shouldn't reach
                     break;
             }
         }
-
 
     }
 }

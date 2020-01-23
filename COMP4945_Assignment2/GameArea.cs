@@ -73,6 +73,7 @@ namespace COMP4945_Assignment2
 
         void OnGameTimeTick(object sender, EventArgs e)
         {
+            t.tank.Location = new Point(t.X_Coor, t.Y_Coor);
             if (bullets.Count == 0)
                 return;
             for (int i = bullets.Count-1; i > -1; i--)
