@@ -75,13 +75,13 @@ namespace COMP4945_Assignment2
                     tank.Image = Properties.Resources.Tank_Up;
                     break;
                 case 1:
-                    tank.Image = Properties.Resources.Tank_Right;
+                    tank.Image = Properties.Resources.Tank_Side;
                     break;
                 case 2:
-                    tank.Image = Properties.Resources.Tank_Down;
+                    tank.Image = Properties.Resources.Tank_Up;
                     break;
                 case 3:
-                    tank.Image = Properties.Resources.Tank_Left;
+                    tank.Image = Properties.Resources.Tank_Side;
                     break;
                 default: // shouldn't reach
                     break;
