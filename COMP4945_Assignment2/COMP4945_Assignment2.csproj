@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bomb.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="GameArea.cs">
       <SubType>Form</SubType>
@@ -53,6 +54,7 @@
     <Compile Include="GameArea.Designer.cs">
       <DependentUpon>GameArea.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plane.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
