@@ -40,127 +40,80 @@ namespace COMP4945_Assignment2
             this.Controls.Add(f.tank);
             tanks.Add(f);
             f.tank.Image = Properties.Resources.s_up;
-            //targets
-            //f = new Tank(new Point(100, 250), 0); 
-            //f2 = new Tank(new Point(110, 50), 0);
-            //this.Controls.Add(f.tank);
-            //this.Controls.Add(f2.tank);
-            //tanks.Add(f2);
-            //tanks.Add(f);
-            //targets
 
         }
 
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
 
-
-            int offset = 10;
-            //if (e.KeyCode.ToString() == "A" || e.KeyCode.ToString() == "Left")
-            //{
-            //    dir2 = 3;
-            //    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
-
-            //}
-            //else if (e.KeyCode.ToString() == "W" || e.KeyCode.ToString() == "Up")
-            //{
-            //    dir2 = 0;
-            //    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
-
-            //}
-            //else if (e.KeyCode.ToString() == "S" || e.KeyCode.ToString() == "Down")
-            //{
-            //    dir2 = 2;
-            //    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
-            //}
-            //else if (e.KeyCode.ToString() == "D" || e.KeyCode.ToString() == "Right")
-            //{
-            //    dir2 = 1;
-            //    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
-            //}
-            if (e.KeyCode.ToString() == "Left")
+            switch (e.KeyCode)
             {
-                dir1 = 3;
-                f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
-                f.tank.Image = Properties.Resources.s_right;
+                case Keys.Up:
+                    dir1 = 0;
+                    f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
+                    f.tank.Image = Properties.Resources.s_up;
+                    break;
+                case Keys.Down:
+                    dir1 = 2;
+                    f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
+                    f.tank.Image = Properties.Resources.s_down;
+                    break;
+                case Keys.Left:
+                    dir1 = 3;
+                    f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
+                    f.tank.Image = Properties.Resources.s_right;
+                    break;
+                case Keys.Right:
+                    dir1 = 1;
+                    f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
+                    f.tank.Image = Properties.Resources.s_left;
+                    break;
+                case Keys.W:
+                    dir2 = 0;
+                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
+                    break;
+                case Keys.S:
+                    dir2 = 2;
+                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
+                    break;
+                case Keys.A:
+                    dir2 = 3;
+                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
+                    break;
+                case Keys.D:
+                    dir2 = 1;
+                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
+                    break;
+                case Keys.Space:
+                    Bullet b = null;
+                    if (dir2 == 0 || dir2 == 2)
+                    {
+                        b = new Bullet(dir2, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
+                    }
+                    if (dir2 == 1 || dir2 == 3)
+                    {
+                        b = new Bullet(dir2, new Point(t.tank.Location.X, t.tank.Location.Y + 20), 0);
+                    }
+                    bullets.Add(b);
+                    this.Controls.Add(b.image);
 
-            }
-            else if (e.KeyCode.ToString() == "Up")
-            {
-                dir1 = 0;
-                f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
-                f.tank.Image = Properties.Resources.s_up;
+                    //this.Controls.Add(picture);
+                    break;
+                case Keys.ShiftKey:
+                    Bullet b1 = null;
+                    if (dir1 == 0 || dir1 == 2)
+                    {
+                        b1 = new Bullet(dir1, new Point(f.tank.Location.X + 20, f.tank.Location.Y), 1);
+                    }
+                    if (dir1 == 1 || dir1 == 3)
+                    {
+                        b1 = new Bullet(dir1, new Point(f.tank.Location.X, f.tank.Location.Y + 20), 1);
+                    }
+                    bullets.Add(b1);
+                    this.Controls.Add(b1.image);
 
-            }
-            else if (e.KeyCode.ToString() == "Down")
-            {
-                dir1 = 2;
-                f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
-                f.tank.Image = Properties.Resources.s_down;
-            }
-            else if (e.KeyCode.ToString() == "Right")
-            {
-                dir1 = 1;
-                f.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
-                f.tank.Image = Properties.Resources.s_left;
-            }
-            if (e.KeyCode.ToString() == "A" )
-            {
-                dir2 = 3;
-                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
-
-            }
-            else if (e.KeyCode.ToString() == "W" )
-            {
-                dir2 = 0;
-                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
-
-            }
-            else if (e.KeyCode.ToString() == "S" )
-            {
-                dir2 = 2;
-                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
-            }
-            else if (e.KeyCode.ToString() == "D" )
-            {
-                dir2 = 1;
-                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
-            }
-
-            else if (e.KeyCode.ToString() == "Space")
-           
-            {
-                Bullet b = null;
-                if (dir2 == 0 || dir2 == 2)
-                {
-                    b = new Bullet(dir2, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
-                }
-                if (dir2 == 1 || dir2 == 3)
-                {
-                    b = new Bullet(dir2, new Point(t.tank.Location.X, t.tank.Location.Y+20), 0);
-                }
-                bullets.Add(b);
-                this.Controls.Add(b.image);
-
-                //this.Controls.Add(picture);
-            }
-
-            else if (e.Shift)
-
-            {
-                Bullet b = null;
-                if (dir1 == 0 || dir1 == 2)
-                {
-                    b = new Bullet(dir1, new Point(f.tank.Location.X + 20, f.tank.Location.Y), 1);
-                }
-                if (dir1 == 1 || dir1 == 3)
-                {
-                    b = new Bullet(dir1, new Point(f.tank.Location.X, f.tank.Location.Y + 20), 1);
-                }
-                bullets.Add(b);
-                this.Controls.Add(b.image);
-
-                //this.Controls.Add(picture);
+                    //this.Controls.Add(picture);
+                    break;
             }
         }
 

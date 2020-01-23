@@ -50,7 +50,7 @@
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "GameArea";
             this.Text = "GameArea";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
             this.ResumeLayout(false);
 
         }
