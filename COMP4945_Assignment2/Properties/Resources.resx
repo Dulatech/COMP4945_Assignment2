@@ -124,14 +124,14 @@
   <data name="Tank_Right" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tank_Right.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Tank_Up" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Tank_Up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="s_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\s_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="10-tiled 1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\10-tiled 1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tank_Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tank_Down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Tank_Left" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tank_Left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -145,10 +145,13 @@
   <data name="s_left" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\s_left.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Tank_Down" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Tank_Down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Bomb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Bomb1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tank_Up" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tank_Up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Tank_Side" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Tank_Side.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

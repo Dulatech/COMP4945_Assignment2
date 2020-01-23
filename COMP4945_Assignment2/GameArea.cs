@@ -72,7 +72,7 @@ namespace COMP4945_Assignment2
                     if (dir == 0 || dir == 2)
                         b = new Bullet(dir, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
                     else
-                        b = new Bullet(dir, new Point(t.tank.Location.X, t.tank.Location.Y + 20), 0);
+                        b = new Bullet(dir, new Point(t.tank.Location.X+20, t.tank.Location.Y), 0);
                     bullets.Add(b);
                     this.Controls.Add(b.image);
                     break;

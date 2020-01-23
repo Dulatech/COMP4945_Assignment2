@@ -41,12 +41,13 @@
             // 
             // GameArea
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::COMP4945_Assignment2.Properties.Resources._10_tiled_1;
-            this.ClientSize = new System.Drawing.Size(500, 369);
+            this.ClientSize = new System.Drawing.Size(1333, 880);
             this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "GameArea";
             this.Text = "GameArea";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
