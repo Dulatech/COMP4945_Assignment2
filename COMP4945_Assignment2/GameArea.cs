@@ -13,10 +13,8 @@ namespace COMP4945_Assignment2
     public partial class GameArea : Form
         
     {
-
         private Random rnd = new Random();
-        private string dir = "Up";
-        private int dir2 = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
+        private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         private List<Bullet> bullets;
         private List<Tank> tanks;
         Tank t;
@@ -34,51 +32,42 @@ namespace COMP4945_Assignment2
             t = new Tank(new Point(250, 250), 0);
             this.Controls.Add(t.tank);
         }
-
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
-
-
             int offset = 10;
-            if (e.KeyCode.ToString() == "A" || e.KeyCode.ToString() == "Left")
+            switch (e.KeyCode)
             {
-                dir2 = 3;
-                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
-
-            }
-            else if (e.KeyCode.ToString() == "W" || e.KeyCode.ToString() == "Up")
-            {
-                dir2 = 0;
-                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
-
-            }
-            else if (e.KeyCode.ToString() == "S" || e.KeyCode.ToString() == "Down")
-            {
-                dir2 = 2;
-                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
-            }
-            else if (e.KeyCode.ToString() == "D" || e.KeyCode.ToString() == "Right")
-            {
-                dir2 = 1;
-                t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
-            }
-           
-            else if (e.KeyCode.ToString() == "Space")
-           
-            {
-                Bullet b = null;
-                if (dir2 == 0 || dir2 == 2)
-                {
-                    b = new Bullet(dir2, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
-                }
-                if (dir2 == 1 || dir2 == 3)
-                {
-                    b = new Bullet(dir2, new Point(t.tank.Location.X, t.tank.Location.Y+20), 0);
-                }
-                bullets.Add(b);
-                this.Controls.Add(b.image);
-
-                //this.Controls.Add(picture);
+                case Keys.A:
+                case Keys.Left:
+                    dir = 3;
+                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
+                    break;
+                case Keys.W:
+                case Keys.Up:
+                    dir = 0;
+                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
+                    break;
+                case Keys.S:
+                case Keys.Down:
+                    dir = 2;
+                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
+                    break;
+                case Keys.D:
+                case Keys.Right:
+                    dir = 1;
+                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
+                    break;
+                case Keys.Space:
+                    Bullet b = null;
+                    if (dir == 0 || dir == 2)
+                        b = new Bullet(dir, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
+                    else
+                        b = new Bullet(dir, new Point(t.tank.Location.X, t.tank.Location.Y + 20), 0);
+                    bullets.Add(b);
+                    this.Controls.Add(b.image);
+                    break;
+                default:
+                    break;
             }
         }
 
