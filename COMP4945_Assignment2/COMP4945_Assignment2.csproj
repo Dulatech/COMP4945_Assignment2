@@ -54,6 +54,8 @@
     <Compile Include="GameArea.Designer.cs">
       <DependentUpon>GameArea.cs</DependentUpon>
     </Compile>
+    <Compile Include="MulticastReceiver.cs" />
+    <Compile Include="MulticastSender.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
