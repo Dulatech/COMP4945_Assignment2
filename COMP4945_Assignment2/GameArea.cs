@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace COMP4945_Assignment2
@@ -22,11 +22,12 @@ namespace COMP4945_Assignment2
         Tank t;
         Plane p;
         Tank target;
+        MulticastSender msender;
 
         public GameArea()
         {
             InitializeComponent();
-            Timer gameTime = new Timer();
+            System.Windows.Forms.Timer gameTime = new System.Windows.Forms.Timer();
             gameTime.Enabled = true;
             gameTime.Interval = 1;
             gameTime.Tick += new EventHandler(OnGameTimeTick);
@@ -42,6 +43,9 @@ namespace COMP4945_Assignment2
             //this.Controls.Add(target.tank);
             tanks.Add(t);
             planes.Add(p);
+            MulticastReceiver recv = new MulticastReceiver(this);
+            msender = new MulticastSender();
+            new Thread(new ThreadStart(recv.run)).Start();
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
@@ -49,43 +53,26 @@ namespace COMP4945_Assignment2
             switch (e.KeyCode)
             {
                 case Keys.A:
-                    p.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
-                    break;
                 case Keys.Left:
                     dir = 3;
                     t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
                     break;
                 case Keys.W:
-                    p.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
-                    break;
                 case Keys.Up:
                     dir = 0;
                     t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
                     break;
                 case Keys.S:
-                    p.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
-                    break;
                 case Keys.Down:
                     dir = 2;
                     t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
                     break;
                 case Keys.D:
-                    p.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
-                    break;
                 case Keys.Right:
                     dir = 1;
                     t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
                     break;
                 case Keys.Space:
-                    Bomb b2 = null;
-                    if (dir == 0 || dir == 2)
-                        b2 = new Bomb(dir, new Point(p.plane.Location.X + 20, p.plane.Location.Y), 1);
-                    else
-                        b2 = new Bomb(dir, new Point(p.plane.Location.X+20, p.plane.Location.Y), 1);
-                    bombs.Add(b2);
-                    this.Controls.Add(b2.image);
-                    break;
-                case Keys.ShiftKey:
                     Bullet b = null;
                     if (dir == 0 || dir == 2)
                         b = new Bullet(dir, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
@@ -181,6 +168,13 @@ namespace COMP4945_Assignment2
         {
             pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width);
             pb.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45));
+        }
+
+        public void draw(int x, int y, int dir)
+        {
+            target.X_Coor = x;
+            target.Y_Coor = y;
+            target.Direction = dir;
         }
     }
 }
