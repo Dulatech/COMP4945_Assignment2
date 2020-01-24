@@ -35,7 +35,7 @@ namespace COMP4945_Assignment2
             planes = new List<Plane>();
             bombs = new List<Bomb>();
             //target = new Tank(new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height)),1);
-            t = new Tank(new Point(250, 250), 0);
+            t = new Tank(new Point(450, 450), 0);
             p = new Plane(new Point(150, 150), 1);
             this.Controls.Add(p.plane);
             this.Controls.Add(t.tank);

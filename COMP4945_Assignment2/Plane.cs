@@ -59,9 +59,9 @@ namespace COMP4945_Assignment2
                 Y_Coor = 0;
             if (X_Coor + plane.Width > clientW)
                 X_Coor = clientW - plane.Width;
-            if (Y_Coor + plane.Height > (clientH * 0.6))
+            if (Y_Coor + plane.Height > (clientH * 0.45))
             {
-                Y_Coor = (int)(clientH * 0.4) - plane.Height;
+                Y_Coor = (int)(clientH * 0.45) - plane.Height;
             }
                 
         }
