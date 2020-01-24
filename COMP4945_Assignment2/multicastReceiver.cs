@@ -21,6 +21,7 @@ namespace COMP4945_Assignment2
             try
             {
                 sock.Bind(new IPEndPoint(IPAddress.Any, 49452));
+                sock.MulticastLoopback = false;
                 Debug.WriteLine("Listening on port 49455");
                 sock.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption(IPAddress.Parse("239.50.50.51")));
                 EndPoint ep = (EndPoint)multiep;
