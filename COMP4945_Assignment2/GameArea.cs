@@ -174,13 +174,13 @@ namespace COMP4945_Assignment2
         void TankDestroyed(Tank pb)
         {
             pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width);
-            pb.Y_Coor = rnd.Next(0, this.ClientRectangle.Height);
+            pb.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55) + t.tank.Height, this.ClientRectangle.Height);
         }
 
         void PlaneDestroyed(Plane pb)
         {
             pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width);
-            pb.Y_Coor = rnd.Next(0, this.ClientRectangle.Height);
+            pb.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45));
         }
     }
 }

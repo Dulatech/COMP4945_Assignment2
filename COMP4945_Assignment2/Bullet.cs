@@ -15,7 +15,7 @@ namespace COMP4945_Assignment2
             //image.Size = direction % 2 == 0 ? new Size(10, 18) : new Size(18, 10);
             image.Size = direction % 2 == 0 ? new Size(10, 18) : new Size(10, 18);
             image.BackColor = Color.Transparent;
-            image.Image = Properties.Resources.bullet_bob;
+            image.Image = Properties.Resources.bullet_bob1;
             image.SizeMode = PictureBoxSizeMode.Zoom;
             image.Location = location;
             Direction = direction;
