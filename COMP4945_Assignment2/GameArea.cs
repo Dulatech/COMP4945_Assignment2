@@ -13,6 +13,8 @@ namespace COMP4945_Assignment2
     public partial class GameArea : Form
         
     {
+        public static int WIDTH;
+        public static int HEIGHT;
         private Random rnd = new Random();
         private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         private List<Bullet> bullets;
@@ -21,12 +23,14 @@ namespace COMP4945_Assignment2
         private List<Bomb> bombs;
         Tank t;
         Plane p;
-        Tank target;
+        //Tank target;
         MulticastSender msender;
 
         public GameArea()
         {
             InitializeComponent();
+            WIDTH = ClientSize.Width;
+            HEIGHT = ClientSize.Height;
             System.Windows.Forms.Timer gameTime = new System.Windows.Forms.Timer();
             gameTime.Enabled = true;
             gameTime.Interval = 1;
@@ -36,10 +40,10 @@ namespace COMP4945_Assignment2
             planes = new List<Plane>();
             bombs = new List<Bomb>();
             //target = new Tank(new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height)),1);
-            t = new Tank(new Point(450, 450), 0);
-            p = new Plane(new Point(150, 150), 1);
-            this.Controls.Add(p.plane);
-            this.Controls.Add(t.tank);
+            t = new Tank(new Point(450, 450), Guid.NewGuid());
+            p = new Plane(new Point(150, 150), Guid.NewGuid());
+            this.Controls.Add(p.image);
+            this.Controls.Add(t.image);
             //this.Controls.Add(target.tank);
             tanks.Add(t);
             planes.Add(p);
@@ -49,35 +53,46 @@ namespace COMP4945_Assignment2
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
-            int offset = 10;
             switch (e.KeyCode)
             {
                 case Keys.A:
+                    dir = 3;
+                    t.move(dir);
+                    break;
                 case Keys.Left:
                     dir = 3;
-                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
+                    p.move(dir);
                     break;
                 case Keys.W:
+                    dir = 0;
+                    t.move(dir);
+                    break;
                 case Keys.Up:
                     dir = 0;
-                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
+                    p.move(dir);
                     break;
                 case Keys.S:
+                    dir = 2;
+                    t.move(dir);
+                    break;
                 case Keys.Down:
                     dir = 2;
-                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
+                    p.move(dir);
                     break;
                 case Keys.D:
+                    dir = 1;
+                    t.move(dir);
+                    break;
                 case Keys.Right:
                     dir = 1;
-                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
+                    p.move(dir);
                     break;
                 case Keys.Space:
                     Bullet b = null;
                     if (dir == 0 || dir == 2)
-                        b = new Bullet(dir, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
+                        b = new Bullet(dir, new Point(t.image.Location.X + 20, t.image.Location.Y), 0);
                     else
-                        b = new Bullet(dir, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
+                        b = new Bullet(dir, new Point(t.image.Location.X + 20, t.image.Location.Y), 0);
                     bullets.Add(b);
                     this.Controls.Add(b.image);
                     break;
@@ -89,8 +104,9 @@ namespace COMP4945_Assignment2
 
         void OnGameTimeTick(object sender, EventArgs e)
         {
-            p.plane.Location = new Point(p.X_Coor, p.Y_Coor);
-            t.tank.Location = new Point(t.X_Coor, t.Y_Coor);
+            p.image.Location = new Point(p.X_Coor, p.Y_Coor);
+            t.image.Location = new Point(t.X_Coor, t.Y_Coor);
+            msender.SendMsg(t.X_Coor + "," + t.Y_Coor + "," + t.Direction);
             if (bullets.Count != 0)
             {
                 for (int i = bullets.Count - 1; i > -1; i--)
@@ -106,7 +122,7 @@ namespace COMP4945_Assignment2
                     {
                         foreach (Plane ta in planes)
                         { // loops through targets
-                            if (p.Bounds.IntersectsWith(ta.plane.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                            if (p.Bounds.IntersectsWith(ta.image.Bounds) && b.Player != ta.Player) // checks if target is in bounds
                             {
                                 Plane targ = ta; // assigns as hit tank
                                 PlaneDestroyed(targ);
@@ -133,7 +149,7 @@ namespace COMP4945_Assignment2
                     {
                         foreach (Tank ta in tanks)
                         { // loops through targets
-                            if (p.Bounds.IntersectsWith(ta.tank.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                            if (p.Bounds.IntersectsWith(ta.image.Bounds) && b.Player != ta.Player) // checks if target is in bounds
                             {
                                 Tank targ = ta; // assigns as hit tank
                                 TankDestroyed(targ);
@@ -160,21 +176,21 @@ namespace COMP4945_Assignment2
 
         void TankDestroyed(Tank pb)
         {
-            pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width);
-            pb.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55) + t.tank.Height, this.ClientRectangle.Height);
+            pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.image.Width);
+            pb.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.image.Height);
         }
 
         void PlaneDestroyed(Plane pb)
         {
-            pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width);
-            pb.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45));
+            pb.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.image.Width);
+            pb.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.image.Height);
         }
 
         public void draw(int x, int y, int dir)
         {
-            target.X_Coor = x;
-            target.Y_Coor = y;
-            target.Direction = dir;
+            //target.X_Coor = x;
+            //target.Y_Coor = y;
+            //target.Direction = dir;
         }
     }
 }

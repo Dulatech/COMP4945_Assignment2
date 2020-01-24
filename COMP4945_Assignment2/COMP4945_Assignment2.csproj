@@ -61,6 +61,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tank.cs" />
+    <Compile Include="Vehicle.cs" />
     <EmbeddedResource Include="GameArea.resx">
       <DependentUpon>GameArea.cs</DependentUpon>
     </EmbeddedResource>
