@@ -59,8 +59,8 @@ namespace COMP4945_Assignment2
             }
             if (X_Coor < 0)
                 X_Coor = 0;
-            if (Y_Coor < 0)
-                Y_Coor = 0;
+            if (Y_Coor > clientH - tank.Height)
+                Y_Coor = clientH - tank.Height;
             if (X_Coor + tank.Width > clientW)
                 X_Coor = clientW - tank.Width;
             if (Y_Coor - tank.Height < (clientH * 0.55))
