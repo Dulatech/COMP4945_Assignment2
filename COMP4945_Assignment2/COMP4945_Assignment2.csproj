@@ -83,35 +83,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Group 16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Tank_Down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Tank_Left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Tank_Right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Tank_Up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\10-tiled 1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s_down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s_left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s_right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\s_up.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
