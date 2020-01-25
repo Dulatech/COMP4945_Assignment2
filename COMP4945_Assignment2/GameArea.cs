@@ -93,13 +93,14 @@ namespace COMP4945_Assignment2
                     p.move(dir);
                     break;
                 case Keys.Space:
-                    Bullet b = null;
-                    if (dir == 0 || dir == 2)
-                        b = new Bullet(dir, new Point(t.image.Location.X + 20, t.image.Location.Y), 0);
-                    else
-                        b = new Bullet(dir, new Point(t.image.Location.X + 20, t.image.Location.Y), 0);
+                    Bullet b = new Bullet(new Point(t.X_Coor + 20, t.Y_Coor), 0);
                     bullets.Add(b);
                     this.Controls.Add(b.image);
+                    break;
+                case Keys.ShiftKey:
+                    Bomb b2 = new Bomb(new Point(p.X_Coor + 20, p.Y_Coor), 1);
+                    bombs.Add(b2);
+                    this.Controls.Add(b2.image);
                     break;
 
                 default:
@@ -122,6 +123,7 @@ namespace COMP4945_Assignment2
                     Bullet b = bullets[i];
                     b.Move();
                     PictureBox p = b.image;
+                    p.Location = new Point(b.X_Coor, b.Y_Coor);
                     if (p.Location.X < 0 || p.Location.Y < 0 || p.Location.X > this.ClientRectangle.Width || p.Location.Y > this.ClientRectangle.Height)
                     {
                         RemoveBullet(b);
@@ -149,6 +151,7 @@ namespace COMP4945_Assignment2
                     Bomb b = bombs[i];
                     b.Move();
                     PictureBox p = b.image;
+                    p.Location = new Point(b.X_Coor, b.Y_Coor);
                     if (p.Location.X < 0 || p.Location.Y < 0 || p.Location.X > this.ClientRectangle.Width || p.Location.Y > this.ClientRectangle.Height)
                     {
                         RemoveBomb(b);
