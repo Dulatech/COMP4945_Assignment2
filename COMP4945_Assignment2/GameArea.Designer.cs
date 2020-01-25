@@ -41,15 +41,14 @@
             // 
             // GameArea
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None; // this is very important
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::COMP4945_Assignment2.Properties.Resources._10_tiled_1;
             this.ClientSize = new System.Drawing.Size(700, 600);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "COMP4945 Assignment2";
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "Tanks vs Plane";
