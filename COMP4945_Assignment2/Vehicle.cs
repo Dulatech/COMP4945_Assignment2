@@ -10,7 +10,7 @@ namespace COMP4945_Assignment2
         public int Speed = 10;
         public int X_Coor { get; set; }
         public int Y_Coor { get; set; }
-        public int Direction { set; get; }
+        public int Direction { private set; get; }
         public int Player { set; get; }
         public Guid ID { set; get; }
 
@@ -29,10 +29,7 @@ namespace COMP4945_Assignment2
 
         public void move(int direction)
         {
-            if (direction != Direction)
-                SetImage(direction);
-
-            Direction = direction;
+            SetDirection(direction);
 
             switch (direction)
             {
@@ -50,6 +47,14 @@ namespace COMP4945_Assignment2
                     break;
             }
             CheckBounds();
+        }
+        public void SetDirection(int direction)
+        {
+            if (direction != Direction)
+            {
+                Direction = direction;
+                SetImage(direction);
+            }
         }
         protected abstract void SetImage(int direction);
         protected abstract void CheckBounds();

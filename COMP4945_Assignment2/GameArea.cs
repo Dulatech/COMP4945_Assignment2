@@ -25,6 +25,9 @@ namespace COMP4945_Assignment2
         Plane p;
         //Tank target;
         MulticastSender msender;
+        int prev_x = -1;
+        int prev_y = -1;
+        Thread receiverThread;
 
         public GameArea()
         {
@@ -47,9 +50,11 @@ namespace COMP4945_Assignment2
             //this.Controls.Add(target.tank);
             tanks.Add(t);
             planes.Add(p);
-            MulticastReceiver recv = new MulticastReceiver(this);
             msender = new MulticastSender();
-            new Thread(new ThreadStart(recv.run)).Start();
+            MulticastReceiver recv = new MulticastReceiver(this);
+            receiverThread = new Thread(new ThreadStart(recv.run));
+            receiverThread.IsBackground = true; // thread becomes zombie if this is not explicitly set to true
+            receiverThread.Start();
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
@@ -106,7 +111,10 @@ namespace COMP4945_Assignment2
         {
             p.image.Location = new Point(p.X_Coor, p.Y_Coor);
             t.image.Location = new Point(t.X_Coor, t.Y_Coor);
-            msender.SendMsg(t.X_Coor + "," + t.Y_Coor + "," + t.Direction);
+            if (prev_x != t.X_Coor || prev_y != t.Y_Coor)
+                msender.SendMsg(t.X_Coor + "," + t.Y_Coor + "," + t.Direction);
+            prev_x = t.X_Coor;
+            prev_y = t.Y_Coor;
             if (bullets.Count != 0)
             {
                 for (int i = bullets.Count - 1; i > -1; i--)
@@ -188,9 +196,9 @@ namespace COMP4945_Assignment2
 
         public void draw(int x, int y, int dir)
         {
-            //target.X_Coor = x;
-            //target.Y_Coor = y;
-            //target.Direction = dir;
+            p.X_Coor = x;
+            p.Y_Coor = y - (int)(GameArea.HEIGHT * 0.6);
+            p.SetDirection(dir);
         }
     }
 }
