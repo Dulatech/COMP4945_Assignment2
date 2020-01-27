@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace COMP4945_Assignment2
 {
@@ -28,6 +29,8 @@ namespace COMP4945_Assignment2
         int prev_x = -1;
         int prev_y = -1;
         Thread receiverThread;
+        private static System.Timers.Timer aTimer;
+        private bool timer_Elapsed = false;
 
         public GameArea()
         {
@@ -53,9 +56,13 @@ namespace COMP4945_Assignment2
             receiverThread = new Thread(new ThreadStart(recv.run));
             receiverThread.IsBackground = true; // thread becomes zombie if this is not explicitly set to true
             receiverThread.Start();
+            SetTimer();
+            
+
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
+            float FireRate = 2F;
             switch (e.KeyCode)
             {
                 case Keys.A:
@@ -91,22 +98,32 @@ namespace COMP4945_Assignment2
                     p.move(dir);
                     break;
                 case Keys.Space:
-                    Bullet b = new Bullet(new Point(t.X_Coor + 20, t.Y_Coor), 0);
-                    int bulletSize = bullets.Count;
-                    if (bulletSize > 2)
+                    if (timer_Elapsed)
                     {
-                        break;
+                        timer_Elapsed = false;
+                        Bullet b = new Bullet(new Point(t.X_Coor + 20, t.Y_Coor), 0);
+                        int bulletSize = bullets.Count;
+                        if (bulletSize > 2)
+                        {
+                            break;
+                        }
+                        bullets.Add(b);
+                        
                     }
-                    bullets.Add(b);
                     break;
                 case Keys.ShiftKey:
-                    Bomb b2 = new Bomb(new Point(p.X_Coor + 20, p.Y_Coor), 1);
+                    if (timer_Elapsed)
+                    {
+                        timer_Elapsed = false;
+                        Bomb b2 = new Bomb(new Point(p.X_Coor + 20, p.Y_Coor), 1);
                     int bombSize = bombs.Count;
                     if (bombSize > 2)
                     {
                         break;
                     }
                     bombs.Add(b2);
+                    
+                    }
                     break;
 
                 default:
@@ -191,5 +208,19 @@ namespace COMP4945_Assignment2
             foreach (Bomb b in bombs)
                 g.DrawImage(Bomb.IMAGE, b.X_Coor, b.Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
         }
+        private void SetTimer()
+        {
+            // Create a timer with a two second interval.
+            aTimer = new System.Timers.Timer(500);
+            aTimer.Elapsed += new ElapsedEventHandler(timer_ElapsedEvent);
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+
+        }
+        private void timer_ElapsedEvent(object source, ElapsedEventArgs e)
+        {
+            timer_Elapsed = true; 
+        }
+
     }
 }
