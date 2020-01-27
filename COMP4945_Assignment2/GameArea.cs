@@ -92,10 +92,20 @@ namespace COMP4945_Assignment2
                     break;
                 case Keys.Space:
                     Bullet b = new Bullet(new Point(t.X_Coor + 20, t.Y_Coor), 0);
+                    int bulletSize = bullets.Count;
+                    if (bulletSize > 2)
+                    {
+                        break;
+                    }
                     bullets.Add(b);
                     break;
                 case Keys.ShiftKey:
                     Bomb b2 = new Bomb(new Point(p.X_Coor + 20, p.Y_Coor), 1);
+                    int bombSize = bombs.Count;
+                    if (bombSize > 2)
+                    {
+                        break;
+                    }
                     bombs.Add(b2);
                     break;
 
