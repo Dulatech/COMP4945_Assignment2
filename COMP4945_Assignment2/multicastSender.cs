@@ -33,7 +33,7 @@ namespace COMP4945_Assignment2
         }
         public static void SendGameMsg(int type, string msg)
         {
-            Send(-1, type + "," + ID + "," + msg);
+            Send(-1, type + "," + ID + "," + GameArea.playerNum + "," + msg);
         }
         // multicast invitations every half a second
         // this method should be passed on to a new background thread only if the user is a host of a new game
