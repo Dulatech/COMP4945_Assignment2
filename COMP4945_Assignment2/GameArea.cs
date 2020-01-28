@@ -159,11 +159,15 @@ namespace COMP4945_Assignment2
                     Tank t = new Tank(id, x, y);
                     t.SetDirection(dir);
                     vehicles[playerNumber] = t;
+                    if (!tanks.Contains(t))
+                        tanks.Add(t);
                 } else
                 {
                     Plane p = new Plane(id, x, y);
                     p.SetDirection(dir);
                     vehicles[playerNumber] = p;
+                    if (!planes.Contains(p))
+                        planes.Add(p);
                 }
             }
             Vehicle player = vehicles[playerNumber];
@@ -214,7 +218,7 @@ namespace COMP4945_Assignment2
             Thread t = new Thread(new ThreadStart(recv.EnterGame));
             t.IsBackground = true;
             t.Start();
-            Thread.Sleep(500);
+            Thread.Sleep(600);
             t.Abort();
             if (gameID == Guid.Empty)
                 CreateNewGame();
