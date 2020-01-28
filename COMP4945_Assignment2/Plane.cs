@@ -31,7 +31,7 @@ namespace COMP4945_Assignment2
 
         public override void SetDirection(int direction)
         {
-            if (direction != Direction && direction != 0 && direction != 3)
+            if (direction != Direction && direction != 0 && direction != 2)
             {
                 Direction = direction;
             }

@@ -232,7 +232,7 @@ namespace COMP4945_Assignment2
                     case 1:
                         g.DrawImage(Plane.IMG_RIGHT, p.X_Coor, p.Y_Coor, Plane.SIZE.Width, Plane.SIZE.Height);
                         break;
-                    case 2:
+                    case 3:
                         g.DrawImage(Plane.IMG_LEFT, p.X_Coor, p.Y_Coor, Plane.SIZE.Width, Plane.SIZE.Height);
                         break;
                 }
