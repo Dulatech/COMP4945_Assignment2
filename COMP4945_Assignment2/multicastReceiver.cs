@@ -134,7 +134,6 @@ namespace COMP4945_Assignment2
         {
             // Send Join Request
             MulticastSender.SendJoinReq(gameToJoin, MulticastSender.ID, playerNum);
-
             long until = DateTime.Now.Ticks + TimeSpan.TicksPerMillisecond * 500;
             while (DateTime.Now.Ticks < until)
             {
@@ -154,6 +153,7 @@ namespace COMP4945_Assignment2
                         if (type == 2)
                         {
                             Debug.WriteLine("joining game");
+                            GameArea.currentNumOfPlayers = playerNum;
                             GameArea.playerNum = playerNum;
                             GameArea.gameID = gameToJoin;
                             return true;

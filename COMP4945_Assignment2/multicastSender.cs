@@ -6,6 +6,36 @@ using System.Threading;
 
 namespace COMP4945_Assignment2
 {
+    /*
+     * For every msg sent, the first line is the HEADER.
+     * 
+     * For game state msgs, the second line is the Guid of the game, and third line is in the form of
+     * [type],[msg]
+     * where type is 0 for movement, 1 for bullet fired, 2 for bullet collides with vehicle etc.
+     * and msg is the values that need to be sent for the specific type of msg
+     * for example for type 0 (movement), the message format is
+     * Guid:id , int:playerNum , int:X , int:Y , int:direction   (no spaces)
+     * 
+     * For game connection messages, (invite, join req, join resp, etc)
+     * the second line is the type, and third line is the msg.
+     * The format of second and third line for each type of msg is listed below
+     * 
+     * INVITAION:
+     * 0
+     * Guid:gameID , int:playerNum(the number for next player, 0 and 2 is for tank, 1 and 3 is for plane)
+     * 
+     * REQUEST TO JOIN:
+     * 1
+     * Guid:gameID , Guid:reqID(ID of requesting player) , int:playerNum(same number from the invitation msg)
+     * 
+     * ACCEPT JOIN REQ:
+     * 2
+     * Guid:gameID , Guid:reqID(ID of requesting player)
+     * 
+     * DECLINE JOIN REQ:
+     * 3
+     * Guid:gameID , Guid:reqID(ID of requesting player)
+     */
     class MulticastSender
     {
         public static readonly Guid ID = Guid.NewGuid();
