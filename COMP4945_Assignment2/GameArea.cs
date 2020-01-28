@@ -127,6 +127,18 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
+            //added test
+            foreach(Projectile p1 in bullets)
+            {
+                MulticastSender.SendGameMsg(0, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
+            }
+
+            foreach (Projectile p1 in bombs)
+            {
+                MulticastSender.SendGameMsg(0, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
+            }
+            //added test
+
             if (bullets.Count != 0)
             {
                 for (int i = bullets.Count - 1; i > -1; i--)
