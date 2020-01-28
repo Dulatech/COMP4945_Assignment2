@@ -89,9 +89,19 @@ namespace COMP4945_Assignment2
                     int dir = int.Parse(ar[5]);
                     form.MovePlayer(id, playerNum, x, y, dir);
                     break;
-                case 1: // bullet fire
+                case 1: // bullet made
+                    Guid id_b = Guid.Parse(ar[1]);
+                    int playerNum_b = int.Parse(ar[2]);
+                    int x_b = int.Parse(ar[3]);
+                    int y_b = int.Parse(ar[4]);
+                    int dir_b = int.Parse(ar[5]);
+                    form.MoveBullet(playerNum_b, x_b, y_b, dir_b);
                     break;
-                case 2: // bullet shot
+                case 2: // bullet hit
+                    break;
+                case 3: // bomb made
+                    break;
+                case 4: // bomb hit
                     break;
             }
         }

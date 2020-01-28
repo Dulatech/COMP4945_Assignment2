@@ -130,12 +130,12 @@ namespace COMP4945_Assignment2
             //added test
             foreach(Projectile p1 in bullets)
             {
-                MulticastSender.SendGameMsg(0, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
+                MulticastSender.SendGameMsg(1, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
             }
 
             foreach (Projectile p1 in bombs)
             {
-                MulticastSender.SendGameMsg(0, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
+                MulticastSender.SendGameMsg(2, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
             }
             //added test
 
@@ -217,6 +217,13 @@ namespace COMP4945_Assignment2
             player.X_Coor = x;
             player.Y_Coor = y;
             player.SetDirection(dir);
+        }
+
+        public void MoveBullet(int playerNumber, int x, int y, int dir)
+        {
+            Bullet b = new Bullet(new Point(x, y), playerNumber);
+            b.X_Coor = x;
+            b.Y_Coor = y;
         }
 
         private void GameArea_Paint(object sender, PaintEventArgs e)
