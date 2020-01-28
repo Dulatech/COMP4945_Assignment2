@@ -92,7 +92,6 @@ namespace COMP4945_Assignment2
 
         void OnGameTimeTick(object sender, EventArgs e)
         {
-            me.image.Location = new Point(me.X_Coor, me.Y_Coor);
             if (prev_x != me.X_Coor || prev_y != me.Y_Coor)
                 MulticastSender.SendGameMsg(0, me.X_Coor + "," + me.Y_Coor + "," + me.Direction);
             prev_x = me.X_Coor;
@@ -108,7 +107,7 @@ namespace COMP4945_Assignment2
                         bullets.Remove(b);
                     else
                         foreach (Plane ta in planes) // loops through targets
-                            if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(ta.image.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                            if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(new Rectangle(ta.X_Coor, ta.Y_Coor, ta.Width, ta.Height))) // checks if target is in bounds
                             {
                                 Plane targ = ta; // assigns as hit plane
                                 PlaneDestroyed(targ);
@@ -128,7 +127,7 @@ namespace COMP4945_Assignment2
                         bombs.Remove(b);
                     else
                         foreach (Tank ta in tanks) // loops through targets
-                            if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(ta.image.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                            if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(new Rectangle(ta.X_Coor, ta.Y_Coor, ta.Width, ta.Height))) // checks if target is in bounds
                             {
                                 Tank targ = ta; // assigns as hit tank
                                 TankDestroyed(targ);
@@ -141,14 +140,14 @@ namespace COMP4945_Assignment2
 
         void TankDestroyed(Tank t)
         {
-            t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE);
-            t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - Tank.SIZE);
+            t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.Width);
+            t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.Height);
         }
 
         void PlaneDestroyed(Plane p)
         {
-            p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - Plane.SIZE);
-            p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - Plane.SIZE);
+            p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.Width);
+            p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.Height);
         }
 
         public void MovePlayer(Guid id, int playerNumber, int x, int y, int dir)
@@ -160,13 +159,11 @@ namespace COMP4945_Assignment2
                     Tank t = new Tank(id, x, y);
                     t.SetDirection(dir);
                     vehicles[playerNumber] = t;
-                    Controls.Add(vehicles[playerNumber].image);
                 } else
                 {
                     Plane p = new Plane(id, x, y);
                     p.SetDirection(dir);
                     vehicles[playerNumber] = p;
-                    Controls.Add(vehicles[playerNumber].image);
                 }
             }
             Vehicle player = vehicles[playerNumber];
@@ -182,6 +179,28 @@ namespace COMP4945_Assignment2
                 g.DrawImage(Bullet.IMAGE, b.X_Coor, b.Y_Coor, Bullet.SIZE.Width, Bullet.SIZE.Height);
             foreach (Bomb b in bombs)
                 g.DrawImage(Bomb.IMAGE, b.X_Coor, b.Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
+            foreach(Tank t in tanks)
+                switch(t.Direction)
+                {
+                    case 0:
+                    case 2:
+                        g.DrawImage(Tank.IMG_UP, t.X_Coor, t.Y_Coor, Tank.SIZE.Width, Tank.SIZE.Height);
+                        break;
+                    case 1:
+                    case 3:
+                        g.DrawImage(Tank.IMG_SIDE, t.X_Coor, t.Y_Coor, Tank.SIZE.Width, Tank.SIZE.Height);
+                        break;
+                }
+            foreach (Plane p in planes)
+                switch (p.Direction)
+                {
+                    case 1:
+                        g.DrawImage(Plane.IMG_RIGHT, p.X_Coor, p.Y_Coor, Plane.SIZE.Width, Plane.SIZE.Height);
+                        break;
+                    case 2:
+                        g.DrawImage(Plane.IMG_LEFT, p.X_Coor, p.Y_Coor, Plane.SIZE.Width, Plane.SIZE.Height);
+                        break;
+                }
         }
         public void CreateNewGame()
         {
@@ -211,20 +230,19 @@ namespace COMP4945_Assignment2
             if (playerNum % 2 == 0)
             {
                 me = new Tank(MulticastSender.ID,
-                    rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE),
-                    rnd.Next((int)(this.ClientRectangle.Height * 0.55),this.ClientRectangle.Height - Tank.SIZE));
+                    rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE.Width),
+                    rnd.Next((int)(this.ClientRectangle.Height * 0.55),this.ClientRectangle.Height - Tank.SIZE.Height));
                 tanks.Add((Tank) me);
                 System.Diagnostics.Debug.WriteLine("tank added");
             }
             else
             {
                 me = new Plane(MulticastSender.ID,
-                    rnd.Next(0, this.ClientRectangle.Width - Plane.SIZE),
-                    rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - Plane.SIZE));
+                    rnd.Next(0, this.ClientRectangle.Width - Plane.SIZE.Width),
+                    rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - Plane.SIZE.Height));
                 planes.Add((Plane) me);
             }
-            System.Diagnostics.Debug.WriteLine("image added to Control");
-            Controls.Add(me.image);
+            System.Diagnostics.Debug.WriteLine("my vehicle instatiated");
             //tanks.Add(t);
             //planes.Add(p);
             recv.IsHost = (playerNum == 0);
