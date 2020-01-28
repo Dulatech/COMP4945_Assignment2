@@ -222,6 +222,7 @@ namespace COMP4945_Assignment2
         public void MoveBullet(int playerNumber, int x, int y, int dir)
         {
             Bullet b = new Bullet(new Point(x, y), playerNumber);
+            bullets.Add(b);
             b.X_Coor = x;
             b.Y_Coor = y;
         }
