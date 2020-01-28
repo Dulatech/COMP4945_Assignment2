@@ -30,7 +30,8 @@ namespace COMP4945_Assignment2
         int prev_y = -1;
         Thread receiverThread;
         private static System.Timers.Timer aTimer;
-        private bool timer_Elapsed = false;
+        private bool aTimer_Elapsed = false;
+        private bool bTimer_Elapsed = false;
 
         public GameArea()
         {
@@ -56,8 +57,9 @@ namespace COMP4945_Assignment2
             receiverThread = new Thread(new ThreadStart(recv.run));
             receiverThread.IsBackground = true; // thread becomes zombie if this is not explicitly set to true
             receiverThread.Start();
-            SetTimer();
-            
+            SetATimer();
+            SetBTimer();
+
 
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
@@ -98,9 +100,9 @@ namespace COMP4945_Assignment2
                     p.move(dir);
                     break;
                 case Keys.Space:
-                    if (timer_Elapsed)
+                    if (aTimer_Elapsed)
                     {
-                        timer_Elapsed = false;
+                        aTimer_Elapsed = false;
                         Bullet b = new Bullet(new Point(t.X_Coor + 20, t.Y_Coor), 0);
                         int bulletSize = bullets.Count;
                         if (bulletSize > 2)
@@ -112,9 +114,9 @@ namespace COMP4945_Assignment2
                     }
                     break;
                 case Keys.ShiftKey:
-                    if (timer_Elapsed)
+                    if (bTimer_Elapsed)
                     {
-                        timer_Elapsed = false;
+                        bTimer_Elapsed = false;
                         Bomb b2 = new Bomb(new Point(p.X_Coor + 20, p.Y_Coor), 1);
                     int bombSize = bombs.Count;
                     if (bombSize > 2)
@@ -208,18 +210,32 @@ namespace COMP4945_Assignment2
             foreach (Bomb b in bombs)
                 g.DrawImage(Bomb.IMAGE, b.X_Coor, b.Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
         }
-        private void SetTimer()
+        private void SetATimer()
         {
-            // Create a timer with a two second interval.
+            // Create a timer with a half second interval.
             aTimer = new System.Timers.Timer(500);
-            aTimer.Elapsed += new ElapsedEventHandler(timer_ElapsedEvent);
+            aTimer.Elapsed += new ElapsedEventHandler(aTimer_ElapsedEvent);
             aTimer.AutoReset = true;
             aTimer.Enabled = true;
 
         }
-        private void timer_ElapsedEvent(object source, ElapsedEventArgs e)
+        private void aTimer_ElapsedEvent(object source, ElapsedEventArgs e)
         {
-            timer_Elapsed = true; 
+            aTimer_Elapsed = true; 
+        }
+
+        private void SetBTimer()
+        {
+            // Create a timer with a half second interval.
+            aTimer = new System.Timers.Timer(500);
+            aTimer.Elapsed += new ElapsedEventHandler(bTimer_ElapsedEvent);
+            aTimer.AutoReset = true;
+            aTimer.Enabled = true;
+
+        }
+        private void bTimer_ElapsedEvent(object source, ElapsedEventArgs e)
+        {
+            bTimer_Elapsed = true;
         }
 
     }

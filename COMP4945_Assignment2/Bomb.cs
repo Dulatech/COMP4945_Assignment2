@@ -9,7 +9,7 @@ namespace COMP4945_Assignment2
         public static readonly Size SIZE = new Size(20, 28);
         public Bomb(Point location, int player) : base(2, location, SIZE, player)
         {
-            Speed = 3;
+            Speed = 6;
         }
     }
 }
