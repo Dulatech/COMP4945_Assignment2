@@ -5,10 +5,10 @@ namespace COMP4945_Assignment2
 {
     class Tank : Vehicle
     {
-
-        public Tank(Point location, Guid id) : base(location, id)
+        public static readonly int SIZE = 50;
+        public Tank(Guid id, int x, int y) : base(id, x, y)
         {
-            image.Size = new Size(50, 50);
+            image.Size = new Size(SIZE, SIZE);
             image.Image = Properties.Resources.Tank_Up;
             Player = 0;
         }

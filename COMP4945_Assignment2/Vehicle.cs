@@ -14,20 +14,20 @@ namespace COMP4945_Assignment2
         public int Player { set; get; }
         public Guid ID { set; get; }
 
-        public Vehicle(Point location, Guid id)
+        public Vehicle(Guid id, int x, int y)
         {
             image = new PictureBox();
             //image.BackColor = Color.Transparent;
             // just to hightlight current hitbox vs image size ratio <- we need to fix this
             image.BackColor = Color.Red;
             image.SizeMode = PictureBoxSizeMode.Zoom;
-            X_Coor = location.X;
-            Y_Coor = location.Y;
+            X_Coor = x;
+            Y_Coor = y;
             Direction = 0;
             ID = id;
         }
 
-        public void move(int direction)
+        public void Move(int direction)
         {
             SetDirection(direction);
 

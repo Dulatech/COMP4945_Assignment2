@@ -5,10 +5,11 @@ namespace COMP4945_Assignment2
 {
     class Plane : Vehicle
     {
-        public Plane(Point location, Guid id) : base(location, id)
+        public static readonly int SIZE = 80;
+        public Plane(Guid id, int x, int y) : base(id, x, y)
         {
             Speed = 15;
-            image.Size = new Size(80, 80);
+            image.Size = new Size(SIZE, SIZE);
             image.Image = Properties.Resources.s_left;
             Player = 1;
         }
