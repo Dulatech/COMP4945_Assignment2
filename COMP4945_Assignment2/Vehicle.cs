@@ -19,7 +19,7 @@ namespace COMP4945_Assignment2
             image = new PictureBox();
             //image.BackColor = Color.Transparent;
             // just to hightlight current hitbox vs image size ratio <- we need to fix this
-            image.BackColor = Color.Red;
+            image.BackColor = Color.Transparent;
             image.SizeMode = PictureBoxSizeMode.Zoom;
             X_Coor = location.X;
             Y_Coor = location.Y;
