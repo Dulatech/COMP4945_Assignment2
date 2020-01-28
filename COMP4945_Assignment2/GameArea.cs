@@ -53,6 +53,8 @@ namespace COMP4945_Assignment2
             SetBTimer();
             players = new List<Guid>();
             vehicles = new Vehicle[MAX_PLAYERS];
+            for (int i = 0; i < 4; i++)
+                vehicles[i] = null;
             recv = new MulticastReceiver(this);
 
         }
@@ -197,6 +199,7 @@ namespace COMP4945_Assignment2
                     if (!planes.Contains(p))
                         planes.Add(p);
                 }
+                currentNumOfPlayers++;
             }
             Vehicle player = vehicles[playerNumber];
             player.X_Coor = x;
@@ -246,7 +249,7 @@ namespace COMP4945_Assignment2
             Thread t = new Thread(new ThreadStart(recv.EnterGame));
             t.IsBackground = true;
             t.Start();
-            Thread.Sleep(600);
+            Thread.Sleep(1000);
             t.Abort();
             if (gameID == Guid.Empty)
                 CreateNewGame();
