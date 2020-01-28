@@ -1,89 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace COMP4945_Assignment2
 {
-    class Plane
+    class Plane : Vehicle
     {
-        public PictureBox plane;
-        public int Speed = 10;
-        private int X_Coor { get; set; }
-        private int Y_Coor { get; set; }
-        public int Direction { set; get; }
-        public int Player { set; get; }
-
-        public Plane(Point location, int player)
+        public static readonly int SIZE = 80;
+        public Plane(Guid id, int x, int y) : base(id, x, y)
         {
-            plane = new PictureBox();
-            plane.Size = new Size(50, 50);
-            plane.BackColor = Color.Transparent;
-            plane.Image = Properties.Resources.s_up;
-            plane.Location = location;
-            X_Coor = location.X;
-            Y_Coor = location.Y;
-            plane.SizeMode = PictureBoxSizeMode.Zoom;
-            Direction = 0;
-            Player = player;
+            Speed = 15;
+            image.Size = new Size(SIZE, SIZE);
+            image.Image = Properties.Resources.s_left;
+            Player = 1;
         }
 
-        public void move(int clientH, int clientW, int direction)
+        protected override void CheckBounds()
         {
-            if (direction != Direction)
-                SetImage(direction);
-
-            Direction = direction;
-
-            switch (direction)
-            {
-                case 0: // UP
-                    Y_Coor -= Speed;
-                    break;
-                case 1: // RIGHT
-                    X_Coor += Speed;
-                    break;
-                case 2: // DOWN
-                    Y_Coor += Speed;
-                    break;
-                case 3: // LEFT
-                    X_Coor -= Speed;
-                    break;
-            }
             if (X_Coor < 0)
                 X_Coor = 0;
             if (Y_Coor < 0)
                 Y_Coor = 0;
-            if (X_Coor + plane.Width > clientW)
-                X_Coor = clientW - plane.Width;
-            if (Y_Coor + plane.Height > clientH)
-                Y_Coor = clientH - plane.Height;
+            if (X_Coor + image.Width > GameArea.WIDTH)
+                X_Coor = GameArea.WIDTH - image.Width;
+            if (Y_Coor + image.Height > (GameArea.HEIGHT * 0.40))
+            {
+                Y_Coor = (int)(GameArea.HEIGHT * 0.40) - image.Height;
+            }
         }
 
-        private void SetImage(int direction)
+        protected override void SetImage(int direction)
         {
             switch (direction)
             {
                 case 0:
-                    plane.Image = Properties.Resources.s_down;
+                    //plane.Image = Properties.Resources.s_up;
                     break;
                 case 1:
-                    plane.Image = Properties.Resources.s_left;
+                    image.Image = Properties.Resources.s_right;
                     break;
                 case 2:
-                    plane.Image = Properties.Resources.s_up;
+                    //plane.Image = Properties.Resources.s_down;
                     break;
                 case 3:
-                    plane.Image = Properties.Resources.s_right;
+                    image.Image = Properties.Resources.s_left;
                     break;
                 default: // shouldn't reach
                     break;
             }
         }
-
-
     }
 }

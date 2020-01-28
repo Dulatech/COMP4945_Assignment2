@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -13,20 +9,34 @@ namespace COMP4945_Assignment2
     public partial class GameArea : Form
         
     {
+        public static int WIDTH;
+        public static int HEIGHT;
         private Random rnd = new Random();
         private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
+        public List<Guid> players;
         private List<Bullet> bullets;
         private List<Tank> tanks;
         private List<Plane> planes;
+        private Vehicle[] vehicles;
         private List<Bomb> bombs;
-        Tank t;
-        Plane p;
-        Tank target;
-        MulticastSender msender;
+        public static int playerNum; // 0 & 2 is tank, 1 & 3 is plane
+        public static int currentNumOfPlayers; // also represents next player's index number
+        public static readonly int MAX_PLAYERS = 4;
+        //Tank t;
+        //Plane p;
+        Vehicle me;
+        public static Guid gameID = Guid.Empty;
+        MulticastReceiver recv;
+        int prev_x = -1;
+        int prev_y = -1;
+        Thread receiverThread;
+        Thread hostThread;
 
         public GameArea()
         {
             InitializeComponent();
+            WIDTH = ClientSize.Width;
+            HEIGHT = ClientSize.Height;
             System.Windows.Forms.Timer gameTime = new System.Windows.Forms.Timer();
             gameTime.Enabled = true;
             gameTime.Interval = 1;
@@ -35,50 +45,45 @@ namespace COMP4945_Assignment2
             tanks = new List<Tank>();
             planes = new List<Plane>();
             bombs = new List<Bomb>();
-            target = new Tank(new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height)),1);
-            t = new Tank(new Point(250, 250), 0);
-            p = new Plane(new Point(150, 150), 0);
-            this.Controls.Add(p.plane);
-            this.Controls.Add(t.tank);
-            this.Controls.Add(target.tank);
-            tanks.Add(target);
-            MulticastReceiver recv = new MulticastReceiver(this);
-            msender = new MulticastSender();
-            new Thread(new ThreadStart(recv.run)).Start();
+            players = new List<Guid>();
+            vehicles = new Vehicle[MAX_PLAYERS];
+            recv = new MulticastReceiver(this);
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
-            int offset = 10;
             switch (e.KeyCode)
             {
                 case Keys.A:
                 case Keys.Left:
                     dir = 3;
-                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 3);
+                    me.Move(dir);
                     break;
                 case Keys.W:
                 case Keys.Up:
                     dir = 0;
-                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 0);
+                    me.Move(dir);
                     break;
                 case Keys.S:
                 case Keys.Down:
                     dir = 2;
-                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 2);
+                    me.Move(dir);
                     break;
                 case Keys.D:
                 case Keys.Right:
                     dir = 1;
-                    t.move(this.ClientRectangle.Height, this.ClientRectangle.Width, 1);
+                    me.Move(dir);
                     break;
                 case Keys.Space:
-                    Bullet b = null;
-                    if (dir == 0 || dir == 2)
-                        b = new Bullet(dir, new Point(t.tank.Location.X + 20, t.tank.Location.Y), 0);
-                    else
-                        b = new Bullet(dir, new Point(t.tank.Location.X+20, t.tank.Location.Y), 0);
-                    bullets.Add(b);
-                    this.Controls.Add(b.image);
+                case Keys.ShiftKey:
+                    if (playerNum % 2 == 0)
+                    {
+                        Bullet b = new Bullet(new Point(me.X_Coor + 20, me.Y_Coor), playerNum);
+                        bullets.Add(b);
+                    } else
+                    {
+                        Bomb b2 = new Bomb(new Point(me.X_Coor + 20, me.Y_Coor), playerNum);
+                        bombs.Add(b2);
+                    }
                     break;
                 default:
                     break;
@@ -87,52 +92,145 @@ namespace COMP4945_Assignment2
 
         void OnGameTimeTick(object sender, EventArgs e)
         {
-            t.tank.Location = new Point(t.X_Coor, t.Y_Coor);
-            target.tank.Location = new Point(target.X_Coor, target.Y_Coor);
-            msender.SendMsg(t.X_Coor + "," + t.Y_Coor + "," + t.Direction);
+            me.image.Location = new Point(me.X_Coor, me.Y_Coor);
+            if (prev_x != me.X_Coor || prev_y != me.Y_Coor)
+                MulticastSender.SendGameMsg(0, me.X_Coor + "," + me.Y_Coor + "," + me.Direction);
+            prev_x = me.X_Coor;
+            prev_y = me.Y_Coor;
+
             if (bullets.Count != 0)
             {
                 for (int i = bullets.Count - 1; i > -1; i--)
                 {
                     Bullet b = bullets[i];
                     b.Move();
-                    PictureBox p = b.image;
-                    if (p.Location.X < 0 || p.Location.Y < 0 || p.Location.X > this.ClientRectangle.Width || p.Location.Y > this.ClientRectangle.Height)
-                    {
-                        RemoveBullet(b);
-                    }
+                    if (b.OutOfBounds())
+                        bullets.Remove(b);
                     else
-                    {
-                        foreach (Tank ta in tanks)
-                        { // loops through targets
-                            if (p.Bounds.IntersectsWith(ta.tank.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                        foreach (Plane ta in planes) // loops through targets
+                            if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(ta.image.Bounds) && b.Player != ta.Player) // checks if target is in bounds
                             {
-                                PictureBox targ = ta.tank; // assigns as hit tank
-                                TargetDestroyed(targ);
-                                RemoveBullet(b);
+                                Plane targ = ta; // assigns as hit plane
+                                PlaneDestroyed(targ);
+                                bullets.Remove(b);
                             }
-                        }
-                    }
                 }
             }
-        }
-        void RemoveBullet(Bullet b)
-        {
-            this.Controls.Remove(b.image);
-            bullets.Remove(b);
-            b.image.Dispose();
+
+
+            if (bombs.Count != 0)
+            {
+                for (int i = bombs.Count - 1; i > -1; i--)
+                {
+                    Bomb b = bombs[i];
+                    b.Move();
+                    if (b.OutOfBounds())
+                        bombs.Remove(b);
+                    else
+                        foreach (Tank ta in tanks) // loops through targets
+                            if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(ta.image.Bounds) && b.Player != ta.Player) // checks if target is in bounds
+                            {
+                                Tank targ = ta; // assigns as hit tank
+                                TankDestroyed(targ);
+                                bombs.Remove(b);
+                            }
+                }
+            }
+            Invalidate(); // calls the Paint event
         }
 
-        void TargetDestroyed(PictureBox pb)
+        void TankDestroyed(Tank t)
         {
-            pb.Location = new Point(rnd.Next(0, this.ClientRectangle.Width), rnd.Next(0, this.ClientRectangle.Height));
+            t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE);
+            t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - Tank.SIZE);
         }
 
-        public void draw(int x, int y, int dir)
+        void PlaneDestroyed(Plane p)
         {
-            target.X_Coor = x;
-            target.Y_Coor = y;
-            target.Direction = dir;
+            p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - Plane.SIZE);
+            p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - Plane.SIZE);
+        }
+
+        public void MovePlayer(Guid id, int playerNumber, int x, int y, int dir)
+        {
+            if (vehicles[playerNumber] == null)
+            {
+                if (playerNumber % 2 == 0)
+                {
+                    Tank t = new Tank(id, x, y);
+                    t.SetDirection(dir);
+                    vehicles[playerNumber] = t;
+                    Controls.Add(vehicles[playerNumber].image);
+                } else
+                {
+                    Plane p = new Plane(id, x, y);
+                    p.SetDirection(dir);
+                    vehicles[playerNumber] = p;
+                    Controls.Add(vehicles[playerNumber].image);
+                }
+            }
+            Vehicle player = vehicles[playerNumber];
+            player.X_Coor = x;
+            player.Y_Coor = y;
+            player.SetDirection(dir);
+        }
+
+        private void GameArea_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            foreach (Bullet b in bullets)
+                g.DrawImage(Bullet.IMAGE, b.X_Coor, b.Y_Coor, Bullet.SIZE.Width, Bullet.SIZE.Height);
+            foreach (Bomb b in bombs)
+                g.DrawImage(Bomb.IMAGE, b.X_Coor, b.Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
+        }
+        public void CreateNewGame()
+        {
+            gameID = Guid.NewGuid();
+            playerNum = 0;
+            currentNumOfPlayers = 1;
+            System.Diagnostics.Debug.WriteLine("created new game");
+        }
+        private void GameArea_Shown(object sender, EventArgs e)
+        {
+            Thread t = new Thread(new ThreadStart(recv.EnterGame));
+            t.IsBackground = true;
+            t.Start();
+            Thread.Sleep(500);
+            t.Abort();
+            if (gameID == Guid.Empty)
+                CreateNewGame();
+            System.Diagnostics.Debug.WriteLine("entered game");
+            //me = (playerNum % 2 == 0) ? new Tank(new Point(0, 0), MulticastSender.ID) : new Plane(new Point(0, 0), MulticastSender.ID);
+            if (playerNum == 0)
+            {
+                hostThread = new Thread(new ThreadStart(MulticastSender.SendInvitations));
+                hostThread.IsBackground = true;
+                hostThread.Start();
+                System.Diagnostics.Debug.WriteLine("hostThread started");
+            }
+            if (playerNum % 2 == 0)
+            {
+                me = new Tank(MulticastSender.ID,
+                    rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE),
+                    rnd.Next((int)(this.ClientRectangle.Height * 0.55),this.ClientRectangle.Height - Tank.SIZE));
+                tanks.Add((Tank) me);
+                System.Diagnostics.Debug.WriteLine("tank added");
+            }
+            else
+            {
+                me = new Plane(MulticastSender.ID,
+                    rnd.Next(0, this.ClientRectangle.Width - Plane.SIZE),
+                    rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - Plane.SIZE));
+                planes.Add((Plane) me);
+            }
+            System.Diagnostics.Debug.WriteLine("image added to Control");
+            Controls.Add(me.image);
+            //tanks.Add(t);
+            //planes.Add(p);
+            recv.IsHost = (playerNum == 0);
+            receiverThread = new Thread(new ThreadStart(recv.run));
+            receiverThread.IsBackground = true; // thread becomes zombie if this is not explicitly set to true
+            receiverThread.Start();
         }
     }
 }
