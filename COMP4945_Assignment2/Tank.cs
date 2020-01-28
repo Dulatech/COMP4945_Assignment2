@@ -8,7 +8,7 @@ namespace COMP4945_Assignment2
 
         public Tank(Point location, Guid id) : base(location, id)
         {
-            image.Size = new Size(50, 50);
+            image.Size = new Size(50, 60);
             image.Image = Properties.Resources.Tank_Up;
             Player = 0;
         }

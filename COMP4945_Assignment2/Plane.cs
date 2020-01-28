@@ -8,7 +8,7 @@ namespace COMP4945_Assignment2
         public Plane(Point location, Guid id) : base(location, id)
         {
             Speed = 15;
-            image.Size = new Size(80, 80);
+            image.Size = new Size(100, 65);
             image.Image = Properties.Resources.s_left;
             Player = 1;
         }
