@@ -88,7 +88,7 @@ namespace COMP4945_Assignment2
                         if (aTimer_Elapsed)
                         {
                             aTimer_Elapsed = false;
-                            Bullet b = new Bullet(new Point(t.X_Coor + 20, t.Y_Coor), 0);
+                            Bullet b = new Bullet(new Point(me.X_Coor + 20, me.Y_Coor), 0);
                             int bulletSize = bullets.Count;
                             if (bulletSize > 2)
                             {
@@ -102,7 +102,7 @@ namespace COMP4945_Assignment2
                         if (bTimer_Elapsed)
                         {
                             bTimer_Elapsed = false;
-                            Bomb b2 = new Bomb(new Point(p.X_Coor + 20, p.Y_Coor), 1);
+                            Bomb b2 = new Bomb(new Point(me.X_Coor + 20, me.Y_Coor), 1);
                             int bombSize = bombs.Count;
                             if (bombSize > 2)
                             {
