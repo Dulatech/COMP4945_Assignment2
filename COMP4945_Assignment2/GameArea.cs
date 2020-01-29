@@ -233,6 +233,7 @@ namespace COMP4945_Assignment2
             if (!bullet_ids.Contains(id)){
                 Bullet b = new Bullet(id, new Point(x, y), playerNumber);
                 bullets.Add(b);
+                bullet_ids.Add(b.ID);
             }
             for (int i = 0; i < bullets.Count; i++)
             {
