@@ -15,6 +15,8 @@ namespace COMP4945_Assignment2
         private Random rnd = new Random();
         private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         public List<Guid> players;
+        public List<Guid> bullet_ids;
+        public List<Guid> bomb_ids;
         private List<Bullet> bullets;
         private List<Tank> tanks;
         private List<Plane> planes;
@@ -52,6 +54,8 @@ namespace COMP4945_Assignment2
             SetATimer();
             SetBTimer();
             players = new List<Guid>();
+            bullet_ids = new List<Guid>();
+            bomb_ids = new List<Guid>();
             vehicles = new Vehicle[MAX_PLAYERS];
             for (int i = 0; i < 4; i++)
                 vehicles[i] = null;
@@ -90,13 +94,14 @@ namespace COMP4945_Assignment2
                         if (aTimer_Elapsed)
                         {
                             aTimer_Elapsed = false;
-                            Bullet b = new Bullet(new Point(me.X_Coor + 20, me.Y_Coor), 0);
+                            Bullet b = new Bullet(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor), 0);
                             int bulletSize = bullets.Count;
                             if (bulletSize > 2)
                             {
                                 break;
                             }
                             bullets.Add(b);
+                            bullet_ids.Add(b.ID);
 
                         }
                     } else // plane
@@ -104,7 +109,7 @@ namespace COMP4945_Assignment2
                         if (bTimer_Elapsed)
                         {
                             bTimer_Elapsed = false;
-                            Bomb b2 = new Bomb(new Point(me.X_Coor + 20, me.Y_Coor), 1);
+                            Bomb b2 = new Bomb(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor), 1);
                             int bombSize = bombs.Count;
                             if (bombSize > 2)
                             {
@@ -127,6 +132,20 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
+            //added test
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                //Bullet p1 = bullets[i];
+                MulticastSender.SendGameMsg(1, bullets[i].X_Coor + "," + bullets[i].Y_Coor + "," + bullets[i].Direction + "," + bullets[i].ID);
+            }
+
+            for (int i = 0; i < bombs.Count; i++)
+            {
+                //Bullet p1 = bullets[i];
+                MulticastSender.SendGameMsg(3, bombs[i].X_Coor + "," + bombs[i].Y_Coor + "," + bombs[i].Direction + "," + bombs[i].ID);
+            }
+            //added test
+
             if (bullets.Count != 0)
             {
                 for (int i = bullets.Count - 1; i > -1; i--)
@@ -134,15 +153,21 @@ namespace COMP4945_Assignment2
                     Bullet b = bullets[i];
                     b.Move();
                     if (b.OutOfBounds())
+                    {
                         bullets.Remove(b);
+                        bullet_ids.Remove(b.ID);
+                    }
                     else
+                    {
                         foreach (Plane ta in planes) // loops through targets
                             if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(new Rectangle(ta.X_Coor, ta.Y_Coor, ta.Width, ta.Height))) // checks if target is in bounds
                             {
                                 Plane targ = ta; // assigns as hit plane
                                 PlaneDestroyed(targ);
                                 bullets.Remove(b);
+                                bullet_ids.Remove(b.ID);
                             }
+                    }
                 }
             }
 
@@ -154,15 +179,21 @@ namespace COMP4945_Assignment2
                     Bomb b = bombs[i];
                     b.Move();
                     if (b.OutOfBounds())
+                    {
                         bombs.Remove(b);
+                        bomb_ids.Remove(b.ID);
+                    }
                     else
+                    {
                         foreach (Tank ta in tanks) // loops through targets
                             if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(new Rectangle(ta.X_Coor, ta.Y_Coor, ta.Width, ta.Height))) // checks if target is in bounds
                             {
                                 Tank targ = ta; // assigns as hit tank
                                 TankDestroyed(targ);
                                 bombs.Remove(b);
+                                bomb_ids.Remove(b.ID);
                             }
+                    }
                 }
             }
             Invalidate(); // calls the Paint event
@@ -207,13 +238,52 @@ namespace COMP4945_Assignment2
             player.SetDirection(dir);
         }
 
+        public void MoveBullet(Guid id, int playerNumber, int x, int y, int dir)
+        {
+            if (!bullet_ids.Contains(id)){
+                Bullet b = new Bullet(id, new Point(x, y), playerNumber);
+                bullets.Add(b);
+                bullet_ids.Add(b.ID);
+            }
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                if(id == bullets[i].ID)
+                {
+                    bullets[i].X_Coor = x;
+                    bullets[i].Y_Coor = y;
+                }
+            }
+        }
+
+        public void MoveBomb(Guid id, int playerNumber, int x, int y, int dir)
+        {
+            if (!bomb_ids.Contains(id))
+            {
+                Bomb b = new Bomb(id, new Point(x, y), playerNumber);
+                bombs.Add(b);
+                bomb_ids.Add(b.ID);
+            }
+            for (int i = 0; i < bombs.Count; i++)
+            {
+                if (id == bombs[i].ID)
+                {
+                    bombs[i].X_Coor = x;
+                    bombs[i].Y_Coor = y;
+                }
+            }
+        }
+
         private void GameArea_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            foreach (Bullet b in bullets)
-                g.DrawImage(Bullet.IMAGE, b.X_Coor, b.Y_Coor, Bullet.SIZE.Width, Bullet.SIZE.Height);
-            foreach (Bomb b in bombs)
-                g.DrawImage(Bomb.IMAGE, b.X_Coor, b.Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
+            for (int i = bullets.Count - 1; i > -1; i--)
+            {
+                g.DrawImage(Bullet.IMAGE, bullets[i].X_Coor, bullets[i].Y_Coor, Bullet.SIZE.Width, Bullet.SIZE.Height);
+            }
+            for (int i = bombs.Count - 1; i > -1; i--)
+            {
+                g.DrawImage(Bomb.IMAGE, bombs[i].X_Coor, bombs[i].Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
+            }
             foreach(Tank t in tanks)
                 switch(t.Direction)
                 {
