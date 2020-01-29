@@ -40,10 +40,11 @@ namespace COMP4945_Assignment2
                     StringReader reader = new StringReader(stringData);
                     if (!reader.ReadLine().Equals(MulticastSender.HEADER))
                         continue;
-                    Debug.WriteLine("{0}\n{1}\n", ep.ToString(), stringData);
                     string secondLine = reader.ReadLine();
                     if (secondLine.Length == 1)
                     {
+                        form.PrintGameStateToDebug();
+                        Debug.WriteLine("{0}\n{1}\n", ep.ToString(), stringData);
                         if (IsHost && int.TryParse(secondLine, out int type) && type == 1)
                             HandleJoinReq(reader.ReadLine());
                         else

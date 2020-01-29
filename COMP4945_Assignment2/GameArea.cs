@@ -281,15 +281,19 @@ namespace COMP4945_Assignment2
             {
                 if (playerNum % 2 == 0)
                 {
-                    tanks.Remove((Tank)player);
-                    currentNumOfPlayers--;
-                    System.Diagnostics.Debug.WriteLine("tank removed");
+                    if (tanks.Remove((Tank)player))
+                    {
+                        currentNumOfPlayers--;
+                        System.Diagnostics.Debug.WriteLine("tank removed");
+                    }
                 }
                 else
                 {
-                    planes.Remove((Plane)player);
-                    currentNumOfPlayers--;
-                    System.Diagnostics.Debug.WriteLine("plane removed");
+                    if (planes.Remove((Plane)player))
+                    {
+                        currentNumOfPlayers--;
+                        System.Diagnostics.Debug.WriteLine("plane removed");
+                    }
                 }
                 vehicles[playerNum] = null;
                 System.Diagnostics.Debug.WriteLine("PLAYER REMOVED!!!!!!!!!!\nNumber: " + playerNum + " ID: " + id);
@@ -436,7 +440,7 @@ namespace COMP4945_Assignment2
             bTimer_Elapsed = true;
         }
 
-        private void PrintGameStateToDebug()
+        public void PrintGameStateToDebug()
         {
             System.Diagnostics.Debug.WriteLine("********* GAME STATUS: *********");
             System.Diagnostics.Debug.WriteLine("ID: " + gameID);
@@ -452,6 +456,8 @@ namespace COMP4945_Assignment2
 
         private void GameArea_FormClosing(object sender, FormClosingEventArgs e)
         {
+            MulticastSender.SendGameMsg(-1, "");
+            MulticastSender.SendGameMsg(-1, "");
             MulticastSender.SendGameMsg(-1, "");
         }
     }
