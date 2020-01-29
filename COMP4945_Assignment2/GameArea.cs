@@ -278,11 +278,12 @@ namespace COMP4945_Assignment2
             Graphics g = e.Graphics;
             for (int i = bullets.Count - 1; i > -1; i--)
             {
-                Bullet b = bullets[i];
-                g.DrawImage(Bullet.IMAGE, b.X_Coor, b.Y_Coor, Bullet.SIZE.Width, Bullet.SIZE.Height);
+                g.DrawImage(Bullet.IMAGE, bullets[i].X_Coor, bullets[i].Y_Coor, Bullet.SIZE.Width, Bullet.SIZE.Height);
             }
-            foreach (Bomb b in bombs)
-                g.DrawImage(Bomb.IMAGE, b.X_Coor, b.Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
+            for (int i = bombs.Count - 1; i > -1; i--)
+            {
+                g.DrawImage(Bomb.IMAGE, bombs[i].X_Coor, bombs[i].Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
+            }
             foreach(Tank t in tanks)
                 switch(t.Direction)
                 {
