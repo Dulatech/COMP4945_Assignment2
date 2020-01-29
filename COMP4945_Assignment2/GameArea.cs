@@ -25,7 +25,6 @@ namespace COMP4945_Assignment2
         public static int currentNumOfPlayers;
         public static int nextPlayer; // player number to invite
         public static readonly int MAX_PLAYERS = 4;
-        public static readonly int SPAWN_TIME = 2;
         //Tank t;
         //Plane p;
         Vehicle me;
@@ -64,8 +63,6 @@ namespace COMP4945_Assignment2
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
-            if (me.IsDead)
-                return;
             switch (e.KeyCode)
             {
                 case Keys.A:
@@ -130,183 +127,84 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
-            if (playerNum % 2 == 0)
-            {
-                if (bombs.Count != 0)
-                {
-                    for (int i = bombs.Count - 1; i > -1; i--)
-                    {
-                        Bomb b = bombs[i];
-                        b.Move();
-                        if (b.OutOfBounds())
-                        {
-                            RemoveProjectile(b);
-                        }
-                        else
-                        {
-                            if (new Rectangle(me.X_Coor, me.Y_Coor, me.Width, me.Height).IntersectsWith(new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height)))
-                            {
-                                GotHit(b);
-                            }
-                        }
-                    }
-                }
-            } else
-            {
-                if (bullets.Count != 0)
-                {
-                    for (int i = bullets.Count - 1; i > -1; i--)
-                    {
-                        Bullet b = bullets[i];
-                        b.Move();
-                        if (b.OutOfBounds())
-                        {
-                            RemoveProjectile(b);
-                        }
-                        else
-                        {
-                            if (new Rectangle(me.X_Coor, me.Y_Coor, me.Width, me.Height).IntersectsWith(new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height)))
-                            {
-                                GotHit(b);
-                            }
-                        }
-                    }
-                }
-            }
-            //if (bullets.Count != 0)
+            //added test
+            //for (int i = 0; i < bullets.Count; i++)
             //{
-            //    for (int i = bullets.Count - 1; i > -1; i--)
-            //    {
-            //        Bullet b = bullets[i];
-            //        b.Move();
-            //        if (b.OutOfBounds())
-            //        {
-            //            bullets.Remove(b);
-            //            bullet_ids.Remove(b.ID);
-            //        }
-            //        else
-            //        {
-            //            foreach (Plane ta in planes) // loops through targets
-            //                if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(new Rectangle(ta.X_Coor, ta.Y_Coor, ta.Width, ta.Height))) // checks if target is in bounds
-            //                {
-            //                    Plane targ = ta; // assigns as hit plane
-            //                    PlaneDestroyed(targ);
-            //                    bullets.Remove(b);
-            //                    bullet_ids.Remove(b.ID);
-            //                }
-            //        }
-            //    }
+            //    //Bullet p1 = bullets[i];
+            //    MulticastSender.SendGameMsg(1, bullets[i].X_Coor + "," + bullets[i].Y_Coor + "," + bullets[i].Direction + "," + bullets[i].ID);
             //}
-            //if (bombs.Count != 0)
+
+            //for (int i = 0; i < bombs.Count; i++)
             //{
-            //    for (int i = bombs.Count - 1; i > -1; i--)
-            //    {
-            //        Bomb b = bombs[i];
-            //        b.Move();
-            //        if (b.OutOfBounds())
-            //        {
-            //            bombs.Remove(b);
-            //            bomb_ids.Remove(b.ID);
-            //        }
-            //        else
-            //        {
-            //            foreach (Tank ta in tanks) // loops through targets
-            //                if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(new Rectangle(ta.X_Coor, ta.Y_Coor, ta.Width, ta.Height))) // checks if target is in bounds
-            //                {
-            //                    Tank targ = ta; // assigns as hit tank
-            //                    TankDestroyed(targ);
-            //                    bombs.Remove(b);
-            //                    bomb_ids.Remove(b.ID);
-            //                }
-            //        }
-            //    }
+            //    //Bullet p1 = bullets[i];
+            //    MulticastSender.SendGameMsg(3, bombs[i].X_Coor + "," + bombs[i].Y_Coor + "," + bombs[i].Direction + "," + bombs[i].ID);
             //}
-            Invalidate(); // calls the Paint event
-        }
-        void GotHit(Bullet b)
-        {
-            MulticastSender.SendGameMsg(2, b.ID.ToString());
-            me.IsDead = true;
-            new Thread(new ThreadStart(this.WaitUntilRespawn)).Start();
-        }
-        void GotHit(Bomb b)
-        {
-            MulticastSender.SendGameMsg(4, b.ID.ToString());
-            me.IsDead = true;
-            new Thread(new ThreadStart(this.WaitUntilRespawn)).Start();
-        }
-        void WaitUntilRespawn()
-        {
-            Thread.Sleep(SPAWN_TIME * 1000);
-            Respawn();
-        }
-        // I probably should check id?
-        public void PlayerIsDead(Guid id, int playerNum)
-        {
-            Vehicle v = vehicles[playerNum];
-            if (v != null)
-                vehicles[playerNum].IsDead = true;
-        }
-        // if isBullet is false, it's a bomb
-        public void RemoveProjectile(Guid id, bool isBullet)
-        {
-            if (isBullet)
+            //added test
+
+            if (bullets.Count != 0)
             {
                 for (int i = bullets.Count - 1; i > -1; i--)
                 {
-                    if (id == bullets[i].ID)
+                    Bullet b = bullets[i];
+                    b.Move();
+                    if (b.OutOfBounds())
                     {
-                        bullets.Remove(bullets[i]);
-                        bullet_ids.Remove(id);
+                        bullets.Remove(b);
+                        bullet_ids.Remove(b.ID);
+                    }
+                    else
+                    {
+                        foreach (Plane ta in planes) // loops through targets
+                            if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(new Rectangle(ta.X_Coor, ta.Y_Coor, ta.Width, ta.Height))) // checks if target is in bounds
+                            {
+                                Plane targ = ta; // assigns as hit plane
+                                PlaneDestroyed(targ);
+                                bullets.Remove(b);
+                                bullet_ids.Remove(b.ID);
+                            }
                     }
                 }
-            } else
+            }
+
+
+            if (bombs.Count != 0)
             {
                 for (int i = bombs.Count - 1; i > -1; i--)
                 {
-                    if (id == bombs[i].ID)
+                    Bomb b = bombs[i];
+                    b.Move();
+                    if (b.OutOfBounds())
                     {
-                        bombs.Remove(bombs[i]);
-                        bomb_ids.Remove(id);
+                        bombs.Remove(b);
+                        bomb_ids.Remove(b.ID);
+                    }
+                    else
+                    {
+                        foreach (Tank ta in tanks) // loops through targets
+                            if (new Rectangle(b.X_Coor, b.Y_Coor, b.Width, b.Height).IntersectsWith(new Rectangle(ta.X_Coor, ta.Y_Coor, ta.Width, ta.Height))) // checks if target is in bounds
+                            {
+                                Tank targ = ta; // assigns as hit tank
+                                TankDestroyed(targ);
+                                bombs.Remove(b);
+                                bomb_ids.Remove(b.ID);
+                            }
                     }
                 }
             }
+            Invalidate(); // calls the Paint event
         }
-        void RemoveProjectile(Bullet b)
-        {
-            bullets.Remove(b);
-            bullet_ids.Remove(b.ID);
-        }
-        void RemoveProjectile(Bomb b)
-        {
-            bombs.Remove(b);
-            bomb_ids.Remove(b.ID);
-        }
-        void Respawn()
-        {
-            if (playerNum % 2 == 0)
-            {
-                me.X_Coor = rnd.Next(0, this.ClientRectangle.Width - me.Width);
-                me.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - me.Height);
-            } else
-            {
-                me.X_Coor = rnd.Next(0, this.ClientRectangle.Width - me.Width);
-                me.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - me.Height);
-            }
-            me.IsDead = false;
-            SendMovementMsg(me.X_Coor, me.Y_Coor, me.Direction);
-        }
-        //void TankDestroyed(Tank t)
-        //{
-        //    t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.Width);
-        //    t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.Height);
-        //}
 
-        //void PlaneDestroyed(Plane p)
-        //{
-        //    p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.Width);
-        //    p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.Height);
-        //}
+        void TankDestroyed(Tank t)
+        {
+            t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.Width);
+            t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.Height);
+        }
+
+        void PlaneDestroyed(Plane p)
+        {
+            p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.Width);
+            p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.Height);
+        }
 
         public void MovePlayer(Guid id, int playerNumber, int x, int y, int dir)
         {
@@ -429,8 +327,6 @@ namespace COMP4945_Assignment2
             for (int i = tanks.Count - 1; i > -1; i--)
             {
                 Tank t = tanks[i];
-                if (t.IsDead)
-                    continue;
                 switch (t.Direction)
                 {
                     case 0:
@@ -446,8 +342,6 @@ namespace COMP4945_Assignment2
             for (int i = planes.Count - 1; i > -1; i--)
             {
                 Plane p = planes[i];
-                if (p.IsDead)
-                    continue;
                 switch (p.Direction)
                 {
                     case 1:
