@@ -226,6 +226,8 @@ namespace COMP4945_Assignment2
                         planes.Add(p);
                 }
                 System.Diagnostics.Debug.WriteLine("NEW PLAYER!!!!!!!!\nNumber: " + playerNumber + " ID: " + id);
+                if (recv.IsHost)
+                    SetNextPlayer();
                 PrintGameStateToDebug();
                 SendMovementMsg(me.X_Coor, me.Y_Coor, me.Direction); // let new player know about me
                 currentNumOfPlayers++;
@@ -291,11 +293,9 @@ namespace COMP4945_Assignment2
                 }
                 vehicles[playerNum] = null;
                 System.Diagnostics.Debug.WriteLine("PLAYER REMOVED!!!!!!!!!!\nNumber: " + playerNum + " ID: " + id);
-                PrintGameStateToDebug();
                 if (recv.IsHost)
-                {
                     SetNextPlayer();
-                }
+                PrintGameStateToDebug();
             }
         }
 
@@ -440,6 +440,8 @@ namespace COMP4945_Assignment2
                     System.Diagnostics.Debug.Write(i + ",");
             System.Diagnostics.Debug.WriteLine("");
             System.Diagnostics.Debug.WriteLine("My Number: " + playerNum);
+            if (recv.IsHost)
+                System.Diagnostics.Debug.WriteLine("Next Player: " + nextPlayer);
         }
 
         private void GameArea_FormClosing(object sender, FormClosingEventArgs e)
