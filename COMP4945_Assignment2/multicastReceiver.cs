@@ -101,6 +101,13 @@ namespace COMP4945_Assignment2
                 case 2: // bullet hit
                     break;
                 case 3: // bomb made
+                    Guid id_b1 = Guid.Parse(ar[1]);
+                    int playerNum_b1 = int.Parse(ar[2]);
+                    int x_b1 = int.Parse(ar[3]);
+                    int y_b1 = int.Parse(ar[4]);
+                    int dir_b1 = int.Parse(ar[5]);
+                    Guid id_s1 = Guid.Parse(ar[6]);
+                    form.MoveBomb(id_s1, 0, x_b1, y_b1, playerNum_b1);
                     break;
                 case 4: // bomb hit
                     break;
