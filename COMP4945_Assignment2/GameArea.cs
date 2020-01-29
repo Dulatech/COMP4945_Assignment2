@@ -128,7 +128,7 @@ namespace COMP4945_Assignment2
             prev_y = me.Y_Coor;
 
             //added test
-            for (int i = 0; i < bullets.Count; i++)
+            for (int i = 0; i < 0; i++)
             {
                 //Bullet p1 = bullets[i];
                 MulticastSender.SendGameMsg(1, bullets[i].X_Coor + "," + bullets[i].Y_Coor + "," + bullets[i].Direction);
