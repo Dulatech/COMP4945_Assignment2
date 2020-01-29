@@ -12,16 +12,14 @@ namespace COMP4945_Assignment2
         public int Height { set; get; }
         public int Speed;
         public int Direction { set; get; }
-        public int Player { set; get; }
         public Guid ID { set; get; }
-        public Projectile(Guid id, int direction, Point location, Size size, int player)
+        public Projectile(Guid id, int direction, Point location, Size size)
         {
             X_Coor = location.X;
             Y_Coor = location.Y;
             Width = size.Width;
             Height = size.Height;
             Direction = direction;
-            Player = player;
             ID = id;
         }
         public void Move()
