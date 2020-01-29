@@ -74,17 +74,8 @@ namespace COMP4945_Assignment2
         private void HandleGameMsg(string msg)
         {
             string[] ar = msg.Split(',');
-            //Guid id = Guid.Parse(ar[0]);
-            //if (!form.players.Contains(id))
-            //{
-            //    lock (syncLock)
-            //    {
-            //        if (!form.players.Contains(id))
-            //            form.players.Add(id);
-            //    }
-            //}
             int type = int.Parse(ar[0]);
-            Guid playerID;
+            Guid playerID, bulletID, bombID;
             int playerNum, x, y, dir;
             switch(type)
             {
@@ -99,18 +90,28 @@ namespace COMP4945_Assignment2
                 case 1: // bullet made
                     x = int.Parse(ar[3]);
                     y = int.Parse(ar[4]);
-                    Guid bulletID = Guid.Parse(ar[6]);
+                    bulletID = Guid.Parse(ar[6]);
                     form.MoveBullet(bulletID, x, y);
                     break;
                 case 2: // bullet hit
+                    playerID = Guid.Parse(ar[1]);
+                    playerNum = int.Parse(ar[2]);
+                    bulletID = Guid.Parse(ar[3]);
+                    form.PlayerIsDead(playerID, playerNum);
+                    form.RemoveProjectile(bulletID, true);
                     break;
                 case 3: // bomb made
                     x = int.Parse(ar[3]);
                     y = int.Parse(ar[4]);
-                    Guid bombID = Guid.Parse(ar[6]);
+                    bombID = Guid.Parse(ar[6]);
                     form.MoveBomb(bombID, x, y);
                     break;
                 case 4: // bomb hit
+                    playerID = Guid.Parse(ar[1]);
+                    playerNum = int.Parse(ar[2]);
+                    bombID = Guid.Parse(ar[3]);
+                    form.PlayerIsDead(playerID, playerNum);
+                    form.RemoveProjectile(bombID, false);
                     break;
                 case -1: // disconnect
                     playerID = Guid.Parse(ar[1]);

@@ -6,6 +6,7 @@ namespace COMP4945_Assignment2
 {
     abstract class Vehicle
     {
+        public bool IsDead { get; set; } //waiting for respawn
         public int Speed = 10;
         public int X_Coor { get; set; }
         public int Y_Coor { get; set; }
@@ -23,6 +24,7 @@ namespace COMP4945_Assignment2
             Y_Coor = y;
             Width = size.Width;
             Height = size.Height;
+            IsDead = false;
             Direction = 0;
             ID = id;
         }
