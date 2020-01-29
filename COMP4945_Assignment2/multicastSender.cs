@@ -14,7 +14,7 @@ namespace COMP4945_Assignment2
      * where type is 0 for movement, 1 for bullet fired, 2 for bullet collides with vehicle etc.
      * and msg is the values that need to be sent for the specific type of msg
      * for example for type 0 (movement), the message format is
-     * Guid:id , int:playerNum , int:X , int:Y , int:direction   (no spaces)
+     * Guid:id , int:playerNum , int:X , int:Y , int:direction   (without the spaces)
      * 
      * For game connection messages, (invite, join req, join resp, etc)
      * the second line is the type, and third line is the msg.
@@ -47,23 +47,24 @@ namespace COMP4945_Assignment2
         {
             sock = new UdpClient();
         }
-        private static void Send(int type, string msg)
+        private static void Send(int msgType, string msg)
         {
-            if (type == -1) // game msg
+            if (msgType == -1) // game msg
             {
                 msg = HEADER + "\n" + GameArea.gameID + "\n" + msg;
             } else
             {
-                msg = HEADER + "\n" + type + "\n" + msg;
+                msg = HEADER + "\n" + msgType + "\n" + msg;
             }
             byte[] data = Encoding.ASCII.GetBytes(msg);
             sock.Send(data, data.Length, iep);
-            if (type != 0)
+            if (msgType != 0)
                 System.Diagnostics.Debug.WriteLine("Sent:\n" + msg + "\n");
         }
-        public static void SendGameMsg(int type, string msg)
+        // info on gameMsgTypes can be found in MulticastReceiver.HandleGameMsg()
+        public static void SendGameMsg(int gameMsgType, string msg)
         {
-            Send(-1, type + "," + ID + "," + GameArea.playerNum + "," + msg);
+            Send(-1, gameMsgType + "," + ID + "," + GameArea.playerNum + "," + msg);
         }
         // multicast invitations every half a second
         // this method should be passed on to a new background thread only if the user is a host of a new game
@@ -72,8 +73,10 @@ namespace COMP4945_Assignment2
         {
             while (true)
             {
-                if (GameArea.currentNumOfPlayers < 4)
-                    Send(0, GameArea.gameID + "," + GameArea.currentNumOfPlayers);
+                if (GameArea.currentNumOfPlayers < GameArea.MAX_PLAYERS)
+                {
+                    Send(0, GameArea.gameID + "," + GameArea.nextPlayer);
+                }
                 Thread.Sleep(500);
             }
         }

@@ -52,6 +52,7 @@
             this.Name = "GameArea";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tanks vs Plane";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameArea_FormClosing);
             this.Shown += new System.EventHandler(this.GameArea_Shown);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameArea_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);

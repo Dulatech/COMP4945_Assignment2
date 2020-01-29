@@ -83,37 +83,38 @@ namespace COMP4945_Assignment2
             //    }
             //}
             int type = int.Parse(ar[0]);
+            Guid playerID;
+            int playerNum, x, y, dir;
             switch(type)
             {
                 case 0: // movement
-                    Guid id = Guid.Parse(ar[1]);
-                    int playerNum = int.Parse(ar[2]);
-                    int x = int.Parse(ar[3]);
-                    int y = int.Parse(ar[4]);
-                    int dir = int.Parse(ar[5]);
-                    form.MovePlayer(id, playerNum, x, y, dir);
+                    playerID = Guid.Parse(ar[1]);
+                    playerNum = int.Parse(ar[2]);
+                    x = int.Parse(ar[3]);
+                    y = int.Parse(ar[4]);
+                    dir = int.Parse(ar[5]);
+                    form.MovePlayer(playerID, playerNum, x, y, dir);
                     break;
                 case 1: // bullet made
-                    Guid id_b = Guid.Parse(ar[1]);
-                    int playerNum_b = int.Parse(ar[2]);
-                    int x_b = int.Parse(ar[3]);
-                    int y_b = int.Parse(ar[4]);
-                    int dir_b = int.Parse(ar[5]);
-                    Guid id_s = Guid.Parse(ar[6]);
-                    form.MoveBullet(id_s, 0, x_b, y_b, playerNum_b);
+                    x = int.Parse(ar[3]);
+                    y = int.Parse(ar[4]);
+                    Guid bulletID = Guid.Parse(ar[6]);
+                    form.MoveBullet(bulletID, x, y);
                     break;
                 case 2: // bullet hit
                     break;
                 case 3: // bomb made
-                    Guid id_b1 = Guid.Parse(ar[1]);
-                    int playerNum_b1 = int.Parse(ar[2]);
-                    int x_b1 = int.Parse(ar[3]);
-                    int y_b1 = int.Parse(ar[4]);
-                    int dir_b1 = int.Parse(ar[5]);
-                    Guid id_s1 = Guid.Parse(ar[6]);
-                    form.MoveBomb(id_s1, 0, x_b1, y_b1, playerNum_b1);
+                    x = int.Parse(ar[3]);
+                    y = int.Parse(ar[4]);
+                    Guid bombID = Guid.Parse(ar[6]);
+                    form.MoveBomb(bombID, x, y);
                     break;
                 case 4: // bomb hit
+                    break;
+                case -1: // disconnect
+                    playerID = Guid.Parse(ar[1]);
+                    playerNum = int.Parse(ar[2]);
+                    form.RemovePlayer(playerID, playerNum);
                     break;
             }
         }

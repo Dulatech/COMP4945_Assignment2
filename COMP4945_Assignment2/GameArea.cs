@@ -8,13 +8,12 @@ using System.Timers;
 namespace COMP4945_Assignment2
 {
     public partial class GameArea : Form
-        
+
     {
         public static int WIDTH;
         public static int HEIGHT;
         private Random rnd = new Random();
         private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
-        public List<Guid> players;
         public List<Guid> bullet_ids;
         public List<Guid> bomb_ids;
         private List<Bullet> bullets;
@@ -23,7 +22,8 @@ namespace COMP4945_Assignment2
         private Vehicle[] vehicles;
         private List<Bomb> bombs;
         public static int playerNum; // 0 & 2 is tank, 1 & 3 is plane
-        public static int currentNumOfPlayers; // also represents next player's index number
+        public static int currentNumOfPlayers;
+        public static int nextPlayer; // player number to invite
         public static readonly int MAX_PLAYERS = 4;
         //Tank t;
         //Plane p;
@@ -53,7 +53,6 @@ namespace COMP4945_Assignment2
             bombs = new List<Bomb>();
             SetATimer();
             SetBTimer();
-            players = new List<Guid>();
             bullet_ids = new List<Guid>();
             bomb_ids = new List<Guid>();
             vehicles = new Vehicle[MAX_PLAYERS];
@@ -64,7 +63,6 @@ namespace COMP4945_Assignment2
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
-            float FireRate = 2F;
             switch (e.KeyCode)
             {
                 case Keys.A:
@@ -97,7 +95,7 @@ namespace COMP4945_Assignment2
                             int bulletSize = bullets.Count;
                             if (bulletSize > 2)
                                 break;
-                            Bullet b = new Bullet(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor), 0);
+                            Bullet b = new Bullet(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor));
                             bullets.Add(b);
                             bullet_ids.Add(b.ID);
                             MulticastSender.SendGameMsg(1, b.X_Coor + "," + b.Y_Coor + "," + b.Direction + "," + b.ID);
@@ -110,7 +108,7 @@ namespace COMP4945_Assignment2
                             int bombSize = bombs.Count;
                             if (bombSize > 2)
                                 break;
-                            Bomb b2 = new Bomb(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor), 1);
+                            Bomb b2 = new Bomb(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor));
                             bombs.Add(b2);
                             bomb_ids.Add(b2.ID);
                             MulticastSender.SendGameMsg(3, b2.X_Coor + "," + b2.Y_Coor + "," + b2.Direction + "," + b2.ID);
@@ -227,6 +225,8 @@ namespace COMP4945_Assignment2
                     if (!planes.Contains(p))
                         planes.Add(p);
                 }
+                System.Diagnostics.Debug.WriteLine("NEW PLAYER!!!!!!!!\nNumber: " + playerNumber + " ID: " + id);
+                PrintGameStateToDebug();
                 SendMovementMsg(me.X_Coor, me.Y_Coor, me.Direction); // let new player know about me
                 currentNumOfPlayers++;
             }
@@ -236,16 +236,16 @@ namespace COMP4945_Assignment2
             player.SetDirection(dir);
         }
 
-        public void MoveBullet(Guid id, int playerNumber, int x, int y, int dir)
+        public void MoveBullet(Guid b_id, int x, int y)
         {
-            if (!bullet_ids.Contains(id)){
-                Bullet b = new Bullet(id, new Point(x, y), playerNumber);
+            if (!bullet_ids.Contains(b_id)) {
+                Bullet b = new Bullet(b_id, new Point(x, y));
                 bullets.Add(b);
                 bullet_ids.Add(b.ID);
             }
             for (int i = 0; i < bullets.Count; i++)
             {
-                if(id == bullets[i].ID)
+                if (b_id == bullets[i].ID)
                 {
                     bullets[i].X_Coor = x;
                     bullets[i].Y_Coor = y;
@@ -253,22 +253,60 @@ namespace COMP4945_Assignment2
             }
         }
 
-        public void MoveBomb(Guid id, int playerNumber, int x, int y, int dir)
+        public void MoveBomb(Guid b_id, int x, int y)
         {
-            if (!bomb_ids.Contains(id))
+            if (!bomb_ids.Contains(b_id))
             {
-                Bomb b = new Bomb(id, new Point(x, y), playerNumber);
+                Bomb b = new Bomb(b_id, new Point(x, y));
                 bombs.Add(b);
                 bomb_ids.Add(b.ID);
             }
             for (int i = 0; i < bombs.Count; i++)
             {
-                if (id == bombs[i].ID)
+                if (b_id == bombs[i].ID)
                 {
                     bombs[i].X_Coor = x;
                     bombs[i].Y_Coor = y;
                 }
             }
+        }
+
+        public void RemovePlayer(Guid id, int playerNum)
+        {
+            System.Diagnostics.Debug.WriteLine("inside RemovePlayer()");
+            Vehicle player = vehicles[playerNum];
+            if (player != null && player.ID == id)
+            {
+                if (playerNum % 2 == 0)
+                {
+                    tanks.Remove((Tank)player);
+                    currentNumOfPlayers--;
+                    System.Diagnostics.Debug.WriteLine("tank removed");
+                }
+                else
+                {
+                    planes.Remove((Plane)player);
+                    currentNumOfPlayers--;
+                    System.Diagnostics.Debug.WriteLine("plane removed");
+                }
+                vehicles[playerNum] = null;
+                System.Diagnostics.Debug.WriteLine("PLAYER REMOVED!!!!!!!!!!\nNumber: " + playerNum + " ID: " + id);
+                PrintGameStateToDebug();
+                if (recv.IsHost)
+                {
+                    SetNextPlayer();
+                }
+            }
+        }
+
+        private void SetNextPlayer() {
+            int i;
+            for (i = 0; i < MAX_PLAYERS; i++)
+            {
+                if (vehicles[i] == null)
+                    break;
+            }
+            nextPlayer = i;
         }
 
         private void GameArea_Paint(object sender, PaintEventArgs e)
@@ -322,7 +360,7 @@ namespace COMP4945_Assignment2
             if (gameID == Guid.Empty)
             {
                 CreateNewGame();
-                MulticastSender.SendGameMsg(-1, "game created");
+                MulticastSender.SendGameMsg(-9, "game created");
                 // the line above is for when there aren't any packets flowing in the port
                 // if there are no packets, Thread t will be blocked on Socket.ReceiveFrom()
                 // and calling Abort won't cancel the blocking call
@@ -376,7 +414,6 @@ namespace COMP4945_Assignment2
         {
             aTimer_Elapsed = true; 
         }
-
         private void SetBTimer()
         {
             // Create a timer with a half second interval.
@@ -391,5 +428,21 @@ namespace COMP4945_Assignment2
             bTimer_Elapsed = true;
         }
 
+        private void PrintGameStateToDebug()
+        {
+            System.Diagnostics.Debug.WriteLine("********* GAME STATUS: *********");
+            System.Diagnostics.Debug.WriteLine("ID: " + gameID);
+            System.Diagnostics.Debug.Write("Players: ");
+            for (int i = 0; i < MAX_PLAYERS; i++)
+                if (vehicles[i] != null)
+                    System.Diagnostics.Debug.Write(i + ",");
+            System.Diagnostics.Debug.WriteLine("");
+            System.Diagnostics.Debug.WriteLine("My Number: " + playerNum);
+        }
+
+        private void GameArea_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            MulticastSender.SendGameMsg(-1, "");
+        }
     }
 }
