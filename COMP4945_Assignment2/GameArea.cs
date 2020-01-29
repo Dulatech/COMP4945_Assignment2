@@ -127,19 +127,6 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
-            //added test
-            for (int i = 0; i < bullets.Count; i++)
-            {
-                Bullet p1 = bullets[i];
-                MulticastSender.SendGameMsg(1, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
-            }
-
-            foreach (Projectile p1 in bombs)
-            {
-                MulticastSender.SendGameMsg(2, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
-            }
-            //added test
-
             if (bullets.Count != 0)
             {
                 for (int i = bullets.Count - 1; i > -1; i--)
@@ -220,22 +207,11 @@ namespace COMP4945_Assignment2
             player.SetDirection(dir);
         }
 
-        public void MoveBullet(int playerNumber, int x, int y, int dir)
-        {
-            Bullet b = new Bullet(new Point(x, y), playerNumber);
-            bullets.Add(b);
-            b.X_Coor = x;
-            b.Y_Coor = y;
-        }
-
         private void GameArea_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            for (int i = bullets.Count - 1; i > -1; i--)
-            {
-                Bullet b = bullets[i];
+            foreach (Bullet b in bullets)
                 g.DrawImage(Bullet.IMAGE, b.X_Coor, b.Y_Coor, Bullet.SIZE.Width, Bullet.SIZE.Height);
-            }
             foreach (Bomb b in bombs)
                 g.DrawImage(Bomb.IMAGE, b.X_Coor, b.Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
             foreach(Tank t in tanks)
