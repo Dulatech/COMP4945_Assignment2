@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
+using System;
 
 namespace COMP4945_Assignment2
 {
@@ -12,7 +13,8 @@ namespace COMP4945_Assignment2
         public int Speed;
         public int Direction { set; get; }
         public int Player { set; get; }
-        public Projectile(int direction, Point location, Size size, int player)
+        public Guid ID { set; get; }
+        public Projectile(Guid id, int direction, Point location, Size size, int player)
         {
             X_Coor = location.X;
             Y_Coor = location.Y;
@@ -20,6 +22,7 @@ namespace COMP4945_Assignment2
             Height = size.Height;
             Direction = direction;
             Player = player;
+            ID = id;
         }
         public void Move()
         {
