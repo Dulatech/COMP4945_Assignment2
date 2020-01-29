@@ -68,7 +68,7 @@ namespace COMP4945_Assignment2
             if (Guid.Parse(ar[0]) == GameArea.gameID) // don't respond to other game id requests
             {
                 int n = int.Parse(ar[2]);
-                MulticastSender.SendJoinResp(ar[1], (n == GameArea.nextPlayer && n <= GameArea.MAX_PLAYERS));
+                MulticastSender.SendJoinResp(ar[1], (n == GameArea.currentNumOfPlayers && n <= GameArea.MAX_PLAYERS));
             }
         }
         private void HandleGameMsg(string msg)
