@@ -367,19 +367,12 @@ namespace COMP4945_Assignment2
             }
             recv.SetMulticastLoopback(false);
             System.Diagnostics.Debug.WriteLine("started game");
-            //me = (playerNum % 2 == 0) ? new Tank(new Point(0, 0), MulticastSender.ID) : new Plane(new Point(0, 0), MulticastSender.ID);
-            if (playerNum == 0)
-            {
-                hostThread = new Thread(new ThreadStart(MulticastSender.SendInvitations));
-                hostThread.IsBackground = true;
-                hostThread.Start();
-                System.Diagnostics.Debug.WriteLine("hostThread started");
-            }
             if (playerNum % 2 == 0)
             {
                 me = new Tank(MulticastSender.ID,
                     rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE.Width),
                     rnd.Next((int)(this.ClientRectangle.Height * 0.55),this.ClientRectangle.Height - Tank.SIZE.Height));
+                vehicles[playerNum] = me;
                 tanks.Add((Tank) me);
             }
             else
@@ -387,9 +380,18 @@ namespace COMP4945_Assignment2
                 me = new Plane(MulticastSender.ID,
                     rnd.Next(0, this.ClientRectangle.Width - Plane.SIZE.Width),
                     rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - Plane.SIZE.Height));
+                vehicles[playerNum] = me;
                 planes.Add((Plane) me);
             }
             System.Diagnostics.Debug.WriteLine("my vehicle instatiated");
+            if (playerNum == 0)
+            {
+                SetNextPlayer();
+                hostThread = new Thread(new ThreadStart(MulticastSender.SendInvitations));
+                hostThread.IsBackground = true;
+                hostThread.Start();
+                System.Diagnostics.Debug.WriteLine("hostThread started");
+            }
             //tanks.Add(t);
             //planes.Add(p);
             recv.IsHost = (playerNum == 0);
