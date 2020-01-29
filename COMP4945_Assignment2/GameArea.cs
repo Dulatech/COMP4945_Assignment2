@@ -320,8 +320,10 @@ namespace COMP4945_Assignment2
             {
                 g.DrawImage(Bomb.IMAGE, bombs[i].X_Coor, bombs[i].Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
             }
-            foreach(Tank t in tanks)
-                switch(t.Direction)
+            for (int i = tanks.Count - 1; i > -1; i--)
+            {
+                Tank t = tanks[i];
+                switch (t.Direction)
                 {
                     case 0:
                     case 2:
@@ -332,7 +334,10 @@ namespace COMP4945_Assignment2
                         g.DrawImage(Tank.IMG_SIDE, t.X_Coor, t.Y_Coor, Tank.SIZE.Width, Tank.SIZE.Height);
                         break;
                 }
-            foreach (Plane p in planes)
+            }
+            for (int i = planes.Count - 1; i > -1; i--)
+            {
+                Plane p = planes[i];
                 switch (p.Direction)
                 {
                     case 1:
@@ -342,6 +347,7 @@ namespace COMP4945_Assignment2
                         g.DrawImage(Plane.IMG_LEFT, p.X_Coor, p.Y_Coor, Plane.SIZE.Width, Plane.SIZE.Height);
                         break;
                 }
+            }
         }
         public void CreateNewGame()
         {
