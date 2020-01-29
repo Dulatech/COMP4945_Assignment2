@@ -320,8 +320,15 @@ namespace COMP4945_Assignment2
             Thread.Sleep(1000);
             t.Abort();
             if (gameID == Guid.Empty)
+            {
                 CreateNewGame();
-            System.Diagnostics.Debug.WriteLine("entered game");
+                MulticastSender.SendGameMsg(-1, "game created");
+                // the line above is for when there aren't any packets flowing in the port
+                // if there are no packets, Thread t will be blocked on Socket.ReceiveFrom()
+                // and calling Abort won't cancel the blocking call
+            }
+            recv.SetMulticastLoopback(false);
+            System.Diagnostics.Debug.WriteLine("started game");
             //me = (playerNum % 2 == 0) ? new Tank(new Point(0, 0), MulticastSender.ID) : new Plane(new Point(0, 0), MulticastSender.ID);
             if (playerNum == 0)
             {

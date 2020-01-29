@@ -24,6 +24,10 @@ namespace COMP4945_Assignment2
             form = f;
             IsHost = false;
         }
+        public void SetMulticastLoopback(bool b)
+        {
+            sock.MulticastLoopback = b;
+        }
         public void run()
         {
             try
@@ -118,6 +122,7 @@ namespace COMP4945_Assignment2
         public void EnterGame()
         {
             Debug.WriteLine("inside EnterGame()");
+            sock.MulticastLoopback = true;
             bool joining = false;
             long until = DateTime.Now.Ticks + TimeSpan.TicksPerSecond * 1;
             while (DateTime.Now.Ticks < until)
