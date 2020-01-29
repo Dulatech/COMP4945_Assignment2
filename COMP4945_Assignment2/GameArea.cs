@@ -231,8 +231,11 @@ namespace COMP4945_Assignment2
         private void GameArea_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            foreach (Bullet b in bullets)
+            for (int i = bullets.Count - 1; i > -1; i--)
+            {
+                Bullet b = bullets[i];
                 g.DrawImage(Bullet.IMAGE, b.X_Coor, b.Y_Coor, Bullet.SIZE.Width, Bullet.SIZE.Height);
+            }
             foreach (Bomb b in bombs)
                 g.DrawImage(Bomb.IMAGE, b.X_Coor, b.Y_Coor, Bomb.SIZE.Width, Bomb.SIZE.Height);
             foreach(Tank t in tanks)
