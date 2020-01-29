@@ -239,7 +239,7 @@ namespace COMP4945_Assignment2
                 if(id == bullets[i].ID)
                 {
                     bullets[i].X_Coor = x;
-                    bullets[i].Y_Coor = x;
+                    bullets[i].Y_Coor = y;
                 }
             }
         }
