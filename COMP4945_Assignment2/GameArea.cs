@@ -130,16 +130,6 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
-            for (int i = bombs.Count - 1; i > -1; i--)
-            {
-                Bomb b = bombs[i];
-                b.Move();
-            }
-            for (int i = bullets.Count - 1; i > -1; i--)
-            {
-                Bullet b = bullets[i];
-                b.Move();
-            }
             if (playerNum % 2 == 0)
             {
                 if (bombs.Count != 0)
@@ -147,6 +137,7 @@ namespace COMP4945_Assignment2
                     for (int i = bombs.Count - 1; i > -1; i--)
                     {
                         Bomb b = bombs[i];
+                        b.Move();
                         if (b.OutOfBounds())
                         {
                             RemoveProjectile(b);
@@ -167,6 +158,7 @@ namespace COMP4945_Assignment2
                     for (int i = bullets.Count - 1; i > -1; i--)
                     {
                         Bullet b = bullets[i];
+                        b.Move();
                         if (b.OutOfBounds())
                         {
                             RemoveProjectile(b);
