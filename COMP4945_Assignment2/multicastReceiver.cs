@@ -95,7 +95,7 @@ namespace COMP4945_Assignment2
                     int x_b = int.Parse(ar[3]);
                     int y_b = int.Parse(ar[4]);
                     int dir_b = int.Parse(ar[5]);
-                    form.MoveBullet(playerNum_b, x_b, y_b, dir_b);
+                    form.MoveBullet(0, x_b, y_b, playerNum_b);
                     break;
                 case 2: // bullet hit
                     break;
