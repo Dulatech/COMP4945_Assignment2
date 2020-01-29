@@ -94,29 +94,26 @@ namespace COMP4945_Assignment2
                         if (aTimer_Elapsed)
                         {
                             aTimer_Elapsed = false;
-                            Bullet b = new Bullet(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor), 0);
                             int bulletSize = bullets.Count;
                             if (bulletSize > 2)
-                            {
                                 break;
-                            }
+                            Bullet b = new Bullet(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor), 0);
                             bullets.Add(b);
                             bullet_ids.Add(b.ID);
-
+                            MulticastSender.SendGameMsg(1, b.X_Coor + "," + b.Y_Coor + "," + b.Direction + "," + b.ID);
                         }
                     } else // plane
                     {
                         if (bTimer_Elapsed)
                         {
                             bTimer_Elapsed = false;
-                            Bomb b2 = new Bomb(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor), 1);
                             int bombSize = bombs.Count;
                             if (bombSize > 2)
-                            {
                                 break;
-                            }
+                            Bomb b2 = new Bomb(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor), 1);
                             bombs.Add(b2);
-
+                            bomb_ids.Add(b2.ID);
+                            MulticastSender.SendGameMsg(3, b2.X_Coor + "," + b2.Y_Coor + "," + b2.Direction + "," + b2.ID);
                         }
                     }
                     break;
@@ -128,22 +125,22 @@ namespace COMP4945_Assignment2
         void OnGameTimeTick(object sender, EventArgs e)
         {
             if (prev_x != me.X_Coor || prev_y != me.Y_Coor)
-                MulticastSender.SendGameMsg(0, me.X_Coor + "," + me.Y_Coor + "," + me.Direction);
+                SendMovementMsg(me.X_Coor, me.Y_Coor, me.Direction);
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
             //added test
-            for (int i = 0; i < bullets.Count; i++)
-            {
-                //Bullet p1 = bullets[i];
-                MulticastSender.SendGameMsg(1, bullets[i].X_Coor + "," + bullets[i].Y_Coor + "," + bullets[i].Direction + "," + bullets[i].ID);
-            }
+            //for (int i = 0; i < bullets.Count; i++)
+            //{
+            //    //Bullet p1 = bullets[i];
+            //    MulticastSender.SendGameMsg(1, bullets[i].X_Coor + "," + bullets[i].Y_Coor + "," + bullets[i].Direction + "," + bullets[i].ID);
+            //}
 
-            for (int i = 0; i < bombs.Count; i++)
-            {
-                //Bullet p1 = bullets[i];
-                MulticastSender.SendGameMsg(3, bombs[i].X_Coor + "," + bombs[i].Y_Coor + "," + bombs[i].Direction + "," + bombs[i].ID);
-            }
+            //for (int i = 0; i < bombs.Count; i++)
+            //{
+            //    //Bullet p1 = bullets[i];
+            //    MulticastSender.SendGameMsg(3, bombs[i].X_Coor + "," + bombs[i].Y_Coor + "," + bombs[i].Direction + "," + bombs[i].ID);
+            //}
             //added test
 
             if (bullets.Count != 0)
@@ -230,6 +227,7 @@ namespace COMP4945_Assignment2
                     if (!planes.Contains(p))
                         planes.Add(p);
                 }
+                SendMovementMsg(me.X_Coor, me.Y_Coor, me.Direction); // let new player know about me
                 currentNumOfPlayers++;
             }
             Vehicle player = vehicles[playerNumber];
@@ -338,7 +336,6 @@ namespace COMP4945_Assignment2
                     rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE.Width),
                     rnd.Next((int)(this.ClientRectangle.Height * 0.55),this.ClientRectangle.Height - Tank.SIZE.Height));
                 tanks.Add((Tank) me);
-                System.Diagnostics.Debug.WriteLine("tank added");
             }
             else
             {
@@ -354,6 +351,10 @@ namespace COMP4945_Assignment2
             receiverThread = new Thread(new ThreadStart(recv.run));
             receiverThread.IsBackground = true; // thread becomes zombie if this is not explicitly set to true
             receiverThread.Start();
+        }
+        private void SendMovementMsg(int x, int y, int dir)
+        {
+            MulticastSender.SendGameMsg(0, x + "," + y + "," + dir);
         }
         private void SetATimer()
         {
