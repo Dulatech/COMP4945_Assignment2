@@ -42,7 +42,7 @@ namespace COMP4945_Assignment2
         // just in case other applications use this port for multicast
         public static readonly string HEADER = "SOMETHING UNIQUE";
         static UdpClient sock;
-        static readonly IPEndPoint iep = new IPEndPoint(IPAddress.Parse("239.50.50.51"), Program.PORT);
+        public static readonly IPEndPoint iep = new IPEndPoint(IPAddress.Parse("239.50.50.51"), Program.PORT);
         static MulticastSender()
         {
             sock = new UdpClient();

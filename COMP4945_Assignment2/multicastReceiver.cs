@@ -11,7 +11,7 @@ namespace COMP4945_Assignment2
     {
         GameArea form;
         Socket sock;
-        EndPoint ep = (EndPoint)(new IPEndPoint(IPAddress.Parse("239.50.50.51"), Program.PORT));
+        EndPoint ep = (EndPoint)(MulticastSender.iep);
         //private static readonly object syncLock = new object();
         public bool IsHost { get; set; }
         public MulticastReceiver(GameArea f)
