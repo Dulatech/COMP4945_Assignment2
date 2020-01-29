@@ -130,8 +130,8 @@ namespace COMP4945_Assignment2
             //added test
             for (int i = 0; i < bullets.Count; i++)
             {
-                Bullet p1 = bullets[i];
-                MulticastSender.SendGameMsg(1, p1.X_Coor + "," + p1.Y_Coor + "," + p1.Direction);
+                //Bullet p1 = bullets[i];
+                MulticastSender.SendGameMsg(1, bullets[i].X_Coor + "," + bullets[i].Y_Coor + "," + bullets[i].Direction);
             }
 
             foreach (Projectile p1 in bombs)
