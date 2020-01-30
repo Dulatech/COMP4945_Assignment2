@@ -10,7 +10,7 @@ namespace COMP4945_Assignment2
         public static readonly Size SIZE = new Size(20, 28);
         public Bomb(Guid id, Point location) : base(id, 2, location, SIZE)
         {
-            Speed = 6;
+            Speed = 4;
         }
     }
 }

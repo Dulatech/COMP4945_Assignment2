@@ -10,7 +10,7 @@ namespace COMP4945_Assignment2
         public static readonly Image IMG_LEFT = Properties.Resources.s_left;
         public Plane(Guid id, int x, int y) : base(id, SIZE, x, y)
         {
-            Speed = 15;
+            Speed = 20;
             Player = 1;
             Direction = 1;
         }
