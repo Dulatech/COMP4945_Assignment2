@@ -508,5 +508,10 @@ namespace COMP4945_Assignment2
             MulticastSender.SendGameMsg(-1, "");
             MulticastSender.SendGameMsg(-1, "");
         }
+
+        private void tank_label_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

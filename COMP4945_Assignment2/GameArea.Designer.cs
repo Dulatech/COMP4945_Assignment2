@@ -44,21 +44,25 @@
             // tank_label
             // 
             this.tank_label.AutoSize = true;
-            this.tank_label.BackColor = System.Drawing.Color.White;
-            this.tank_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tank_label.Location = new System.Drawing.Point(1, 569);
+            this.tank_label.BackColor = System.Drawing.Color.Black;
+            this.tank_label.Font = new System.Drawing.Font("Stencil", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tank_label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tank_label.Location = new System.Drawing.Point(86, -1);
             this.tank_label.Name = "tank_label";
-            this.tank_label.Size = new System.Drawing.Size(119, 31);
+            this.tank_label.Size = new System.Drawing.Size(117, 29);
             this.tank_label.TabIndex = 0;
             this.tank_label.Text = "Tanks: 0";
+            this.tank_label.Click += new System.EventHandler(this.tank_label_Click);
             // 
             // plane_label
             // 
             this.plane_label.AutoSize = true;
-            this.plane_label.BackColor = System.Drawing.Color.White;
-            this.plane_label.Location = new System.Drawing.Point(1, -4);
+            this.plane_label.BackColor = System.Drawing.Color.Black;
+            this.plane_label.Font = new System.Drawing.Font("Stencil", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.plane_label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.plane_label.Location = new System.Drawing.Point(1, -1);
             this.plane_label.Name = "plane_label";
-            this.plane_label.Size = new System.Drawing.Size(127, 31);
+            this.plane_label.Size = new System.Drawing.Size(127, 29);
             this.plane_label.TabIndex = 1;
             this.plane_label.Text = "Planes: 0";
             // 
