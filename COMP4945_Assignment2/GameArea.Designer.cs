@@ -37,7 +37,29 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Location = new System.Drawing.Point(-1, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(119, 31);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Tanks: 0";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Location = new System.Drawing.Point(-1, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(127, 31);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Planes: 0";
             // 
             // GameArea
             // 
@@ -45,6 +67,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::COMP4945_Assignment2.Properties.Resources._10_tiled_1;
             this.ClientSize = new System.Drawing.Size(700, 600);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -57,9 +81,13 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameArea_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private Label label1;
+        private Label label2;
     }
 }

@@ -12,6 +12,8 @@ namespace COMP4945_Assignment2
     {
         public static int WIDTH;
         public static int HEIGHT;
+        public int TankScore = 0;
+        public int PlaneScore = 0;
         private Random rnd = new Random();
         private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         public List<Guid> bullet_ids;
@@ -127,6 +129,9 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
+            this.label1.Text = "Tanks: " + TankScore;
+            this.label2.Text = "Planes: " + PlaneScore;
+
             //added test
             //for (int i = 0; i < bullets.Count; i++)
             //{
@@ -198,12 +203,14 @@ namespace COMP4945_Assignment2
         {
             t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.Width);
             t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.Height);
+            PlaneScore++;
         }
 
         void PlaneDestroyed(Plane p)
         {
             p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.Width);
             p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.Height);
+            TankScore++;
         }
 
         public void MovePlayer(Guid id, int playerNumber, int x, int y, int dir)
