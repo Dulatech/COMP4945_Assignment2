@@ -40,6 +40,9 @@ namespace COMP4945_Assignment2
         private bool aTimer_Elapsed = false;
         private bool bTimer_Elapsed = false;
 
+        // delegate
+        delegate void SetTextCallback(int s, int s2);
+
         public GameArea()
         {
             InitializeComponent();
@@ -219,10 +222,25 @@ namespace COMP4945_Assignment2
         {
             if (scoreType == 0)
             {
-                this.plane_label.Text = "Planes: " + score;
+                if (this.plane_label.InvokeRequired)
+                {
+                    SetTextCallback d = new SetTextCallback(ChangeScore);
+                    this.Invoke(d, new object[] { scoreType, score });
+                } else { 
+                    this.plane_label.Text = "Planes: " + score;
+                }
             }
-            if (scoreType == 1) {
-                this.tank_label.Text = "Tanks: " + score;
+            if (scoreType == 1)
+            {
+                if (this.tank_label.InvokeRequired)
+                {
+                    SetTextCallback d = new SetTextCallback(ChangeScore);
+                    this.Invoke(d, new object[] { scoreType, score });
+                }
+                else
+                {
+                    this.tank_label.Text = "Tanks: " + score;
+                }
             }
         }
 
