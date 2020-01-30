@@ -198,11 +198,13 @@ namespace COMP4945_Assignment2
                 {
                     PlaneScore++;
                     MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+                    ChangeScore(0, PlaneScore);
                 }
                 else
                 {
                     TankScore++;
                     MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+                    ChangeScore(1, TankScore);
                 }
             }
 
