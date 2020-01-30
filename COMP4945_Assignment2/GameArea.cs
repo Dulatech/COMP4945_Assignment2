@@ -129,8 +129,8 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
-            this.label1.Text = "Tanks: " + TankScore;
-            this.label2.Text = "Planes: " + PlaneScore;
+            
+           
 
             //added test
             //for (int i = 0; i < bullets.Count; i++)
@@ -204,6 +204,7 @@ namespace COMP4945_Assignment2
             t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.Width);
             t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.Height);
             PlaneScore++;
+            this.label2.Text = "Planes: " + PlaneScore;
         }
 
         void PlaneDestroyed(Plane p)
@@ -211,6 +212,7 @@ namespace COMP4945_Assignment2
             p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.Width);
             p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.Height);
             TankScore++;
+            this.label1.Text = "Tanks: " + TankScore;
         }
 
         public void MovePlayer(Guid id, int playerNumber, int x, int y, int dir)
