@@ -47,7 +47,7 @@
             this.tank_label.BackColor = System.Drawing.Color.Black;
             this.tank_label.Font = new System.Drawing.Font("Digital-7 Mono", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tank_label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tank_label.Location = new System.Drawing.Point(110, 1);
+            this.tank_label.Location = new System.Drawing.Point(89, 1);
             this.tank_label.Name = "tank_label";
             this.tank_label.Size = new System.Drawing.Size(80, 22);
             this.tank_label.TabIndex = 0;
@@ -60,11 +60,12 @@
             this.plane_label.BackColor = System.Drawing.Color.Black;
             this.plane_label.Font = new System.Drawing.Font("Digital-7 Mono", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.plane_label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.plane_label.Location = new System.Drawing.Point(0, 1);
+            this.plane_label.Location = new System.Drawing.Point(-1, 1);
             this.plane_label.Name = "plane_label";
-            this.plane_label.Size = new System.Drawing.Size(110, 22);
+            this.plane_label.Size = new System.Drawing.Size(90, 22);
             this.plane_label.TabIndex = 1;
-            this.plane_label.Text = "Planes:0  ";
+            this.plane_label.Text = "Planes:0";
+            this.plane_label.Click += new System.EventHandler(this.plane_label_Click);
             // 
             // GameArea
             // 

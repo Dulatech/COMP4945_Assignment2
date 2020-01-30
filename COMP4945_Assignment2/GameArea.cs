@@ -513,5 +513,10 @@ namespace COMP4945_Assignment2
         {
 
         }
+
+        private void plane_label_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
