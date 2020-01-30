@@ -46,7 +46,7 @@
             this.tank_label.AutoSize = true;
             this.tank_label.BackColor = System.Drawing.Color.White;
             this.tank_label.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.tank_label.Location = new System.Drawing.Point(-1, 0);
+            this.tank_label.Location = new System.Drawing.Point(1, 569);
             this.tank_label.Name = "tank_label";
             this.tank_label.Size = new System.Drawing.Size(119, 31);
             this.tank_label.TabIndex = 0;
@@ -56,7 +56,7 @@
             // 
             this.plane_label.AutoSize = true;
             this.plane_label.BackColor = System.Drawing.Color.White;
-            this.plane_label.Location = new System.Drawing.Point(-1, 31);
+            this.plane_label.Location = new System.Drawing.Point(1, -4);
             this.plane_label.Name = "plane_label";
             this.plane_label.Size = new System.Drawing.Size(127, 31);
             this.plane_label.TabIndex = 1;
