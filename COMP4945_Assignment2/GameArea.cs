@@ -12,8 +12,8 @@ namespace COMP4945_Assignment2
     {
         public static int WIDTH;
         public static int HEIGHT;
-        public int TankScore;
-        public int PlaneScore;
+        public int TankScore = 0;
+        public int PlaneScore = 0;
         private Random rnd = new Random();
         private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         public List<Guid> bullet_ids;
@@ -34,8 +34,6 @@ namespace COMP4945_Assignment2
         MulticastReceiver recv;
         int prev_x = -1;
         int prev_y = -1;
-        int prev_ts = 0;
-        int prev_ps = 0;
         Thread receiverThread;
         Thread hostThread;
         private static System.Timers.Timer aTimer;
@@ -134,15 +132,8 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
-            if (prev_ts != TankScore || prev_ps != PlaneScore)
-            {
-                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
-                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
-            }
-            prev_ps = PlaneScore;
-            prev_ts = TankScore;
-
-
+            
+           
 
             //added test
             //for (int i = 0; i < bullets.Count; i++)
@@ -177,7 +168,7 @@ namespace COMP4945_Assignment2
                                 Plane targ = ta; // assigns as hit plane
                                 PlaneDestroyed(targ);
                                 TankScore++;
-                               
+                                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
                                 bullets.Remove(b);
                                 bullet_ids.Remove(b.ID);
                             }
@@ -205,7 +196,7 @@ namespace COMP4945_Assignment2
                                 Tank targ = ta; // assigns as hit tank
                                 TankDestroyed(targ);
                                 PlaneScore++;
-                                
+                                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
                                 bombs.Remove(b);
                                 bomb_ids.Remove(b.ID);
                             }
