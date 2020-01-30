@@ -37,30 +37,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.tank_label = new System.Windows.Forms.Label();
+            this.plane_label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
+            // tank_label
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.White;
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(-1, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 31);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Tanks: 0";
+            this.tank_label.AutoSize = true;
+            this.tank_label.BackColor = System.Drawing.Color.White;
+            this.tank_label.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.tank_label.Location = new System.Drawing.Point(-1, 0);
+            this.tank_label.Name = "tank_label";
+            this.tank_label.Size = new System.Drawing.Size(119, 31);
+            this.tank_label.TabIndex = 0;
+            this.tank_label.Text = "Tanks: 0";
             // 
-            // label2
+            // plane_label
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(-1, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(127, 31);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Planes: 0";
+            this.plane_label.AutoSize = true;
+            this.plane_label.BackColor = System.Drawing.Color.White;
+            this.plane_label.Location = new System.Drawing.Point(-1, 31);
+            this.plane_label.Name = "plane_label";
+            this.plane_label.Size = new System.Drawing.Size(127, 31);
+            this.plane_label.TabIndex = 1;
+            this.plane_label.Text = "Planes: 0";
             // 
             // GameArea
             // 
@@ -68,8 +68,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::COMP4945_Assignment2.Properties.Resources._10_tiled_1;
             this.ClientSize = new System.Drawing.Size(700, 600);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.plane_label);
+            this.Controls.Add(this.tank_label);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -88,7 +88,7 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
+        private Label tank_label;
+        private Label plane_label;
     }
 }
