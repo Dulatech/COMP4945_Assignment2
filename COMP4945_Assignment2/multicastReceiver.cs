@@ -91,7 +91,7 @@ namespace COMP4945_Assignment2
                     x = int.Parse(ar[3]);
                     y = int.Parse(ar[4]);
                     bulletID = Guid.Parse(ar[6]);
-                    form.MoveBullet(bulletID, x, y);
+                    form.CreateBullet(bulletID, x, y);
                     break;
                 case 2: // bullet hit
                     playerID = Guid.Parse(ar[1]);
@@ -104,7 +104,7 @@ namespace COMP4945_Assignment2
                     x = int.Parse(ar[3]);
                     y = int.Parse(ar[4]);
                     bombID = Guid.Parse(ar[6]);
-                    form.MoveBomb(bombID, x, y);
+                    form.CreateBomb(bombID, x, y);
                     break;
                 case 4: // bomb hit
                     playerID = Guid.Parse(ar[1]);
@@ -127,7 +127,7 @@ namespace COMP4945_Assignment2
             Debug.WriteLine("inside EnterGame()");
             sock.MulticastLoopback = true;
             bool joining = false;
-            long until = DateTime.Now.Ticks + TimeSpan.TicksPerSecond * 1;
+            long until = DateTime.Now.Ticks + TimeSpan.TicksPerMillisecond * 1000;
             while (DateTime.Now.Ticks < until)
             {
                 try
@@ -159,11 +159,11 @@ namespace COMP4945_Assignment2
         private bool TryJoin(Guid gameToJoin, int playerNum)
         {
             // Send Join Request
-            MulticastSender.SendJoinReq(gameToJoin, MulticastSender.ID, playerNum);
             long until = DateTime.Now.Ticks + TimeSpan.TicksPerMillisecond * 500;
+            byte[] data = new byte[1024];
+            MulticastSender.SendJoinReq(gameToJoin, MulticastSender.ID, playerNum);
             while (DateTime.Now.Ticks < until)
             {
-                byte[] data = new byte[1024];
                 int recv = sock.ReceiveFrom(data, ref ep);
                 string stringData = Encoding.ASCII.GetString(data, 0, recv);
                 StringReader reader = new StringReader(stringData);
