@@ -47,7 +47,7 @@
             this.tank_label.BackColor = System.Drawing.Color.Black;
             this.tank_label.Font = new System.Drawing.Font("Digital-7 Mono", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tank_label.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tank_label.Location = new System.Drawing.Point(89, 1);
+            this.tank_label.Location = new System.Drawing.Point(-1, 23);
             this.tank_label.Name = "tank_label";
             this.tank_label.Size = new System.Drawing.Size(80, 22);
             this.tank_label.TabIndex = 0;
