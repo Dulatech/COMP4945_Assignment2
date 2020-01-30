@@ -233,12 +233,13 @@ namespace COMP4945_Assignment2
                 if (scoreType == 0)
                 {
 
-
+                    PlaneScore = score;
                     this.plane_label.Text = "Planes: " + score;
 
                 }
                 else
                 {
+                    TankScore = score;
                     this.tank_label.Text = "Tanks: " + score;
 
                 }
