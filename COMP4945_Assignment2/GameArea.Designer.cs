@@ -37,7 +37,27 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.plane_label = new System.Windows.Forms.Label();
+            this.tank_label = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // plane_label
+            // 
+            this.plane_label.AutoSize = true;
+            this.plane_label.Location = new System.Drawing.Point(0, 0);
+            this.plane_label.Name = "plane_label";
+            this.plane_label.Size = new System.Drawing.Size(48, 13);
+            this.plane_label.TabIndex = 0;
+            this.plane_label.Text = "Planes:0";
+            // 
+            // tank_label
+            // 
+            this.tank_label.AutoSize = true;
+            this.tank_label.Location = new System.Drawing.Point(0, 13);
+            this.tank_label.Name = "tank_label";
+            this.tank_label.Size = new System.Drawing.Size(46, 13);
+            this.tank_label.TabIndex = 1;
+            this.tank_label.Text = "Tanks:0";
             // 
             // GameArea
             // 
@@ -45,6 +65,8 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::COMP4945_Assignment2.Properties.Resources._10_tiled_1;
             this.ClientSize = new System.Drawing.Size(700, 600);
+            this.Controls.Add(this.tank_label);
+            this.Controls.Add(this.plane_label);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -57,9 +79,13 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameArea_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyEvent);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private Label plane_label;
+        private Label tank_label;
     }
 }

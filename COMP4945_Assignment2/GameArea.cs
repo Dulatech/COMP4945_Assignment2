@@ -12,6 +12,8 @@ namespace COMP4945_Assignment2
     {
         public static int WIDTH;
         public static int HEIGHT;
+        public int TankScore = 0;
+        public int PlaneScore = 0;
         private Random rnd = new Random();
         private int dir = 0; // Represents the direction of the tank, starting at the top as 0 and increments in clockwise
         public List<Guid> bullet_ids;
@@ -36,6 +38,8 @@ namespace COMP4945_Assignment2
         private static System.Timers.Timer aTimer;
         private bool aTimer_Elapsed = false;
         private bool bTimer_Elapsed = false;
+
+        delegate void SetTextCallback(int s, int s2);
 
         public GameArea()
         {
@@ -188,8 +192,47 @@ namespace COMP4945_Assignment2
         {
             Vehicle v = vehicles[playerNum];
             if (v != null)
+            {
                 vehicles[playerNum].IsDead = true;
+                if(playerNum % 2 == 0)
+                {
+                    PlaneScore++;
+                    MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+                }
+                else
+                {
+                    TankScore++;
+                    MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+                }
+            }
+
         }
+
+        public void ChangeScore(int scoreType, int score)
+        {
+            if (this.plane_label.InvokeRequired || this.tank_label.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(ChangeScore);
+                this.Invoke(d, new object[] { scoreType, score });
+            }
+            else
+            {
+
+                if (scoreType == 0)
+                {
+
+
+                    this.plane_label.Text = "Planes: " + score;
+
+                }
+                else
+                {
+                    this.tank_label.Text = "Tanks: " + score;
+
+                }
+            }
+        }
+
         // if isBullet is false, it's a bomb
         public void RemoveProjectile(Guid id, bool isBullet)
         {

@@ -76,7 +76,7 @@ namespace COMP4945_Assignment2
             string[] ar = msg.Split(',');
             int type = int.Parse(ar[0]);
             Guid playerID, bulletID, bombID;
-            int playerNum, x, y, dir;
+            int playerNum, x, y, dir,scoreType, score;
             switch(type)
             {
                 case 0: // movement
@@ -112,6 +112,11 @@ namespace COMP4945_Assignment2
                     bombID = Guid.Parse(ar[3]);
                     form.PlayerIsDead(playerID, playerNum);
                     form.RemoveProjectile(bombID, false);
+                    break;
+                case 5: // score update
+                    scoreType = int.Parse(ar[3]);
+                    score = int.Parse(ar[4]);
+                    form.ChangeScore(scoreType, score);
                     break;
                 case -1: // disconnect
                     playerID = Guid.Parse(ar[1]);
