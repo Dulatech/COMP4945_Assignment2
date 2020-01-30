@@ -134,13 +134,13 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
-            if (prev_ts != TankScore || prev_ps != PlaneScore)
-            {
-                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
-                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
-            }
-            prev_ps = PlaneScore;
-            prev_ts = TankScore;
+            //if (prev_ts != TankScore || prev_ps != PlaneScore)
+            //{
+            //    MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+            //    MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+            //}
+            //prev_ps = PlaneScore;
+            //prev_ts = TankScore;
 
             if (bombs.Count != 0)
             {
@@ -315,6 +315,8 @@ namespace COMP4945_Assignment2
                     if (!planes.Contains(p))
                         planes.Add(p);
                 }
+                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
                 System.Diagnostics.Debug.WriteLine("NEW PLAYER!!!!!!!!\nNumber: " + playerNumber + " ID: " + id);
                 if (recv.IsHost)
                     SetNextPlayer();
@@ -438,6 +440,7 @@ namespace COMP4945_Assignment2
             playerNum = 0;
             currentNumOfPlayers = 1;
             System.Diagnostics.Debug.WriteLine("created new game");
+
         }
         private void GameArea_Shown(object sender, EventArgs e)
         {
