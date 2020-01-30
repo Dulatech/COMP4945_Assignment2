@@ -222,13 +222,13 @@ namespace COMP4945_Assignment2
 
         public void ChangeScore(int scoreType, int score)
         {
-            //if (this.plane_label.InvokeRequired || this.tank_label.InvokeRequired)
-            //{
-            //    SetTextCallback d = new SetTextCallback(ChangeScore);
-            //    this.Invoke(d, new object[] { scoreType, score });
-            //}
-            //else
-            //{
+            if (this.plane_label.InvokeRequired || this.tank_label.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(ChangeScore);
+                this.Invoke(d, new object[] { scoreType, score });
+            }
+            else
+            {
 
                 if (scoreType == 0)
                 {
@@ -242,7 +242,7 @@ namespace COMP4945_Assignment2
                     this.tank_label.Text = "Tanks: " + score;
 
                 }
-            //}
+            }
         }
 
         public void MovePlayer(Guid id, int playerNumber, int x, int y, int dir)
