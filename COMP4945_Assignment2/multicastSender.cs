@@ -59,7 +59,7 @@ namespace COMP4945_Assignment2
             byte[] data = Encoding.ASCII.GetBytes(msg);
             sock.Send(data, data.Length, iep);
             if (msgType != 0)
-                System.Diagnostics.Debug.WriteLine("Sent:\n" + msg + "\n");
+                PrintSentMsgs(msg);
         }
         // info on gameMsgTypes can be found in MulticastReceiver.HandleGameMsg()
         public static void SendGameMsg(int gameMsgType, string msg)
@@ -88,6 +88,12 @@ namespace COMP4945_Assignment2
         {
             int type = accepted ? 2 : 3;
             Send(type, GameArea.gameID + "," + reqId);
+        }
+        private static void PrintSentMsgs(string msg)
+        {
+            System.Diagnostics.Debug.WriteLine("\n\tSent:");
+            msg = msg.Replace("\n", "\n\t");
+            System.Diagnostics.Debug.WriteLine("\t" + msg);
         }
     }
 }
