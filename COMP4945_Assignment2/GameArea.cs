@@ -220,27 +220,23 @@ namespace COMP4945_Assignment2
 
         public void ChangeScore(int scoreType, int score)
         {
-            if (scoreType == 0)
+            if (this.plane_label.InvokeRequired || this.tank_label.InvokeRequired)
             {
-                if (this.plane_label.InvokeRequired)
-                {
-                    SetTextCallback d = new SetTextCallback(ChangeScore);
-                    this.Invoke(d, new object[] { scoreType, score });
-                } else { 
-                    this.plane_label.Text = "Planes: " + score;
-                }
+                SetTextCallback d = new SetTextCallback(ChangeScore);
+                this.Invoke(d, new object[] { scoreType, score });
             }
-            if (scoreType == 1)
+
+                if (scoreType == 0)
             {
-                if (this.tank_label.InvokeRequired)
-                {
-                    SetTextCallback d = new SetTextCallback(ChangeScore);
-                    this.Invoke(d, new object[] { scoreType, score });
-                }
-                else
-                {
+               
+                
+                    this.plane_label.Text = "Planes: " + score;
+                
+            }
+            else
+            {
                     this.tank_label.Text = "Tanks: " + score;
-                }
+                
             }
         }
 
