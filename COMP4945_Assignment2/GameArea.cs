@@ -34,6 +34,8 @@ namespace COMP4945_Assignment2
         MulticastReceiver recv;
         int prev_x = -1;
         int prev_y = -1;
+        int prev_ts = 0;
+        int prev_ps = 0;
         Thread receiverThread;
         Thread hostThread;
         private static System.Timers.Timer aTimer;
@@ -132,8 +134,13 @@ namespace COMP4945_Assignment2
             prev_x = me.X_Coor;
             prev_y = me.Y_Coor;
 
-            MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
-            MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+            if (prev_ts != TankScore || prev_ps != PlaneScore)
+            {
+                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+            }
+            prev_ps = PlaneScore;
+            prev_ts = TankScore;
 
 
 
