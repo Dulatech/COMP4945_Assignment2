@@ -208,16 +208,8 @@ namespace COMP4945_Assignment2
 
         void TankDestroyed(Tank t)
         {
-            var picture = new PictureBox
-            {
-                Name = "pictureBox",
-                Size = new Size(t.Width, t.Height),
-                Location = new Point(t.X_Coor, t.Y_Coor),
-                Image = Properties.Resources.kaboom,
-                SizeMode = PictureBoxSizeMode.Zoom,
-
-            };
-            this.Controls.Add(picture);
+            Graphics x = this.CreateGraphics();
+            x.DrawImage(Properties.Resources.kaboom, t.X_Coor, t.Y_Coor, Tank.SIZE.Width, Tank.SIZE.Height);
             t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.Width);
             t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.Height);
             
@@ -225,17 +217,9 @@ namespace COMP4945_Assignment2
 
         void PlaneDestroyed(Plane p)
         {
-            var picture = new PictureBox
-            {
-                Name = "pictureBox",
-                Size = new Size(p.Width, p.Height),
-            Location = new Point(p.X_Coor, p.Y_Coor),
-                Image = Properties.Resources.kaboom,
-                SizeMode = PictureBoxSizeMode.StretchImage,
 
-
-            };
-            this.Controls.Add(picture);
+            Graphics x = this.CreateGraphics();
+            x.DrawImage(Properties.Resources.kaboom, p.X_Coor, p.Y_Coor, Plane.SIZE.Width, Plane.SIZE.Height);
             p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.Width);
             p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.Height);
            
