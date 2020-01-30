@@ -137,7 +137,9 @@ namespace COMP4945_Assignment2
             if (prev_ts != TankScore || prev_ps != PlaneScore)
             {
                 MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+                ChangeScore(0, PlaneScore);
                 MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+                ChangeScore(0, TankScore);
             }
             prev_ps = PlaneScore;
             prev_ts = TankScore;
