@@ -154,10 +154,13 @@
   <data name="s_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\s_up.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="bullet_bob1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bullet_bob1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="s_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\s_down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bullet_bob1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bullet_bob1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="kaboom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kaboom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
