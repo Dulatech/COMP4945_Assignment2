@@ -71,22 +71,24 @@ namespace COMP4945_Assignment2
             switch (e.KeyCode)
             {
                 case Keys.A:
-                case Keys.Left:
+                case Keys.S:
+                case Keys.D:
+                case Keys.F:
                     dir = 3;
                     me.Move(dir);
                     break;
-                case Keys.W:
-                case Keys.Up:
+                case Keys.G:
                     dir = 0;
                     me.Move(dir);
                     break;
-                case Keys.S:
-                case Keys.Down:
+                case Keys.H:
                     dir = 2;
                     me.Move(dir);
                     break;
-                case Keys.D:
-                case Keys.Right:
+                case Keys.J:
+                case Keys.K:
+                case Keys.L:
+                case Keys.OemSemicolon:
                     dir = 1;
                     me.Move(dir);
                     break;
