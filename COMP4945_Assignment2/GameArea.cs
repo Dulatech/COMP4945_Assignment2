@@ -167,8 +167,6 @@ namespace COMP4945_Assignment2
                             {
                                 Plane targ = ta; // assigns as hit plane
                                 PlaneDestroyed(targ);
-                                TankScore++;
-                                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
                                 bullets.Remove(b);
                                 bullet_ids.Remove(b.ID);
                             }
@@ -195,8 +193,6 @@ namespace COMP4945_Assignment2
                             {
                                 Tank targ = ta; // assigns as hit tank
                                 TankDestroyed(targ);
-                                PlaneScore++;
-                                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
                                 bombs.Remove(b);
                                 bomb_ids.Remove(b.ID);
                             }
@@ -210,9 +206,13 @@ namespace COMP4945_Assignment2
         {
             Graphics x = this.CreateGraphics();
             x.DrawImage(Properties.Resources.kaboom, t.X_Coor, t.Y_Coor, Tank.SIZE.Width, Tank.SIZE.Height);
+
             t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.Width);
             t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.Height);
-            
+
+            PlaneScore++;
+            MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+
         }
 
         void PlaneDestroyed(Plane p)
@@ -220,9 +220,13 @@ namespace COMP4945_Assignment2
 
             Graphics x = this.CreateGraphics();
             x.DrawImage(Properties.Resources.kaboom, p.X_Coor, p.Y_Coor, Plane.SIZE.Width, Plane.SIZE.Height);
+
             p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.Width);
             p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.Height);
-           
+
+            TankScore++;
+            MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+
         }
 
         public void ChangeScore(int scoreType, int score)
