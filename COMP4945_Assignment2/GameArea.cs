@@ -305,14 +305,15 @@ namespace COMP4945_Assignment2
                     if (!planes.Contains(p))
                         planes.Add(p);
                 }
-                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
-                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+                
                 System.Diagnostics.Debug.WriteLine("NEW PLAYER!!!!!!!!\nNumber: " + playerNumber + " ID: " + id);
                 if (recv.IsHost)
                     SetNextPlayer();
                 PrintGameStateToDebug();
                 SendMovementMsg(me.X_Coor, me.Y_Coor, me.Direction); // let new player know about me
                 currentNumOfPlayers++;
+                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
             }
             Vehicle player = vehicles[playerNumber];
             player.X_Coor = x;
