@@ -207,7 +207,7 @@ namespace COMP4945_Assignment2
             t.X_Coor = rnd.Next(0, this.ClientRectangle.Width - t.Width);
             t.Y_Coor = rnd.Next((int)(this.ClientRectangle.Height * 0.55), this.ClientRectangle.Height - t.Height);
             PlaneScore++;
-            MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+            //MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
         }
 
         void PlaneDestroyed(Plane p)
@@ -215,7 +215,7 @@ namespace COMP4945_Assignment2
             p.X_Coor = rnd.Next(0, this.ClientRectangle.Width - p.Width);
             p.Y_Coor = rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - p.Height);
             TankScore++;
-            MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+            //MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
         }
 
         public void ChangeScore(int scoreType, int score)
