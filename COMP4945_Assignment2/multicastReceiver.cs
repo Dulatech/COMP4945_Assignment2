@@ -74,17 +74,8 @@ namespace COMP4945_Assignment2
         private void HandleGameMsg(string msg)
         {
             string[] ar = msg.Split(',');
-            //Guid id = Guid.Parse(ar[0]);
-            //if (!form.players.Contains(id))
-            //{
-            //    lock (syncLock)
-            //    {
-            //        if (!form.players.Contains(id))
-            //            form.players.Add(id);
-            //    }
-            //}
             int type = int.Parse(ar[0]);
-            Guid playerID;
+            Guid playerID, bulletID, bombID;
             int playerNum, x, y, dir;
             switch(type)
             {
@@ -99,18 +90,28 @@ namespace COMP4945_Assignment2
                 case 1: // bullet made
                     x = int.Parse(ar[3]);
                     y = int.Parse(ar[4]);
-                    Guid bulletID = Guid.Parse(ar[6]);
-                    form.MoveBullet(bulletID, x, y);
+                    bulletID = Guid.Parse(ar[6]);
+                    form.CreateBullet(bulletID, x, y);
                     break;
                 case 2: // bullet hit
+                    playerID = Guid.Parse(ar[1]);
+                    playerNum = int.Parse(ar[2]);
+                    bulletID = Guid.Parse(ar[3]);
+                    form.PlayerIsDead(playerID, playerNum);
+                    form.RemoveProjectile(bulletID, true);
                     break;
                 case 3: // bomb made
                     x = int.Parse(ar[3]);
                     y = int.Parse(ar[4]);
-                    Guid bombID = Guid.Parse(ar[6]);
-                    form.MoveBomb(bombID, x, y);
+                    bombID = Guid.Parse(ar[6]);
+                    form.CreateBomb(bombID, x, y);
                     break;
                 case 4: // bomb hit
+                    playerID = Guid.Parse(ar[1]);
+                    playerNum = int.Parse(ar[2]);
+                    bombID = Guid.Parse(ar[3]);
+                    form.PlayerIsDead(playerID, playerNum);
+                    form.RemoveProjectile(bombID, false);
                     break;
                 case -1: // disconnect
                     playerID = Guid.Parse(ar[1]);
@@ -126,7 +127,7 @@ namespace COMP4945_Assignment2
             Debug.WriteLine("inside EnterGame()");
             sock.MulticastLoopback = true;
             bool joining = false;
-            long until = DateTime.Now.Ticks + TimeSpan.TicksPerSecond * 1;
+            long until = DateTime.Now.Ticks + TimeSpan.TicksPerMillisecond * 1000;
             while (DateTime.Now.Ticks < until)
             {
                 try
@@ -158,11 +159,11 @@ namespace COMP4945_Assignment2
         private bool TryJoin(Guid gameToJoin, int playerNum)
         {
             // Send Join Request
-            MulticastSender.SendJoinReq(gameToJoin, MulticastSender.ID, playerNum);
             long until = DateTime.Now.Ticks + TimeSpan.TicksPerMillisecond * 500;
+            byte[] data = new byte[1024];
+            MulticastSender.SendJoinReq(gameToJoin, MulticastSender.ID, playerNum);
             while (DateTime.Now.Ticks < until)
             {
-                byte[] data = new byte[1024];
                 int recv = sock.ReceiveFrom(data, ref ep);
                 string stringData = Encoding.ASCII.GetString(data, 0, recv);
                 StringReader reader = new StringReader(stringData);
