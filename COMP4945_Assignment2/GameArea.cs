@@ -469,10 +469,5 @@ namespace COMP4945_Assignment2
             MulticastSender.SendGameMsg(-1, "");
             MulticastSender.SendGameMsg(-1, "");
         }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

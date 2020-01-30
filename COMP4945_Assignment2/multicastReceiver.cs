@@ -112,6 +112,8 @@ namespace COMP4945_Assignment2
                     break;
                 case 4: // bomb hit
                     break;
+                case 5: // score update
+                    break;
                 case -1: // disconnect
                     playerID = Guid.Parse(ar[1]);
                     playerNum = int.Parse(ar[2]);
