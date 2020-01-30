@@ -213,7 +213,6 @@ namespace COMP4945_Assignment2
                 Name = "pictureBox",
                 Size = new Size(t.Width, t.Height),
                 Location = new Point(t.X_Coor, t.Y_Coor),
-                BackColor = Color.Transparent,
                 Image = Properties.Resources.kaboom,
                 SizeMode = PictureBoxSizeMode.Zoom,
 
@@ -230,7 +229,6 @@ namespace COMP4945_Assignment2
             {
                 Name = "pictureBox",
                 Size = new Size(p.Width, p.Height),
-                BackColor = Color.Transparent,
             Location = new Point(p.X_Coor, p.Y_Coor),
                 Image = Properties.Resources.kaboom,
                 SizeMode = PictureBoxSizeMode.StretchImage,
