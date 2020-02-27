@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using System.Timers;
-using NetworkComm;
 
 namespace COMP4945_Assignment2
 {
@@ -103,7 +102,7 @@ namespace COMP4945_Assignment2
                             Bullet b = new Bullet(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor));
                             bullets.Add(b);
                             bullet_ids.Add(b.ID);
-                            SenderAPI.SendGameMsg(1, b.X_Coor + "," + b.Y_Coor + "," + b.Direction + "," + b.ID);
+                            controller.SendGameMsg(1, b.X_Coor + "," + b.Y_Coor + "," + b.Direction + "," + b.ID);
                         }
                     } else // plane
                     {
@@ -116,7 +115,7 @@ namespace COMP4945_Assignment2
                             Bomb b2 = new Bomb(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor));
                             bombs.Add(b2);
                             bomb_ids.Add(b2.ID);
-                            SenderAPI.SendGameMsg(3, b2.X_Coor + "," + b2.Y_Coor + "," + b2.Direction + "," + b2.ID);
+                            controller.SendGameMsg(3, b2.X_Coor + "," + b2.Y_Coor + "," + b2.Direction + "," + b2.ID);
                         }
                     }
                     break;
@@ -171,14 +170,14 @@ namespace COMP4945_Assignment2
         void GotHit(Bullet b)
         {
             RemoveProjectile(b);
-            SenderAPI.SendGameMsg(2, b.ID.ToString());
+            controller.SendGameMsg(2, b.ID.ToString());
             me.IsDead = true;
             new Thread(new ThreadStart(this.WaitUntilRespawn)).Start();
         }
         void GotHit(Bomb b)
         {
             RemoveProjectile(b);
-            SenderAPI.SendGameMsg(4, b.ID.ToString());
+            controller.SendGameMsg(4, b.ID.ToString());
             me.IsDead = true;
             new Thread(new ThreadStart(this.WaitUntilRespawn)).Start();
         }
@@ -197,13 +196,13 @@ namespace COMP4945_Assignment2
                 if(playerNum % 2 == 0)
                 {
                     PlaneScore++;
-                    SenderAPI.SendGameMsg(5, 0 + "," + PlaneScore);
+                    controller.SendGameMsg(5, 0 + "," + PlaneScore);
                     ChangeScore(0, PlaneScore);
                 }
                 else
                 {
                     TankScore++;
-                    SenderAPI.SendGameMsg(5, 1 + "," + TankScore);
+                    controller.SendGameMsg(5, 1 + "," + TankScore);
                     ChangeScore(1, TankScore);
                 }
             }
@@ -312,8 +311,8 @@ namespace COMP4945_Assignment2
                 PrintGameStateToDebug();
                 SendMovementMsg(me.X_Coor, me.Y_Coor, me.Direction); // let new player know about me
                 currentNumOfPlayers++;
-                SenderAPI.SendGameMsg(5, 0 + "," + PlaneScore);
-                SenderAPI.SendGameMsg(5, 1 + "," + TankScore);
+                controller.SendGameMsg(5, 0 + "," + PlaneScore);
+                controller.SendGameMsg(5, 1 + "," + TankScore);
             }
             Vehicle player = vehicles[playerNumber];
             player.X_Coor = x;
@@ -443,7 +442,7 @@ namespace COMP4945_Assignment2
             if (gameID == Guid.Empty)
             {
                 CreateNewGame();
-                SenderAPI.SendGameMsg(-9, "game created");
+                controller.SendGameMsg(-9, "game created");
                 // the line above is for when there aren't any packets flowing in the port
                 // if there are no packets, Thread t will be blocked on Socket.ReceiveFrom()
                 // and calling Abort won't cancel the blocking call
@@ -451,7 +450,7 @@ namespace COMP4945_Assignment2
             System.Diagnostics.Debug.WriteLine("started game");
             if (playerNum % 2 == 0)
             {
-                me = new Tank(SenderAPI.ID,
+                me = new Tank(NetworkController.ID,
                     rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE.Width),
                     rnd.Next((int)(this.ClientRectangle.Height * 0.55),this.ClientRectangle.Height - Tank.SIZE.Height));
                 vehicles[playerNum] = me;
@@ -459,7 +458,7 @@ namespace COMP4945_Assignment2
             }
             else
             {
-                me = new Plane(SenderAPI.ID,
+                me = new Plane(NetworkController.ID,
                     rnd.Next(0, this.ClientRectangle.Width - Plane.SIZE.Width),
                     rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - Plane.SIZE.Height));
                 vehicles[playerNum] = me;
@@ -469,7 +468,7 @@ namespace COMP4945_Assignment2
             if (playerNum == 0)
             {
                 SetNextPlayer();
-                hostThread = new Thread(new ThreadStart(SenderAPI.SendInvitations));
+                hostThread = new Thread(new ThreadStart(controller.SendInvitations));
                 hostThread.IsBackground = true;
                 hostThread.Start();
                 System.Diagnostics.Debug.WriteLine("hostThread started");
@@ -481,7 +480,7 @@ namespace COMP4945_Assignment2
         }
         private void SendMovementMsg(int x, int y, int dir)
         {
-            SenderAPI.SendGameMsg(0, x + "," + y + "," + dir);
+            controller.SendGameMsg(0, x + "," + y + "," + dir);
         }
         private void SetATimer()
         {
@@ -527,9 +526,9 @@ namespace COMP4945_Assignment2
 
         private void GameArea_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SenderAPI.SendGameMsg(-1, "");
-            SenderAPI.SendGameMsg(-1, "");
-            SenderAPI.SendGameMsg(-1, "");
+            controller.SendGameMsg(-1, "");
+            controller.SendGameMsg(-1, "");
+            controller.SendGameMsg(-1, "");
         }
     }
 }

@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 using System.Diagnostics;
 using System.IO;
-using COMP4945_Assignment2;
+using NetworkComm;
 
-namespace NetworkComm
+namespace COMP4945_Assignment2
 {
     class NetworkController
     {
         public delegate void MessageReceivedHandler(string msg);
         public event MessageReceivedHandler MessageReceived;
+        public static readonly Guid ID = Guid.NewGuid();
         GameArea form;
         public Receiver rcvr;
         public bool IsHost { get; set; }
@@ -120,5 +118,8 @@ namespace NetworkComm
         {
             form.CreateNewGame();
         }
+
+        public void SendGameMsg(int gameMsgType, string msg) { SenderAPI.SendGameMsg(gameMsgType, msg); }
+        public void SendInvitations() { SenderAPI.SendInvitations(); }
     }
 }

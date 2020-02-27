@@ -86,7 +86,7 @@ namespace NetworkComm
             // Send Join Request
             long until = DateTime.Now.Ticks + TimeSpan.TicksPerMillisecond * 500;
             byte[] data = new byte[1024];
-            SenderAPI.SendJoinReq(gameToJoin, SenderAPI.ID, playerNum);
+            SenderAPI.SendJoinReq(gameToJoin, NetworkController.ID, playerNum);
             while (DateTime.Now.Ticks < until)
             {
                 int recv = sock.ReceiveFrom(data, ref ep);
@@ -99,7 +99,7 @@ namespace NetworkComm
                 {
                     string s = reader.ReadLine();
                     string[] ar = s.Split(',');
-                    if (Guid.Parse(ar[0]) == gameToJoin && Guid.Parse(ar[1]) == SenderAPI.ID)
+                    if (Guid.Parse(ar[0]) == gameToJoin && Guid.Parse(ar[1]) == NetworkController.ID)
                     {
                         if (type == 2)
                         {

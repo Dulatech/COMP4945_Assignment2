@@ -36,7 +36,6 @@ namespace NetworkComm
      */
     public class SenderAPI
     {
-        public static readonly Guid ID = Guid.NewGuid();
         // just in case other applications use this port for multicast
         public static readonly string HEADER = "SOMETHING UNIQUE";
 
@@ -59,7 +58,7 @@ namespace NetworkComm
         // info on gameMsgTypes can be found in MulticastReceiver.HandleGameMsg()
         public static void SendGameMsg(int gameMsgType, string msg)
         {
-            Send(-1, gameMsgType + "," + ID + "," + GameArea.playerNum + "," + msg);
+            Send(-1, gameMsgType + "," + NetworkController.ID + "," + GameArea.playerNum + "," + msg);
         }
         // multicast invitations every half a second
         // this method should be passed on to a new background thread only if the user is a host of a new game
