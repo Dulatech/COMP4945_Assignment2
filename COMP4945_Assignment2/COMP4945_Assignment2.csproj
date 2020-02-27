@@ -105,8 +105,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Receiver.cs" />
     <Compile Include="SenderAPI.cs" />
-    <Compile Include="SignalRHub.cs" />
-    <Compile Include="Startup.cs" />
     <Compile Include="Tank.cs" />
     <Compile Include="Vehicle.cs" />
     <EmbeddedResource Include="GameArea.resx">
