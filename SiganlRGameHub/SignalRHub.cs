@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 
-namespace COMP4945_Assignment2
+namespace SignalRGameHub
 {
     class SignalRHub : Hub
     {

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
-[assembly: OwinStartup(typeof(SignalRChat.Startup))]
+[assembly: OwinStartup(typeof(SignalRGameHub.Startup))]
 
-namespace COMP4945_Assignment2
+namespace SignalRGameHub
 {
     public class Startup
     {
