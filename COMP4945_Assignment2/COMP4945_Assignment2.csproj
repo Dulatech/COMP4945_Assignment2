@@ -56,11 +56,14 @@
     </Compile>
     <Compile Include="MulticastReceiver.cs" />
     <Compile Include="MulticastSender.cs" />
+    <Compile Include="NetworkController.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Receiver.cs" />
+    <Compile Include="SenderAPI.cs" />
     <Compile Include="Tank.cs" />
     <Compile Include="Vehicle.cs" />
     <EmbeddedResource Include="GameArea.resx">

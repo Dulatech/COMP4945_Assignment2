@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using System.Timers;
+using NetworkComm;
 
 namespace COMP4945_Assignment2
 {
@@ -30,7 +31,7 @@ namespace COMP4945_Assignment2
         public static readonly int SPAWN_TIME = 2;
         Vehicle me;
         public static Guid gameID = Guid.Empty;
-        MulticastReceiver recv;
+        NetworkController controller;
         int prev_x = -1;
         int prev_y = -1;
         Thread receiverThread;
@@ -61,8 +62,7 @@ namespace COMP4945_Assignment2
             vehicles = new Vehicle[MAX_PLAYERS];
             for (int i = 0; i < 4; i++)
                 vehicles[i] = null;
-            recv = new MulticastReceiver(this);
-
+            controller = new NetworkController(this);
         }
         private void Form1_KeyEvent(object sender, KeyEventArgs e)
         {
@@ -103,7 +103,7 @@ namespace COMP4945_Assignment2
                             Bullet b = new Bullet(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor));
                             bullets.Add(b);
                             bullet_ids.Add(b.ID);
-                            MulticastSender.SendGameMsg(1, b.X_Coor + "," + b.Y_Coor + "," + b.Direction + "," + b.ID);
+                            SenderAPI.SendGameMsg(1, b.X_Coor + "," + b.Y_Coor + "," + b.Direction + "," + b.ID);
                         }
                     } else // plane
                     {
@@ -116,7 +116,7 @@ namespace COMP4945_Assignment2
                             Bomb b2 = new Bomb(Guid.NewGuid(), new Point(me.X_Coor + 20, me.Y_Coor));
                             bombs.Add(b2);
                             bomb_ids.Add(b2.ID);
-                            MulticastSender.SendGameMsg(3, b2.X_Coor + "," + b2.Y_Coor + "," + b2.Direction + "," + b2.ID);
+                            SenderAPI.SendGameMsg(3, b2.X_Coor + "," + b2.Y_Coor + "," + b2.Direction + "," + b2.ID);
                         }
                     }
                     break;
@@ -171,14 +171,14 @@ namespace COMP4945_Assignment2
         void GotHit(Bullet b)
         {
             RemoveProjectile(b);
-            MulticastSender.SendGameMsg(2, b.ID.ToString());
+            SenderAPI.SendGameMsg(2, b.ID.ToString());
             me.IsDead = true;
             new Thread(new ThreadStart(this.WaitUntilRespawn)).Start();
         }
         void GotHit(Bomb b)
         {
             RemoveProjectile(b);
-            MulticastSender.SendGameMsg(4, b.ID.ToString());
+            SenderAPI.SendGameMsg(4, b.ID.ToString());
             me.IsDead = true;
             new Thread(new ThreadStart(this.WaitUntilRespawn)).Start();
         }
@@ -197,13 +197,13 @@ namespace COMP4945_Assignment2
                 if(playerNum % 2 == 0)
                 {
                     PlaneScore++;
-                    MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
+                    SenderAPI.SendGameMsg(5, 0 + "," + PlaneScore);
                     ChangeScore(0, PlaneScore);
                 }
                 else
                 {
                     TankScore++;
-                    MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+                    SenderAPI.SendGameMsg(5, 1 + "," + TankScore);
                     ChangeScore(1, TankScore);
                 }
             }
@@ -307,13 +307,13 @@ namespace COMP4945_Assignment2
                 }
                 
                 System.Diagnostics.Debug.WriteLine("NEW PLAYER!!!!!!!!\nNumber: " + playerNumber + " ID: " + id);
-                if (recv.IsHost)
+                if (controller.IsHost)
                     SetNextPlayer();
                 PrintGameStateToDebug();
                 SendMovementMsg(me.X_Coor, me.Y_Coor, me.Direction); // let new player know about me
                 currentNumOfPlayers++;
-                MulticastSender.SendGameMsg(5, 0 + "," + PlaneScore);
-                MulticastSender.SendGameMsg(5, 1 + "," + TankScore);
+                SenderAPI.SendGameMsg(5, 0 + "," + PlaneScore);
+                SenderAPI.SendGameMsg(5, 1 + "," + TankScore);
             }
             Vehicle player = vehicles[playerNumber];
             player.X_Coor = x;
@@ -365,7 +365,7 @@ namespace COMP4945_Assignment2
                 }
                 vehicles[playerNum] = null;
                 System.Diagnostics.Debug.WriteLine("PLAYER REMOVED!!!!!!!!!!\nNumber: " + playerNum + " ID: " + id);
-                if (recv.IsHost)
+                if (controller.IsHost)
                     SetNextPlayer();
                 PrintGameStateToDebug();
             }
@@ -435,7 +435,7 @@ namespace COMP4945_Assignment2
         }
         private void GameArea_Shown(object sender, EventArgs e)
         {
-            Thread t = new Thread(new ThreadStart(recv.EnterGame));
+            Thread t = new Thread(new ThreadStart(controller.EnterGame));
             t.IsBackground = true;
             t.Start();
             Thread.Sleep(1800);
@@ -443,16 +443,15 @@ namespace COMP4945_Assignment2
             if (gameID == Guid.Empty)
             {
                 CreateNewGame();
-                MulticastSender.SendGameMsg(-9, "game created");
+                SenderAPI.SendGameMsg(-9, "game created");
                 // the line above is for when there aren't any packets flowing in the port
                 // if there are no packets, Thread t will be blocked on Socket.ReceiveFrom()
                 // and calling Abort won't cancel the blocking call
             }
-            recv.SetMulticastLoopback(false);
             System.Diagnostics.Debug.WriteLine("started game");
             if (playerNum % 2 == 0)
             {
-                me = new Tank(MulticastSender.ID,
+                me = new Tank(SenderAPI.ID,
                     rnd.Next(0, this.ClientRectangle.Width - Tank.SIZE.Width),
                     rnd.Next((int)(this.ClientRectangle.Height * 0.55),this.ClientRectangle.Height - Tank.SIZE.Height));
                 vehicles[playerNum] = me;
@@ -460,7 +459,7 @@ namespace COMP4945_Assignment2
             }
             else
             {
-                me = new Plane(MulticastSender.ID,
+                me = new Plane(SenderAPI.ID,
                     rnd.Next(0, this.ClientRectangle.Width - Plane.SIZE.Width),
                     rnd.Next(0, (int)(this.ClientRectangle.Height * 0.45) - Plane.SIZE.Height));
                 vehicles[playerNum] = me;
@@ -470,19 +469,19 @@ namespace COMP4945_Assignment2
             if (playerNum == 0)
             {
                 SetNextPlayer();
-                hostThread = new Thread(new ThreadStart(MulticastSender.SendInvitations));
+                hostThread = new Thread(new ThreadStart(SenderAPI.SendInvitations));
                 hostThread.IsBackground = true;
                 hostThread.Start();
                 System.Diagnostics.Debug.WriteLine("hostThread started");
             }
-            recv.IsHost = (playerNum == 0);
-            receiverThread = new Thread(new ThreadStart(recv.run));
+            controller.IsHost = (playerNum == 0);
+            receiverThread = new Thread(new ThreadStart(controller.rcvr.Run));
             receiverThread.IsBackground = true; // thread becomes zombie if this is not explicitly set to true
             receiverThread.Start();
         }
         private void SendMovementMsg(int x, int y, int dir)
         {
-            MulticastSender.SendGameMsg(0, x + "," + y + "," + dir);
+            SenderAPI.SendGameMsg(0, x + "," + y + "," + dir);
         }
         private void SetATimer()
         {
@@ -521,16 +520,16 @@ namespace COMP4945_Assignment2
                     System.Diagnostics.Debug.Write(i + ",");
             System.Diagnostics.Debug.WriteLine("");
             System.Diagnostics.Debug.WriteLine("My Number: " + playerNum);
-            if (recv.IsHost)
+            if (controller.IsHost)
                 System.Diagnostics.Debug.WriteLine("Next Player: " + nextPlayer);
             System.Diagnostics.Debug.WriteLine("********************************");
         }
 
         private void GameArea_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MulticastSender.SendGameMsg(-1, "");
-            MulticastSender.SendGameMsg(-1, "");
-            MulticastSender.SendGameMsg(-1, "");
+            SenderAPI.SendGameMsg(-1, "");
+            SenderAPI.SendGameMsg(-1, "");
+            SenderAPI.SendGameMsg(-1, "");
         }
     }
 }
