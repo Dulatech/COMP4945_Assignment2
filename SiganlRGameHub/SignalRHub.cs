@@ -9,5 +9,6 @@ namespace SignalRGameHub
 {
     class SignalRHub : Hub
     {
+
     }
 }
