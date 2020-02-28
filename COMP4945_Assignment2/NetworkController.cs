@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using NetworkComm;
+using Microsoft.AspNet.SignalR.Client;
 
 namespace COMP4945_Assignment2
 {
@@ -13,12 +14,16 @@ namespace COMP4945_Assignment2
         GameArea form;
         public Receiver rcvr;
         public bool IsHost { get; set; }
+        public static IHubProxy myHub;
         public NetworkController(GameArea f)
         {
             form = f;
             IsHost = false;
             MessageReceived += new MessageReceivedHandler(MsgReceivedHandler);
-            rcvr = new MulticastReceiver(this);
+            var connection = new HubConnection("http://localhost:52914/");
+            myHub = connection.CreateHubProxy("ChatHub");
+            connection.Start().Wait();
+            rcvr = new WebSocketReceiver(this);
         }
         public void OnMessageReceived(string msg)
         {

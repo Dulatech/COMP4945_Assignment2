@@ -50,7 +50,7 @@ namespace NetworkComm
                 msg = HEADER + "\n" + msgType + "\n" + msg;
             }
             /***********************************************************/
-            MulticastSender.SendMsg(msg);
+            WebSocketSender.SendMsg(msg);
             /***********************************************************/
             if (msgType != 0)
                 PrintSentMsgs(msg);
