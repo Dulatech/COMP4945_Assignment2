@@ -33,7 +33,7 @@ namespace COMP4945_Assignment2
         NetworkController controller;
         int prev_x = -1;
         int prev_y = -1;
-        Thread receiverThread;
+        //Thread receiverThread;
         Thread hostThread;
         private static System.Timers.Timer aTimer;
         private bool aTimer_Elapsed = false;
@@ -434,19 +434,10 @@ namespace COMP4945_Assignment2
         }
         private void GameArea_Shown(object sender, EventArgs e)
         {
-            Thread t = new Thread(new ThreadStart(controller.EnterGame));
-            t.IsBackground = true;
-            t.Start();
-            Thread.Sleep(1800);
-            t.Abort();
+            controller.EnterGame();
+
             if (gameID == Guid.Empty)
-            {
                 CreateNewGame();
-                controller.SendGameMsg(-9, "game created");
-                // the line above is for when there aren't any packets flowing in the port
-                // if there are no packets, Thread t will be blocked on Socket.ReceiveFrom()
-                // and calling Abort won't cancel the blocking call
-            }
             System.Diagnostics.Debug.WriteLine("started game");
             if (playerNum % 2 == 0)
             {
@@ -474,9 +465,7 @@ namespace COMP4945_Assignment2
                 System.Diagnostics.Debug.WriteLine("hostThread started");
             }
             controller.IsHost = (playerNum == 0);
-            receiverThread = new Thread(new ThreadStart(controller.rcvr.Run));
-            receiverThread.IsBackground = true; // thread becomes zombie if this is not explicitly set to true
-            receiverThread.Start();
+            controller.rcvr.Run();
         }
         private void SendMovementMsg(int x, int y, int dir)
         {
@@ -526,8 +515,6 @@ namespace COMP4945_Assignment2
 
         private void GameArea_FormClosing(object sender, FormClosingEventArgs e)
         {
-            controller.SendGameMsg(-1, "");
-            controller.SendGameMsg(-1, "");
             controller.SendGameMsg(-1, "");
         }
     }

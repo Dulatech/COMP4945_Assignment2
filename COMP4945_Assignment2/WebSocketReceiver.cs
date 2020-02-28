@@ -23,61 +23,56 @@ namespace NetworkComm
         {
             System.Diagnostics.Debug.WriteLine("inside EnterGame()");
             bool joining = false;
+            bool invitationRcvd = false;
+            Guid gameToJoin = Guid.Empty;
+            int playerNumToJoin = -1;
             var subscription = NetworkController.myHub.On<string>("broadcastMessage", (msg1) =>
             {
-                StringReader reader = new StringReader(msg1);
-                // continue unless first line is HEADER and also the second line is 0
-                if (!reader.ReadLine().Equals(SenderAPI.HEADER) || !reader.ReadLine().Equals("0"))
-                    return;
-                string msg = reader.ReadLine();
-                System.Diagnostics.Debug.WriteLine("{0}\n", msg);
-                string[] payload = msg.Split(',');
-                if (joining = TryJoin(Guid.Parse(payload[0]), int.Parse(payload[1]))) // successfully joined game
+                if (!invitationRcvd)
                 {
-                    return;
+                    StringReader reader = new StringReader(msg1);
+                    // continue unless first line is HEADER and also the second line is 0
+                    if (!reader.ReadLine().Equals(SenderAPI.HEADER) || !reader.ReadLine().Equals("0"))
+                        return;
+                    string msg = reader.ReadLine();
+                    System.Diagnostics.Debug.WriteLine(msg + "\n");
+                    string[] payload = msg.Split(',');
+                    gameToJoin = Guid.Parse(payload[0]);
+                    playerNumToJoin = int.Parse(payload[1]);
+                    invitationRcvd = true;
+                    SenderAPI.SendJoinReq(gameToJoin, NetworkController.ID, playerNumToJoin);
                 }
-            });
-            Thread.Sleep(1000);
-            subscription.Dispose();
-            if (!joining)
-                controller.CreateNewGame();
-        }
-
-        // returns true for connected, false for failure
-        private bool TryJoin(Guid gameToJoin, int playerNum)
-        {
-            bool joined = false;
-            var subscription = NetworkController.myHub.On<string>("broadcastMessage", (msg) =>
-            {
-                StringReader reader = new StringReader(msg);
-                if (!reader.ReadLine().Equals(SenderAPI.HEADER))
-                    return;
-                string secondLine = reader.ReadLine();
-                if (int.TryParse(secondLine, out int type) && (type == 2 || type == 3))
+                else
                 {
-                    string s = reader.ReadLine();
-                    string[] ar = s.Split(',');
-                    if (Guid.Parse(ar[0]) == gameToJoin && Guid.Parse(ar[1]) == NetworkController.ID)
+                    if (joining) return;
+                    StringReader reader = new StringReader(msg1);
+                    if (!reader.ReadLine().Equals(SenderAPI.HEADER))
+                        return;
+                    string secondLine = reader.ReadLine();
+                    if (int.TryParse(secondLine, out int type) && (type == 2 || type == 3))
                     {
-                        if (type == 2)
+                        string s = reader.ReadLine();
+                        string[] ar = s.Split(',');
+                        if (Guid.Parse(ar[0]) == gameToJoin && Guid.Parse(ar[1]) == NetworkController.ID)
                         {
-                            System.Diagnostics.Debug.WriteLine("joining game");
-                            GameArea.currentNumOfPlayers = playerNum;
-                            GameArea.playerNum = playerNum;
-                            GameArea.gameID = gameToJoin;
-                            joined = true;
-                        }
-                        else // type == 3
-                        {
-                            joined = false;
+                            if (type == 2)
+                            {
+                                System.Diagnostics.Debug.WriteLine("joining game");
+                                GameArea.currentNumOfPlayers = playerNumToJoin;
+                                GameArea.playerNum = playerNumToJoin;
+                                GameArea.gameID = gameToJoin;
+                                joining = true;
+                            }
+                            else // type == 3
+                            {
+                                joining = false;
+                            }
                         }
                     }
                 }
             });
-            SenderAPI.SendJoinReq(gameToJoin, NetworkController.ID, playerNum);
-            Thread.Sleep(500);
+            Thread.Sleep(1800);
             subscription.Dispose();
-            return joined;
         }
     }
 }

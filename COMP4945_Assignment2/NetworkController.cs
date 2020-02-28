@@ -20,7 +20,7 @@ namespace COMP4945_Assignment2
             form = f;
             IsHost = false;
             MessageReceived += new MessageReceivedHandler(MsgReceivedHandler);
-            var connection = new HubConnection("http://localhost:52914/");
+            var connection = new HubConnection("http://localhost:59962/");
             myHub = connection.CreateHubProxy("ChatHub");
             connection.Start().Wait();
             rcvr = new WebSocketReceiver(this);
@@ -38,7 +38,7 @@ namespace COMP4945_Assignment2
             if (secondLine.Length == 1)
             {
                 form.PrintGameStateToDebug();
-                Debug.WriteLine("{0}\n", msg);
+                Debug.WriteLine(msg + "\n");
                 if (IsHost && int.TryParse(secondLine, out int type) && type == 1)
                     HandleJoinReq(reader.ReadLine());
                 else
