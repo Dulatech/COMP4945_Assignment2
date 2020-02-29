@@ -20,8 +20,8 @@ namespace COMP4945_Assignment2
             form = f;
             IsHost = false;
             MessageReceived += new MessageReceivedHandler(MsgReceivedHandler);
-            var connection = new HubConnection("http://localhost:59962/");
-            myHub = connection.CreateHubProxy("ChatHub");
+            var connection = new HubConnection("https://siganlrgamehub.azurewebsites.net/");
+            myHub = connection.CreateHubProxy("GameHub");
             connection.Start().Wait();
             rcvr = new WebSocketReceiver(this);
         }
@@ -32,7 +32,7 @@ namespace COMP4945_Assignment2
         public void MsgReceivedHandler(string msg)
         {
             StringReader reader = new StringReader(msg);
-            if (!reader.ReadLine().Equals(SenderAPI.HEADER))
+            if (!reader.ReadLine().Equals(Sender.HEADER))
                 return;
             string secondLine = reader.ReadLine();
             if (secondLine.Length == 1)
@@ -56,7 +56,7 @@ namespace COMP4945_Assignment2
             if (Guid.Parse(ar[0]) == GameArea.gameID) // don't respond to other game id requests
             {
                 int n = int.Parse(ar[2]);
-                SenderAPI.SendJoinResp(ar[1], (n == GameArea.nextPlayer && n <= GameArea.MAX_PLAYERS));
+                Sender.SendJoinResp(ar[1], (n == GameArea.nextPlayer && n <= GameArea.MAX_PLAYERS));
             }
         }
         private void HandleGameMsg(string msg)
@@ -124,7 +124,11 @@ namespace COMP4945_Assignment2
             form.CreateNewGame();
         }
 
-        public void SendGameMsg(int gameMsgType, string msg) { SenderAPI.SendGameMsg(gameMsgType, msg); }
-        public void SendInvitations() { SenderAPI.SendInvitations(); }
+        public void SendGameMsg(int gameMsgType, string msg) { Sender.SendGameMsg(gameMsgType, msg); }
+        public void SendInvitations() { Sender.SendInvitations(); }
+        public void SendDisconnect()
+        {
+            Sender.SendDisconnect();
+        }
     }
 }

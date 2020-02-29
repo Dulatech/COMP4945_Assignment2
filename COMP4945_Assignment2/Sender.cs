@@ -34,7 +34,7 @@ namespace NetworkComm
      * 3
      * Guid:gameID , Guid:reqID(ID of requesting player)
      */
-    public class SenderAPI
+    public class Sender
     {
         // just in case other applications use this port for multicast
         public static readonly string HEADER = "SOMETHING UNIQUE";
@@ -55,6 +55,14 @@ namespace NetworkComm
             if (msgType != 0)
                 PrintSentMsgs(msg);
         }
+
+        public static void SendDisconnect()
+        {
+            WebSocketSender.SendDisconnect(HEADER + "\n"
+                + GameArea.gameID + "\n"
+                + -1 + "," + NetworkController.ID + "," + GameArea.playerNum);
+        }
+
         // info on gameMsgTypes can be found in MulticastReceiver.HandleGameMsg()
         public static void SendGameMsg(int gameMsgType, string msg)
         {

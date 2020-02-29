@@ -62,7 +62,7 @@ namespace NetworkComm
                     string stringData = Encoding.ASCII.GetString(data, 0, recv);
                     StringReader reader = new StringReader(stringData);
                     // continue unless first line is HEADER and also the second line is 0
-                    if (!reader.ReadLine().Equals(SenderAPI.HEADER) || !reader.ReadLine().Equals("0"))
+                    if (!reader.ReadLine().Equals(Sender.HEADER) || !reader.ReadLine().Equals("0"))
                         continue;
                     string msg = reader.ReadLine();
                     Debug.WriteLine("{0}\n{1}\n", ep.ToString(), msg);
@@ -86,13 +86,13 @@ namespace NetworkComm
             // Send Join Request
             long until = DateTime.Now.Ticks + TimeSpan.TicksPerMillisecond * 500;
             byte[] data = new byte[1024];
-            SenderAPI.SendJoinReq(gameToJoin, NetworkController.ID, playerNum);
+            Sender.SendJoinReq(gameToJoin, NetworkController.ID, playerNum);
             while (DateTime.Now.Ticks < until)
             {
                 int recv = sock.ReceiveFrom(data, ref ep);
                 string stringData = Encoding.ASCII.GetString(data, 0, recv);
                 StringReader reader = new StringReader(stringData);
-                if (!reader.ReadLine().Equals(SenderAPI.HEADER))
+                if (!reader.ReadLine().Equals(Sender.HEADER))
                     continue;
                 string secondLine = reader.ReadLine();
                 if (int.TryParse(secondLine, out int type) && (type == 2 || type == 3))

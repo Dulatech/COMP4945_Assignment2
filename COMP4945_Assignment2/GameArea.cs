@@ -515,7 +515,7 @@ namespace COMP4945_Assignment2
 
         private void GameArea_FormClosing(object sender, FormClosingEventArgs e)
         {
-            controller.SendGameMsg(-1, "");
+            controller.SendDisconnect();
         }
     }
 }

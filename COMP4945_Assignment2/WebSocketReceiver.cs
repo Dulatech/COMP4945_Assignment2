@@ -32,7 +32,7 @@ namespace NetworkComm
                 {
                     StringReader reader = new StringReader(msg1);
                     // continue unless first line is HEADER and also the second line is 0
-                    if (!reader.ReadLine().Equals(SenderAPI.HEADER) || !reader.ReadLine().Equals("0"))
+                    if (!reader.ReadLine().Equals(Sender.HEADER) || !reader.ReadLine().Equals("0"))
                         return;
                     string msg = reader.ReadLine();
                     System.Diagnostics.Debug.WriteLine(msg + "\n");
@@ -40,13 +40,13 @@ namespace NetworkComm
                     gameToJoin = Guid.Parse(payload[0]);
                     playerNumToJoin = int.Parse(payload[1]);
                     invitationRcvd = true;
-                    SenderAPI.SendJoinReq(gameToJoin, NetworkController.ID, playerNumToJoin);
+                    Sender.SendJoinReq(gameToJoin, NetworkController.ID, playerNumToJoin);
                 }
                 else
                 {
                     if (joining) return;
                     StringReader reader = new StringReader(msg1);
-                    if (!reader.ReadLine().Equals(SenderAPI.HEADER))
+                    if (!reader.ReadLine().Equals(Sender.HEADER))
                         return;
                     string secondLine = reader.ReadLine();
                     if (int.TryParse(secondLine, out int type) && (type == 2 || type == 3))
