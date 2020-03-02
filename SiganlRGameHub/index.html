@@ -21,8 +21,13 @@
             var chat = $.connection.gameHub;
             // Create a function that the hub can call to broadcast messages.
             chat.client.broadcastMessage = function (message) {
+                var ar = message.split('\n');
+                if (ar[1] === '0') {
+                    console.log('Invite: ' + ar[2]);
+                    return;
+                }
                 // Html encode display message.
-                var encodedMsg = $('<div />').text(message).html();
+                var encodedMsg = $('<div />').text(ar[1] + '\n' + ar[2]).html();
                 // Add the message to the page.
                 $('#logs').prepend('<pre>' + encodedMsg + '</pre>');
             };
