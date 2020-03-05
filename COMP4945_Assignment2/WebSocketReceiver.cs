@@ -71,7 +71,7 @@ namespace NetworkComm
                     }
                 }
             });
-            Thread.Sleep(1800);
+            Thread.Sleep(500);
             subscription.Dispose();
         }
     }
